@@ -34,12 +34,18 @@
 	<!-- Modernizr JavaScript -->
 	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/modernizr-2.8.3.min.js"></script>
 
+	<style>
+		@media (min-width: 992px) {
+			.mobilemenu .mobile-menu,
+			.mobilemenu .mobile-menu *  { display: none !important; }
+		}
+	</style>
 	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
-
+	<?php $lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka'; ?>
 
 	<!--Header area start here-->
 	<header>
@@ -58,76 +64,71 @@
 						<div class="main-menus">
 							<nav>
 								<?php
-								wp_nav_menu(array(
+								// Build extra items: auth + language switcher
+								$desktop_extra_items = '';
+
+								// Auth items
+								if ( is_user_logged_in() ) {
+									$current_user = wp_get_current_user();
+									$add_product_page = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'templates/tpl-add-product.php', 'number' => 1 ) );
+									$add_product_url  = ! empty( $add_product_page ) ? get_permalink( $add_product_page[0]->ID ) : '#';
+									$profile_page = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'templates/tpl-profile.php', 'number' => 1 ) );
+									$profile_url  = ! empty( $profile_page ) ? get_permalink( $profile_page[0]->ID ) : admin_url( 'profile.php' );
+
+									$desktop_extra_items .= '<li class="menu-item menu-item-has-children nav-auth-item"><a href="#"><i class="fas fa-user-circle"></i> ' . esc_html( $current_user->display_name ) . '</a>';
+									$desktop_extra_items .= '<ul class="sub-menu">';
+									$desktop_extra_items .= '<li><a href="' . esc_url( $add_product_url ) . '"><i class="fas fa-plus-circle"></i> ' . ( $lang === 'en' ? 'Add Product' : 'პროდუქტის დამატება' ) . '</a></li>';
+									$desktop_extra_items .= '<li><a href="' . esc_url( $profile_url ) . '"><i class="fas fa-cog"></i> ' . ( $lang === 'en' ? 'Profile' : 'პროფილი' ) . '</a></li>';
+									if ( current_user_can( 'manage_options' ) ) {
+										$desktop_extra_items .= '<li><a href="' . esc_url( admin_url() ) . '"><i class="fas fa-tachometer-alt"></i> ' . ( $lang === 'en' ? 'Admin Panel' : 'ადმინ პანელი' ) . '</a></li>';
+									}
+									$desktop_extra_items .= '<li><a href="' . esc_url( wp_logout_url( home_url() ) ) . '"><i class="fas fa-sign-out-alt"></i> ' . ( $lang === 'en' ? 'Logout' : 'გასვლა' ) . '</a></li>';
+									$desktop_extra_items .= '</ul></li>';
+								} else {
+									$desktop_extra_items .= '<li class="menu-item nav-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-sign-in-alt"></i> ' . ( $lang === 'en' ? 'Login' : 'შესვლა' ) . '</a></li>';
+									$desktop_extra_items .= '<li class="menu-item nav-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus"></i> ' . ( $lang === 'en' ? 'Register' : 'რეგისტრაცია' ) . '</a></li>';
+								}
+
+								// Language switcher as menu item with dropdown
+								if ( function_exists( 'pll_the_languages' ) ) {
+									$pll_languages = pll_the_languages( array( 'raw' => 1 ) );
+									if ( ! empty( $pll_languages ) ) {
+										$other_langs = '';
+										foreach ( $pll_languages as $pl ) {
+											if ( ! $pl['current_lang'] ) {
+												$other_langs .= '<li><a href="' . esc_url( $pl['url'] ) . '">' . strtoupper( $pl['slug'] ) . '</a></li>';
+											}
+										}
+										if ( $other_langs ) {
+											$desktop_extra_items .= '<li class="menu-item menu-item-has-children nav-lang-item"><a href="#"><i class="fas fa-globe"></i> ' . strtoupper( pll_current_language() ) . '</a>';
+											$desktop_extra_items .= '<ul class="sub-menu">' . $other_langs . '</ul></li>';
+										}
+									}
+								}
+
+								// Get menu HTML and inject extra items before closing </ul>
+								$desktop_menu_html = wp_nav_menu( array(
 									'theme_location' => 'menu-1',
-									'container' => false, // Remove the container div
-									'items_wrap' => '<ul class="mamnu">%3$s</ul>', // Wrap the menu items in <ul>
-									'link_before' => '', // Add content before the link text
-									'link_after' => '', // Add content after the link text
+									'container'      => false,
+									'items_wrap'     => '<ul class="mamnu">%3$s</ul>',
+									'fallback_cb'    => '__return_false',
+									'echo'           => false,
 								));
+
+								if ( $desktop_menu_html ) {
+									$last_ul = strrpos( $desktop_menu_html, '</ul>' );
+									if ( $last_ul !== false ) {
+										echo substr_replace( $desktop_menu_html, $desktop_extra_items . '</ul>', $last_ul, 5 );
+									} else {
+										echo $desktop_menu_html;
+									}
+								} else {
+									echo '<ul class="mamnu">';
+									wp_list_pages( array( 'title_li' => '', 'depth' => 2 ) );
+									echo $desktop_extra_items . '</ul>';
+								}
 								?>
 							</nav>
-						</div>
-
-						<div class="cart-head">
-							<button><i class="fas fa-shopping-cart"></i></button>
-							<div class="nav-shop-cart">
-								<div class="widget_shopping_cart_content">
-									<ul class="product_list_widget ">
-										<li class="mini_cart_item">
-
-											<a href="#">
-												<img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/5.jpg" alt="" />
-												<p class="product-name">Shop Item 01</p>
-											</a>
-
-											<p class="quantity">1 x
-												<strong class="Price-amount">$200.00</strong>
-											</p>
-
-											<a href="#" class="remove" title="Remove this item">x</a>
-										</li>
-										<li class="mini_cart_item">
-
-											<a href="#">
-												<img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/6.jpg" alt="" />
-												<p class="product-name">Shop Item 01</p>
-											</a>
-
-											<p class="quantity">1 x
-												<strong class="Price-amount">$200.00</strong>
-											</p>
-
-											<a href="#" class="remove" title="Remove this item">x</a>
-										</li>
-										<li class="mini_cart_item">
-
-											<a href="#">
-												<img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/7.jpg" alt="" />
-												<p class="product-name">Shop Item 01</p>
-											</a>
-
-											<p class="quantity">1 x
-												<strong class="Price-amount">$200.00</strong>
-											</p>
-
-											<a href="#" class="remove" title="Remove this item">x</a>
-										</li>
-									</ul>
-									<!-- /.product_list_widget -->
-
-									<p class="total">
-										<strong>Subtotal:</strong>
-										<span class="amount">$300.00
-										</span>
-									</p>
-
-									<p class="buttons">
-										<a href="#" class="btn1">View Cart</a>
-										<a href="#" class="btn2">Checkout</a>
-									</p>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -138,47 +139,53 @@
 		<div class="mobilemenu">
 			<div class="mobile-menu d-md-none d-sm-block d-block">
 				<nav>
-					<ul>
-						<li><a href="index.html">Home</a>
-							<ul>
-								<li><a href="index.html">Home-1</a></li>
-								<li><a href="index-2.html">Home-2</a></li>
-								<li><a href="index-3.html">Home-3</a></li>
-							</ul>
-						</li>
-						<li><a href="about.html">About</a></li>
-						<li><a href="services.html">services</a></li>
-						<li>
-							<a href="javascript:void(0)">pages</a>
-							<ul>
-								<li><a href="about.html">about</a></li>
-								<li><a href="shop.html">shop</a></li>
-								<li><a href="product-single.html">shop single</a></li>
-								<li><a href="event.html">event</a></li>
-								<li><a href="event-single.html">event-single</a></li>
-								<li><a href="gallery.html">gallery</a></li>
-								<li><a href="blog.html">blog</a></li>
-								<li><a href="blog-single.html">blog single</a></li>
-								<li><a href="contact.html">contact</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="#">shop</a>
-							<ul>
-								<li><a href="shop.html">shop page</a></li>
-								<li><a href="product-single.html">shop single</a></li>
+					<?php
+					// Build auth menu items to inject into the mobile menu
+					$mobile_auth_items = '';
+					if ( is_user_logged_in() ) {
+						$add_product_page_m = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'templates/tpl-add-product.php', 'number' => 1 ) );
+						$add_product_url_m  = ! empty( $add_product_page_m ) ? get_permalink( $add_product_page_m[0]->ID ) : '#';
+						$profile_page_m = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'templates/tpl-profile.php', 'number' => 1 ) );
+						$profile_url_m  = ! empty( $profile_page_m ) ? get_permalink( $profile_page_m[0]->ID ) : admin_url( 'profile.php' );
 
-							</ul>
-						</li>
-						<li>
-							<a href="#">blog</a>
-							<ul>
-								<li><a href="blog.html">blog page</a></li>
-								<li><a href="blog-single.html">blog single</a></li>
-							</ul>
-						</li>
-						<li><a href="contact.html">Contact</a></li>
-					</ul>
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( $add_product_url_m ) . '"><i class="fas fa-plus-circle"></i> ' . ( $lang === 'en' ? 'Add Product' : 'პროდუქტის დამატება' ) . '</a></li>';
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( $profile_url_m ) . '"><i class="fas fa-cog"></i> ' . ( $lang === 'en' ? 'Profile' : 'პროფილი' ) . '</a></li>';
+						if ( current_user_can( 'manage_options' ) ) {
+							$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( admin_url() ) . '"><i class="fas fa-tachometer-alt"></i> ' . ( $lang === 'en' ? 'Admin Panel' : 'ადმინ პანელი' ) . '</a></li>';
+						}
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( wp_logout_url( home_url() ) ) . '"><i class="fas fa-sign-out-alt"></i> ' . ( $lang === 'en' ? 'Logout' : 'გასვლა' ) . '</a></li>';
+					} else {
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-sign-in-alt"></i> ' . ( $lang === 'en' ? 'Login' : 'შესვლა' ) . '</a></li>';
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus"></i> ' . ( $lang === 'en' ? 'Register' : 'რეგისტრაცია' ) . '</a></li>';
+					}
+
+					// Add language switcher for mobile
+					if ( function_exists( 'pll_the_languages' ) ) {
+						$pll_langs = pll_the_languages( array( 'raw' => 1 ) );
+						if ( ! empty( $pll_langs ) ) {
+							foreach ( $pll_langs as $pl ) {
+								if ( ! $pl['current_lang'] ) {
+									$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( $pl['url'] ) . '"><i class="fas fa-globe"></i> ' . strtoupper( $pl['slug'] ) . '</a></li>';
+								}
+							}
+						}
+					}
+
+					// Get wp_nav_menu HTML and inject auth items before closing </ul>
+					$mobile_menu_html = wp_nav_menu( array(
+						'theme_location' => 'menu-1',
+						'container'      => false,
+						'items_wrap'     => '<ul>%3$s</ul>',
+						'fallback_cb'    => false,
+						'echo'           => false,
+					));
+
+					if ( $mobile_menu_html ) {
+						echo str_replace( '</ul>', $mobile_auth_items . '</ul>', $mobile_menu_html );
+					} else {
+						echo '<ul>' . $mobile_auth_items . '</ul>';
+					}
+					?>
 				</nav>
 			</div>
 		</div>

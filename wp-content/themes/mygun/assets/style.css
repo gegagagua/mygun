@@ -4355,7 +4355,7 @@ margin-top:50px;
 }
 .products-area .catagories-lists .contents {
   display: block;
-  padding: 75px 0;
+  padding: 55px 0;
 }
 .products-area .catagories-lists .contents figure {
   display: block;
@@ -4363,6 +4363,9 @@ margin-top:50px;
 }
 .products-area .catagories-lists .contents figure img {
   display: inline-block;
+  height: auto;
+  object-fit: contain;
+  width: 120px;
 }
 .products-area .catagories-lists .contents h3 {
   margin: 0;
