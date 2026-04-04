@@ -1592,3 +1592,588 @@ select.ap-form-control {
 		height: 180px;
 	}
 }
+
+/* ========================================
+   Single Product Page
+   ======================================== */
+
+.product-single-area {
+	background: #0d0d0d;
+	padding: 60px 0 80px;
+}
+
+.product-single-media {
+	background: #111;
+	border: 1px solid #222;
+	padding: 20px;
+}
+
+.product-single-main-image a.product-single-lightbox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+.product-single-slide a.product-single-lightbox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+}
+
+.product-single-main-image img {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	display: block;
+	border: 1px solid #222;
+}
+
+.product-single-main-image {
+	height: 520px;
+	background: #0a0a0a;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.product-single-media-gallery .product-single-main-image,
+.product-single-media-gallery .product-single-slider .product-single-slide {
+	height: 520px;
+}
+
+.product-single-slider .product-single-slide {
+	height: 520px;
+	background: #0a0a0a;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.product-single-slider .product-single-slide img {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	border: 1px solid #222;
+}
+
+.product-single-slider .owl-controls {
+	margin-top: 0;
+}
+
+.product-single-slider .owl-buttons div {
+	background: #878244;
+	color: #fff;
+	border-radius: 0;
+	opacity: 1;
+}
+
+.product-single-slider .owl-buttons div:hover {
+	background: #6e6a37;
+}
+
+.product-single-content {
+	background: #111;
+	border: 1px solid #222;
+	padding: 30px;
+}
+
+.product-single-media-specs-row {
+	margin-top: 10px;
+	margin-bottom: 6px;
+}
+
+.product-single-media-col {
+	margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 992px) {
+	.product-single-media-col {
+		margin-bottom: 0;
+	}
+
+	.product-single-specs-col .product-single-specs {
+		margin-top: 0;
+	}
+}
+
+.woocommerce-Tabs-panel h2 {
+	display: none !important;
+}
+
+.product-single-title {
+	color: #fff;
+	font-family: "Audiowide", cursive;
+	font-size: 30px;
+	margin: 0 0 14px;
+}
+
+.product-single-price {
+	font-size: 28px;
+	font-family: "Audiowide", cursive;
+	color: #878244;
+	margin-bottom: 10px;
+}
+
+.product-single-category {
+	color: #aaa;
+	font-size: 15px;
+	margin-bottom: 16px;
+}
+
+.product-single-category strong {
+	color: #ddd;
+	margin-right: 6px;
+}
+
+.product-single-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 16px;
+	margin-bottom: 20px;
+}
+
+.product-single-meta span {
+	color: #aaa;
+	font-size: 14px;
+}
+
+.product-single-meta i {
+	color: #878244;
+	margin-right: 6px;
+}
+
+.product-single-description {
+	color: #bbb;
+	line-height: 1.8;
+	font-size: 15px;
+	border-top: 1px solid #222;
+	padding-top: 18px;
+}
+
+.product-single-description p:last-child {
+	margin-bottom: 0;
+}
+
+.product-single-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 25px;
+	margin-left: 0;
+}
+
+.product-single-actions .btn1,
+.product-single-actions .btn2 {
+	padding: 0 28px;
+}
+
+.product-single-actions .btn2 {
+	margin-left: 0;
+	min-width: 210px;
+	text-align: center;
+	line-height: 48px;
+}
+
+.product-single-actions .btn2:after {
+	display: none;
+}
+
+.product-related-card {
+	margin-top: 25px;
+}
+
+.product-related-card .contents h3 a {
+	color: #fff;
+	text-decoration: none;
+}
+
+.product-related-card .contents h3 a:hover {
+	color: #878244;
+}
+
+@media only screen and (max-width: 768px) {
+	.product-single-content {
+		margin-top: 20px;
+		padding: 22px;
+	}
+
+	.product-single-title {
+		font-size: 24px;
+	}
+
+	.product-single-price {
+		font-size: 22px;
+	}
+
+	.product-single-main-image,
+	.product-single-slider .product-single-slide {
+		height: 360px;
+	}
+
+}
+
+
+/* Shop sidebar filters (base) */
+.mygun-shop-sidebar .mygun-filter-optics,
+.mygun-shop-sidebar .mygun-filter-stock-included {
+	margin-top: 12px;
+}
+
+.mygun-pill-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.mygun-pill {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	margin: 0;
+}
+
+.mygun-pill input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.mygun-pill span {
+	display: inline-block;
+	padding: 6px 14px;
+	border-radius: 999px;
+	border: 1px solid #ccc;
+	background: #f5f5f5;
+	font-size: 13px;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.mygun-pill input:checked + span,
+.mygun-pill input:focus-visible + span {
+	background: #878244;
+	border-color: #878244;
+	color: #fff;
+}
+
+.mygun-filter-block {
+	margin-top: 10px;
+	border: 1px solid #e8e8e8;
+	border-radius: 6px;
+	padding: 0 10px 10px;
+	background: #fafafa;
+}
+
+.mygun-filter-block summary {
+	cursor: pointer;
+	font-weight: 600;
+	padding: 10px 4px;
+	list-style: none;
+}
+
+.mygun-filter-block summary::-webkit-details-marker {
+	display: none;
+}
+
+.mygun-filter-checklist {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	max-height: 220px;
+	overflow-y: auto;
+	padding-right: 4px;
+}
+
+.mygun-check {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	font-size: 13px;
+	margin: 0;
+	cursor: pointer;
+}
+
+.mygun-check input {
+	margin-top: 3px;
+}
+
+.mygun-range-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.mygun-range-row input {
+	width: 100%;
+	padding: 8px 10px;
+	border-radius: 6px;
+	border: 1px solid #ddd;
+}
+
+.mygun-filter-price {
+	margin-top: 12px;
+}
+
+.mygun-filter-submit-wrap {
+	margin-top: 16px;
+}
+
+.mygun-filter-submit-wrap .btn1 {
+	width: 100%;
+}
+
+.mygun-filter-clear {
+	display: block;
+	margin-top: 10px;
+	text-align: center;
+	font-size: 13px;
+	color: #878244;
+	text-decoration: none;
+}
+
+.mygun-filter-clear:hover {
+	text-decoration: underline;
+}
+
+.mygun-filter-select-label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 6px;
+	font-size: 14px;
+}
+
+.mygun-filter-select-wrap {
+	margin-top: 10px;
+}
+
+.mygun-filter-select {
+	width: 100%;
+	max-width: 100%;
+	padding: 8px 10px;
+	border-radius: 6px;
+	border: 1px solid #ddd;
+	background: #fff;
+	font-size: 13px;
+}
+
+/*
+ * Shop page sidebar: compact rhythm (12px), white copy, stacked label + control, dark UI
+ */
+.shop-page .sibebar .wighet {
+	margin-bottom: 12px !important;
+}
+
+.shop-page .sibebar .wighet:last-child {
+	margin-bottom: 0 !important;
+}
+
+.shop-page .mygun-shop-sidebar .wighet h3 {
+	padding-bottom: 7px;
+	font-size: 15px;
+	line-height: 1.25;
+	color: #fff;
+}
+
+.shop-page .mygun-shop-sidebar .wighet h3 span {
+	color: #fff;
+}
+
+.shop-page .mygun-shop-sidebar .wighet h3:after {
+	height: 4px;
+	width: 40px;
+	bottom: 0;
+}
+
+.shop-page .mygun-shop-sidebar .categories ul li {
+	padding: 2px 0;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-shop-filters label,
+.shop-page .mygun-shop-sidebar .mygun-filter-select-label {
+	color: #fff !important;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-optics,
+.shop-page .mygun-shop-sidebar .mygun-filter-stock-included,
+.shop-page .mygun-shop-sidebar .mygun-filter-select-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: 100%;
+	margin-top: 4px;
+	float: none;
+	clear: both;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-optics .mygun-filter-select-label,
+.shop-page .mygun-shop-sidebar .mygun-filter-stock-included .mygun-filter-select-label,
+.shop-page .mygun-shop-sidebar .mygun-filter-select-wrap .mygun-filter-select-label {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 4px;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.3;
+	float: none;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-optics .mygun-filter-select,
+.shop-page .mygun-shop-sidebar .mygun-filter-stock-included .mygun-filter-select,
+.shop-page .mygun-shop-sidebar .mygun-filter-select-wrap .mygun-filter-select {
+	width: 100%;
+	max-width: 100%;
+	margin-top: 0;
+	flex: 0 0 auto;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-select {
+	padding: 5px 28px 5px 8px;
+	font-size: 13px;
+	color: #fff;
+	border: 1px solid #3a3a3a;
+	border-radius: 4px;
+	background-color: #1a1a1a;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%23bbbbbb'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-select:focus {
+	border-color: #878244;
+	outline: none;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-block {
+	margin-top: 4px;
+	padding: 0 8px 4px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 4px;
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-block summary {
+	color: #fff;
+	padding: 4px 2px 4px 0;
+	font-size: 13px;
+	font-weight: 600;
+	list-style: disclosure-closed;
+	list-style-position: outside;
+	margin-left: 0.35rem;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-block[open] > summary {
+	list-style: disclosure-open;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-block summary::-webkit-details-marker {
+	display: inline-block;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-range-row {
+	gap: 4px;
+	margin-top: 3px;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-range-row input {
+	padding: 5px 8px;
+	font-size: 13px;
+	background: #1a1a1a;
+	color: #fff;
+	border: 1px solid #3a3a3a;
+	border-radius: 4px;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-range-row input::placeholder {
+	color: rgba(255, 255, 255, 0.4);
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-price {
+	margin-top: 4px;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-submit-wrap {
+	margin-top: 6px;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-clear {
+	margin-top: 4px;
+	color: #fff;
+	opacity: 0.85;
+	font-size: 12px;
+}
+
+.shop-page .mygun-shop-sidebar .mygun-filter-clear:hover {
+	color: #fff;
+	opacity: 1;
+}
+
+/* Single product specifications */
+.product-single-specs {
+	margin: 28px 0 24px;
+	padding: 22px 24px;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 8px;
+}
+
+.product-single-specs-title {
+	font-size: 20px;
+	margin: 0 0 16px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+	color: #fff;
+	font-family: "Audiowide", cursive;
+}
+
+.product-single-specs-list {
+	margin: 0;
+	padding: 0;
+}
+
+.product-single-specs-row {
+	display: grid;
+	grid-template-columns: minmax(140px, 38%) 1fr;
+	gap: 10px 20px;
+	padding: 10px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	align-items: start;
+}
+
+.product-single-specs-row:last-child {
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+
+.product-single-specs dt {
+	margin: 0;
+	font-weight: 600;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+.product-single-specs dd {
+	margin: 0;
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.75);
+	line-height: 1.45;
+}
+
+@media only screen and (max-width: 576px) {
+	.product-single-specs-row {
+		grid-template-columns: 1fr;
+		gap: 4px;
+	}
+}

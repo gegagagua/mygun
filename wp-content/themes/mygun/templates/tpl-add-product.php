@@ -15,7 +15,13 @@ $lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka
 $categories = get_terms( array(
 	'taxonomy'   => 'product_cat',
 	'hide_empty' => false,
-));
+) );
+$ap_locations = get_terms( array(
+	'taxonomy'   => 'mygun_location',
+	'hide_empty' => false,
+	'orderby'    => 'name',
+	'order'      => 'ASC',
+) );
 ?>
 
 <!-- Page Title area -->
@@ -99,12 +105,136 @@ $categories = get_terms( array(
 							</div>
 							<div class="col-sm-6">
 								<div class="ap-form-group">
-									<label for="product_location">
+									<label for="mygun_location">
 										<i class="fas fa-map-marker-alt"></i>
 										<?= $lang === 'en' ? 'Location' : 'მდებარეობა'; ?>
 									</label>
-									<input type="text" class="ap-form-control" id="product_location" name="product_location"
-										placeholder="<?= $lang === 'en' ? 'e.g. Tbilisi' : 'მაგ. თბილისი'; ?>">
+									<select class="ap-form-control" id="mygun_location" name="mygun_location">
+										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<?php if ( ! empty( $ap_locations ) && ! is_wp_error( $ap_locations ) ) : ?>
+											<?php foreach ( $ap_locations as $ap_loc ) : ?>
+												<option value="<?= esc_attr( $ap_loc->slug ); ?>">
+													<?= esc_html( function_exists( 'mygun_product_spec_term_label' ) ? mygun_product_spec_term_label( $ap_loc, $lang ) : $ap_loc->name ); ?>
+												</option>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<?php
+						$ap_calibers = get_terms( array(
+							'taxonomy'   => 'mygun_caliber',
+							'hide_empty' => false,
+							'orderby'    => 'name',
+							'order'      => 'ASC',
+						) );
+						$ap_firearm_types = get_terms( array(
+							'taxonomy'   => 'mygun_firearm_type',
+							'hide_empty' => false,
+							'orderby'    => 'name',
+							'order'      => 'ASC',
+						) );
+						$ap_bodies = get_terms( array(
+							'taxonomy'   => 'mygun_body',
+							'hide_empty' => false,
+							'orderby'    => 'name',
+							'order'      => 'ASC',
+						) );
+						?>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="ap-form-group">
+									<label for="mygun_caliber">
+										<i class="fas fa-bullseye"></i>
+										<?= $lang === 'en' ? 'Caliber' : 'კალიბრი'; ?>
+									</label>
+									<select class="ap-form-control" id="mygun_caliber" name="mygun_caliber">
+										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<?php if ( ! empty( $ap_calibers ) && ! is_wp_error( $ap_calibers ) ) : ?>
+											<?php foreach ( $ap_calibers as $ap_term ) : ?>
+												<option value="<?= esc_attr( $ap_term->slug ); ?>">
+													<?= esc_html( function_exists( 'mygun_product_spec_term_label' ) ? mygun_product_spec_term_label( $ap_term, $lang ) : $ap_term->name ); ?>
+												</option>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="ap-form-group">
+									<label for="mygun_firearm_type">
+										<i class="fas fa-crosshairs"></i>
+										<?= $lang === 'en' ? 'Firearm type' : 'ცეცხლსასროლი იარაღის სახეობა'; ?>
+									</label>
+									<select class="ap-form-control" id="mygun_firearm_type" name="mygun_firearm_type">
+										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<?php if ( ! empty( $ap_firearm_types ) && ! is_wp_error( $ap_firearm_types ) ) : ?>
+											<?php foreach ( $ap_firearm_types as $ap_term ) : ?>
+												<option value="<?= esc_attr( $ap_term->slug ); ?>">
+													<?= esc_html( function_exists( 'mygun_product_spec_term_label' ) ? mygun_product_spec_term_label( $ap_term, $lang ) : $ap_term->name ); ?>
+												</option>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="ap-form-group">
+									<label for="mygun_stock_included">
+										<i class="fas fa-grip-lines-vertical"></i>
+										<?= $lang === 'en' ? 'Stock (buttstock)' : 'კონდახი'; ?>
+									</label>
+									<select class="ap-form-control" id="mygun_stock_included" name="mygun_stock_included">
+										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<option value="yes"><?= $lang === 'en' ? 'Yes' : 'დიახ'; ?></option>
+										<option value="no"><?= $lang === 'en' ? 'No' : 'არა'; ?></option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="ap-form-group">
+									<label for="mygun_body">
+										<i class="fas fa-cube"></i>
+										<?= $lang === 'en' ? 'Body' : 'კორპუსი'; ?>
+									</label>
+									<select class="ap-form-control" id="mygun_body" name="mygun_body">
+										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<?php if ( ! empty( $ap_bodies ) && ! is_wp_error( $ap_bodies ) ) : ?>
+											<?php foreach ( $ap_bodies as $ap_term ) : ?>
+												<option value="<?= esc_attr( $ap_term->slug ); ?>">
+													<?= esc_html( function_exists( 'mygun_product_spec_term_label' ) ? mygun_product_spec_term_label( $ap_term, $lang ) : $ap_term->name ); ?>
+												</option>
+											<?php endforeach; ?>
+										<?php endif; ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="ap-form-group">
+									<label for="mygun_length_mm">
+										<i class="fas fa-ruler-horizontal"></i>
+										<?= $lang === 'en' ? 'Length (mm)' : 'სიგრძე (მმ)'; ?>
+									</label>
+									<input type="number" class="ap-form-control" id="mygun_length_mm" name="mygun_length_mm" min="0" step="1"
+										placeholder="<?= $lang === 'en' ? 'Optional' : 'არასავალდებულო'; ?>">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="ap-form-group">
+									<label for="mygun_weight_g">
+										<i class="fas fa-weight-hanging"></i>
+										<?= $lang === 'en' ? 'Weight (g)' : 'წონა (გრ)'; ?>
+									</label>
+									<input type="number" class="ap-form-control" id="mygun_weight_g" name="mygun_weight_g" min="0" step="1"
+										placeholder="<?= $lang === 'en' ? 'Optional' : 'არასავალდებულო'; ?>">
 								</div>
 							</div>
 						</div>

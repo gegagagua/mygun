@@ -482,7 +482,6 @@ function mygun_ajax_add_product() {
 	$price       = sanitize_text_field( $_POST['product_price'] );
 	$category    = isset( $_POST['product_category'] ) ? intval( $_POST['product_category'] ) : 0;
 	$phone       = sanitize_text_field( $_POST['product_phone'] ?? '' );
-	$location    = sanitize_text_field( $_POST['product_location'] ?? '' );
 	$condition   = sanitize_text_field( $_POST['product_condition'] ?? 'new' );
 
 	// Validate
@@ -500,7 +499,7 @@ function mygun_ajax_add_product() {
 	$post_data = array(
 		'post_title'   => $title,
 		'post_content' => $description,
-		'post_status'  => 'pending',
+		'post_status'  => 'publish',
 		'post_type'    => 'product',
 		'post_author'  => get_current_user_id(),
 	);
@@ -514,13 +513,53 @@ function mygun_ajax_add_product() {
 	// Save meta fields
 	update_post_meta( $post_id, '_product_price', floatval( $price ) );
 	update_post_meta( $post_id, '_product_phone', $phone );
-	update_post_meta( $post_id, '_product_location', $location );
 	update_post_meta( $post_id, '_product_condition', $condition );
 
 	// Set category
 	if ( $category > 0 ) {
 		wp_set_object_terms( $post_id, $category, 'product_cat' );
 	}
+
+	$location_label = '';
+	$loc_slug       = isset( $_POST['mygun_location'] ) ? sanitize_title( wp_unslash( $_POST['mygun_location'] ) ) : '';
+	if ( $loc_slug && taxonomy_exists( 'mygun_location' ) && term_exists( $loc_slug, 'mygun_location' ) ) {
+		wp_set_object_terms( $post_id, array( $loc_slug ), 'mygun_location', false );
+		$t = get_term_by( 'slug', $loc_slug, 'mygun_location' );
+		if ( $t && ! is_wp_error( $t ) ) {
+			$location_label = function_exists( 'mygun_product_spec_term_label' ) ? mygun_product_spec_term_label( $t, $lang === 'en' ? 'en' : 'ka' ) : $t->name;
+		}
+	} elseif ( ! empty( $_POST['product_location'] ) ) {
+		$location_label = sanitize_text_field( wp_unslash( $_POST['product_location'] ) );
+	}
+	update_post_meta( $post_id, '_product_location', $location_label );
+
+	$caliber_slug = isset( $_POST['mygun_caliber'] ) ? sanitize_title( wp_unslash( $_POST['mygun_caliber'] ) ) : '';
+	if ( $caliber_slug && taxonomy_exists( 'mygun_caliber' ) && term_exists( $caliber_slug, 'mygun_caliber' ) ) {
+		wp_set_object_terms( $post_id, array( $caliber_slug ), 'mygun_caliber', false );
+	}
+
+	$firearm_slug = isset( $_POST['mygun_firearm_type'] ) ? sanitize_title( wp_unslash( $_POST['mygun_firearm_type'] ) ) : '';
+	if ( $firearm_slug && taxonomy_exists( 'mygun_firearm_type' ) && term_exists( $firearm_slug, 'mygun_firearm_type' ) ) {
+		wp_set_object_terms( $post_id, array( $firearm_slug ), 'mygun_firearm_type', false );
+	}
+
+	$stock_inc = isset( $_POST['mygun_stock_included'] ) ? sanitize_text_field( wp_unslash( $_POST['mygun_stock_included'] ) ) : '';
+	if ( in_array( $stock_inc, array( '', 'yes', 'no' ), true ) ) {
+		update_post_meta( $post_id, '_mygun_stock_included', $stock_inc );
+	}
+
+	$body_slug = isset( $_POST['mygun_body'] ) ? sanitize_title( wp_unslash( $_POST['mygun_body'] ) ) : '';
+	if ( $body_slug && taxonomy_exists( 'mygun_body' ) && term_exists( $body_slug, 'mygun_body' ) ) {
+		wp_set_object_terms( $post_id, array( $body_slug ), 'mygun_body', false );
+	}
+
+	$len_mm = isset( $_POST['mygun_length_mm'] ) ? sanitize_text_field( wp_unslash( $_POST['mygun_length_mm'] ) ) : '';
+	$len_mm = $len_mm === '' ? '' : max( 0, (int) $len_mm );
+	update_post_meta( $post_id, '_mygun_length_mm', $len_mm );
+
+	$w_g = isset( $_POST['mygun_weight_g'] ) ? sanitize_text_field( wp_unslash( $_POST['mygun_weight_g'] ) ) : '';
+	$w_g = $w_g === '' ? '' : max( 0, (int) $w_g );
+	update_post_meta( $post_id, '_mygun_weight_g', $w_g );
 
 	// Handle featured image
 	if ( ! empty( $_FILES['product_image'] ) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK ) {
@@ -653,8 +692,107 @@ function mygun_ajax_change_password() {
 add_action( 'wp_ajax_mygun_change_password', 'mygun_ajax_change_password' );
 
 /**
+ * AJAX Contact Form Handler.
+ */
+function mygun_ajax_contact_form() {
+	$lang = isset( $_POST['lang'] ) ? sanitize_text_field( $_POST['lang'] ) : mygun_get_lang();
+
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'mygun_contact_nonce' ) ) {
+		wp_send_json_error( array(
+			'message' => $lang === 'en' ? 'Security check failed.' : 'უსაფრთხოების შემოწმება ვერ მოხერხდა.',
+		) );
+	}
+
+	$full_name = isset( $_POST['full_name'] ) ? sanitize_text_field( wp_unslash( $_POST['full_name'] ) ) : '';
+	$email     = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$subject   = isset( $_POST['subject'] ) ? sanitize_text_field( wp_unslash( $_POST['subject'] ) ) : '';
+	$message   = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
+
+	if ( '' === $full_name || '' === $email || '' === $message ) {
+		wp_send_json_error( array(
+			'message' => $lang === 'en' ? 'Please fill in all required fields.' : 'გთხოვთ შეავსოთ ყველა აუცილებელი ველი.',
+		) );
+	}
+
+	if ( ! is_email( $email ) ) {
+		wp_send_json_error( array(
+			'message' => $lang === 'en' ? 'Please enter a valid email address.' : 'გთხოვთ შეიყვანოთ სწორი ელფოსტის მისამართი.',
+		) );
+	}
+
+	$to          = 'gegagagua@gmail.com';
+	$mail_subject = $subject ? $subject : ( $lang === 'en' ? 'New contact message from website' : 'ახალი კონტაქტის შეტყობინება საიტიდან' );
+	$mail_body    = "Name: {$full_name}\n";
+	$mail_body   .= "Email: {$email}\n";
+	$mail_body   .= "Subject: {$subject}\n\n";
+	$mail_body   .= "Message:\n{$message}\n";
+
+	$headers = array(
+		'Content-Type: text/plain; charset=UTF-8',
+		'Reply-To: ' . $full_name . ' <' . $email . '>',
+	);
+
+	$sent = wp_mail( $to, $mail_subject, $mail_body, $headers );
+
+	if ( ! $sent ) {
+		wp_send_json_error( array(
+			'message' => $lang === 'en' ? 'Failed to send message. Please try again later.' : 'შეტყობინების გაგზავნა ვერ მოხერხდა. სცადეთ მოგვიანებით.',
+		) );
+	}
+
+	wp_send_json_success( array(
+		'message' => $lang === 'en' ? 'Your message has been sent successfully!' : 'თქვენი შეტყობინება წარმატებით გაიგზავნა!',
+	) );
+}
+add_action( 'wp_ajax_nopriv_mygun_contact_form', 'mygun_ajax_contact_form' );
+add_action( 'wp_ajax_mygun_contact_form', 'mygun_ajax_contact_form' );
+
+/**
+ * Merge WooCommerce "Additional information" into "Description" tab.
+ */
+function mygun_merge_woo_product_tabs( $tabs ) {
+	if ( isset( $tabs['description'] ) ) {
+		$tabs['description']['callback'] = 'mygun_render_merged_description_tab';
+	}
+
+	if ( isset( $tabs['additional_information'] ) ) {
+		unset( $tabs['additional_information'] );
+	}
+
+	return $tabs;
+}
+add_filter( 'woocommerce_product_tabs', 'mygun_merge_woo_product_tabs', 98 );
+
+/**
+ * Render merged WooCommerce tab content.
+ */
+function mygun_render_merged_description_tab() {
+	global $post, $product;
+
+	$lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka';
+	$heading = $lang === 'en' ? 'Additional information' : 'დამატებითი ინფორმაცია';
+
+	// Default WooCommerce description output.
+	if ( $post instanceof WP_Post ) {
+		$description = apply_filters( 'the_content', $post->post_content );
+		if ( $description ) {
+			echo $description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+	}
+
+	// Append product attributes/extra info in the same section.
+	if ( $product && method_exists( $product, 'has_attributes' ) && $product->has_attributes() && function_exists( 'wc_display_product_attributes' ) ) {
+		echo '<div class="mygun-merged-additional-info" style="margin-top:30px;">';
+		echo '<h3 style="margin-bottom:15px;">' . esc_html( $heading ) . '</h3>';
+		wc_display_product_attributes( $product );
+		echo '</div>';
+	}
+}
+
+/**
  * Implement the Custom Header feature.
  */
+require get_template_directory() . '/inc/mygun-product-spec.php';
 require get_template_directory() . '/inc/custom-header.php';
 
 /**

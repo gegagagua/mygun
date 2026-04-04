@@ -2,6 +2,10 @@
 /* Template Name: Homepage */
 
 get_header();
+$home_lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka';
+$home_t    = function( $en, $ka ) use ( $home_lang ) {
+    return $home_lang === 'en' ? $en : $ka;
+};
 ?>
 
 <!--Slider area start here-->
@@ -16,11 +20,11 @@ get_header();
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="contents text-center">
-                                        <h2 class="wow animated fadeInUp" data-wow-duration="1s">MC5 Carbine</h2>
-                                        <p class="mr-lu mr-ru wow animated fadeInDown" data-wow-duration="1.5s">Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts. </p>
+                                        <h2 class="wow animated fadeInUp" data-wow-duration="1s"><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h2>
+                                        <p class="mr-lu mr-ru wow animated fadeInDown" data-wow-duration="1.5s"><?= esc_html( $home_t( 'Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts.', 'შექმნილია გამძლე AR-15 სისტემაზე, სტანდარტული barrel-nut ინტერფეისით და mil-spec კონტროლებით; MC5 გათვლილია ინტენსიურ გამოყენებასა და მაღალ დატვირთვაზე.' ) ); ?></p>
                                         <div class="buttons wow animated fadeInUp" data-wow-duration="2s">
-                                            <a href="#" class="btn1">buy now</a>
-                                            <a href="#" class="btn2">read more</a>
+                                            <a href="#" class="btn1"><?= esc_html( $home_t( 'Buy Now', 'ყიდვა' ) ); ?></a>
+                                            <a href="#" class="btn2"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?></a>
                                         </div>
                                     </div>
                                 </div>
@@ -33,11 +37,11 @@ get_header();
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="contents text-center">
-                                        <h2 class="wow animated fadeInDown" data-wow-duration="1s">MC5 Carbine</h2>
-                                        <p class="mr-lu mr-ru wow animated fadeInUp" data-wow-duration="1.5s">Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts. </p>
+                                        <h2 class="wow animated fadeInDown" data-wow-duration="1s"><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h2>
+                                        <p class="mr-lu mr-ru wow animated fadeInUp" data-wow-duration="1.5s"><?= esc_html( $home_t( 'Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts.', 'შექმნილია გამძლე AR-15 სისტემაზე, სტანდარტული barrel-nut ინტერფეისით და mil-spec კონტროლებით; MC5 გათვლილია ინტენსიურ გამოყენებასა და მაღალ დატვირთვაზე.' ) ); ?></p>
                                         <div class="buttons wow animated fadeInUp" data-wow-duration="2s">
-                                            <a href="#" class="btn1">buy now</a>
-                                            <a href="#" class="btn2">read more</a>
+                                            <a href="#" class="btn1"><?= esc_html( $home_t( 'Buy Now', 'ყიდვა' ) ); ?></a>
+                                            <a href="#" class="btn2"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?></a>
                                         </div>
                                     </div>
                                 </div>
@@ -50,11 +54,11 @@ get_header();
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="contents text-right">
-                                        <h2 class="wow animated fadeInRight" data-wow-duration="1s">MC5 Carbine</h2>
-                                        <p class="mr-lu wow animated fadeInRight" data-wow-duration="1.5s">Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts. </p>
+                                        <h2 class="wow animated fadeInRight" data-wow-duration="1s"><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h2>
+                                        <p class="mr-lu wow animated fadeInRight" data-wow-duration="1.5s"><?= esc_html( $home_t( 'Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts.', 'შექმნილია გამძლე AR-15 სისტემაზე, სტანდარტული barrel-nut ინტერფეისით და mil-spec კონტროლებით; MC5 გათვლილია ინტენსიურ გამოყენებასა და მაღალ დატვირთვაზე.' ) ); ?></p>
                                         <div class="buttons wow animated fadeInUp" data-wow-duration="2s">
-                                            <a href="#" class="btn1">buy now</a>
-                                            <a href="#" class="btn2">read more</a>
+                                            <a href="#" class="btn1"><?= esc_html( $home_t( 'Buy Now', 'ყიდვა' ) ); ?></a>
+                                            <a href="#" class="btn2"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?></a>
                                         </div>
                                     </div>
                                 </div>
@@ -67,11 +71,11 @@ get_header();
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="contents">
-                                        <h2 class="wow animated fadeInLeft" data-wow-duration="1s">MC5 Carbine</h2>
-                                        <p class="wow animated fadeInLeft" data-wow-duration="1.5s">Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts. </p>
+                                        <h2 class="wow animated fadeInLeft" data-wow-duration="1s"><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h2>
+                                        <p class="wow animated fadeInLeft" data-wow-duration="1.5s"><?= esc_html( $home_t( 'Built from a forged upper and lower AR-15 receiver with a standard barrel nut interface and mil-spec controls; The MC5 is made for abuse and high round counts.', 'შექმნილია გამძლე AR-15 სისტემაზე, სტანდარტული barrel-nut ინტერფეისით და mil-spec კონტროლებით; MC5 გათვლილია ინტენსიურ გამოყენებასა და მაღალ დატვირთვაზე.' ) ); ?></p>
                                         <div class="buttons wow animated fadeInUp" data-wow-duration="2s">
-                                            <a href="#" class="btn1">buy now</a>
-                                            <a href="#" class="btn2">read more</a>
+                                            <a href="#" class="btn1"><?= esc_html( $home_t( 'Buy Now', 'ყიდვა' ) ); ?></a>
+                                            <a href="#" class="btn2"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?></a>
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +93,7 @@ get_header();
                                     </div>
                                     <div class="dright">
                                         <div class="content">
-                                            <h3>MC5 Carbine</h3>
+                                            <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                             <p>$1,499.00</p>
                                         </div>
                                     </div>
@@ -104,7 +108,7 @@ get_header();
                                     </div>
                                     <div class="dright">
                                         <div class="content">
-                                            <h3>MC5 Carbine</h3>
+                                            <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                             <p>$1,499.00</p>
                                         </div>
                                     </div>
@@ -119,7 +123,7 @@ get_header();
                                     </div>
                                     <div class="dright">
                                         <div class="content">
-                                            <h3>MC5 Carbine</h3>
+                                            <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                             <p>$1,499.00</p>
                                         </div>
                                     </div>
@@ -134,7 +138,7 @@ get_header();
                                     </div>
                                     <div class="dright">
                                         <div class="content">
-                                            <h3>MC5 Carbine</h3>
+                                            <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                             <p>$1,499.00</p>
                                         </div>
                                     </div>
@@ -156,8 +160,8 @@ get_header();
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <div class="section-heading">
-                    <h2>Our Products</h2>
-                    <p>All modern weaponts can appreciate our broad services akshay handge pharetra, eratd fermentum feugiat, gun are best velit mauris aks egestasut aliquam.</p>
+                    <h2><?= esc_html( $home_t( 'Our Products', 'ჩვენი პროდუქტები' ) ); ?></h2>
+                    <p><?= esc_html( $home_t( 'All modern weapons can appreciate our broad services and premium support.', 'თანამედროვე იარაღის მოყვარულებისთვის გთავაზობთ ფართო სერვისებს და ხარისხიან მხარდაჭერას.' ) ); ?></p>
                 </div>
             </div>
         </div>
@@ -228,9 +232,9 @@ get_header();
                         <div class="products">
                             <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/1.jpg" alt="" /></figure>
                             <div class="contents">
-                                <h3>MC5 Carbine</h3>
+                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                 <span>$1,499.00</span>
-                                <a href="#" class="btn4">Add To Cart</a>
+                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
                             </div>
                         </div>
                     </div>
@@ -238,9 +242,9 @@ get_header();
                         <div class="products">
                             <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/2.jpg" alt="" /></figure>
                             <div class="contents">
-                                <h3>MC5 Carbine</h3>
+                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                 <span>$1,499.00</span>
-                                <a href="#" class="btn4">Add To Cart</a>
+                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
                             </div>
                         </div>
                     </div>
@@ -248,9 +252,9 @@ get_header();
                         <div class="products">
                             <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/3.jpg" alt="" /></figure>
                             <div class="contents">
-                                <h3>MC5 Carbine</h3>
+                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                 <span>$1,499.00</span>
-                                <a href="#" class="btn4">Add To Cart</a>
+                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
                             </div>
                         </div>
                     </div>
@@ -259,9 +263,9 @@ get_header();
                         <div class="products">
                             <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/4.jpg" alt="" /></figure>
                             <div class="contents">
-                                <h3>MC5 Carbine</h3>
+                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                 <span>$1,499.00</span>
-                                <a href="#" class="btn4">Add To Cart</a>
+                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
                             </div>
                         </div>
                     </div>
@@ -269,9 +273,9 @@ get_header();
                         <div class="products">
                             <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/1.jpg" alt="" /></figure>
                             <div class="contents">
-                                <h3>MC5 Carbine</h3>
+                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                 <span>$1,499.00</span>
-                                <a href="#" class="btn4">Add To Cart</a>
+                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
                             </div>
                         </div>
                     </div>
@@ -279,9 +283,9 @@ get_header();
                         <div class="products">
                             <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/2.jpg" alt="" /></figure>
                             <div class="contents">
-                                <h3>MC5 Carbine</h3>
+                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                 <span>$1,499.00</span>
-                                <a href="#" class="btn4">Add To Cart</a>
+                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
                             </div>
                         </div>
                     </div>
@@ -289,9 +293,9 @@ get_header();
                         <div class="products">
                             <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/3.jpg" alt="" /></figure>
                             <div class="contents">
-                                <h3>MC5 Carbine</h3>
+                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
                                 <span>$1,499.00</span>
-                                <a href="#" class="btn4">Add To Cart</a>
+                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
                             </div>
                         </div>
                     </div>
@@ -299,7 +303,7 @@ get_header();
             </div>
             <div class="col-md-12 col-sm-12">
                 <div class="load-btn text-center mr-t80">
-                    <a href="#" class="btn1">View All</a>
+                    <a href="#" class="btn1"><?= esc_html( $home_t( 'View All', 'ყველას ნახვა' ) ); ?></a>
                 </div>
             </div>
         </div>
@@ -313,15 +317,15 @@ get_header();
         <div class="row">
             <div class="col-md-7 col-sm-12">
                 <div class="section-heading2">
-                    <h2>Who We Are</h2>
+                    <h2><?= esc_html( $home_t( 'Who We Are', 'ვინ ვართ ჩვენ' ) ); ?></h2>
                 </div>
                 <div class="about-contents">
-                    <p>With state-of-the-art indoor training facilities and full service custom shop on lion, we can accommodate most requests. All modern weapon enthussts can appreciate our broad services and real-world, experienced staff. With state-of-the-art indoor training facilities and full service.</p>
-                    <blockquote>“This kiosk will revolutionize the purchasing process of silencers, SBRs, ine ns and in the class 3 realm.we can accommodate most rests.”</blockquote>
-                    <p>All modern weaponts can appreciate our broad services and real-world, exper ienced taff.T fm nunc. Etiam pharetra, eratd fermentum feugiat, velit mauris aks egestasut aliquam akshay handge.</p>
+                    <p><?= esc_html( $home_t( 'With state-of-the-art indoor training facilities and a full-service custom shop, we can accommodate most requests.', 'თანამედროვე დახურული სასწავლო ინფრასტრუქტურით და სრულფასოვანი სერვისით, ჩვენ ვაკმაყოფილებთ თქვენს უმეტეს მოთხოვნას.' ) ); ?></p>
+                    <blockquote><?= esc_html( $home_t( 'This platform modernizes the purchasing process and gives customers a faster, easier experience.', 'ეს პლატფორმა შესყიდვის პროცესს ამარტივებს და მომხმარებელს აძლევს უფრო სწრაფ და მოსახერხებელ გამოცდილებას.' ) ); ?></blockquote>
+                    <p><?= esc_html( $home_t( 'Our experienced team provides broad services and practical support for modern weapon enthusiasts.', 'ჩვენი გამოცდილი გუნდი თანამედროვე იარაღის მოყვარულებს სთავაზობს ფართო სერვისებს და პრაქტიკულ მხარდაჭერას.' ) ); ?></p>
                     <div class="buttons">
-                        <a href="#" class="btn1">Read More</a>
-                        <a href="#" class="btn2">Our Shop</a>
+                        <a href="#" class="btn1"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?></a>
+                        <a href="#" class="btn2"><?= esc_html( $home_t( 'Our Shop', 'ჩვენი მაღაზია' ) ); ?></a>
                     </div>
                 </div>
             </div>
@@ -331,8 +335,8 @@ get_header();
                         <div class="dbox">
                             <div class="dleft">
                                 <div class="content">
-                                    <h4>Hunting</h4>
-                                    <a href="#" class="btn3">Read More<i class="fas fa-arrow-right"></i></a>
+                                    <h4><?= esc_html( $home_t( 'Hunting', 'ნადირობა' ) ); ?></h4>
+                                    <a href="#" class="btn3"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?><i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                             <div class="dright">
@@ -346,8 +350,8 @@ get_header();
                         <div class="dbox">
                             <div class="dleft">
                                 <div class="content">
-                                    <h4>Trainning</h4>
-                                    <a href="#" class="btn3">Read More<i class="fas fa-arrow-right"></i></a>
+                                    <h4><?= esc_html( $home_t( 'Training', 'ვარჯიში' ) ); ?></h4>
+                                    <a href="#" class="btn3"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?><i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                             <div class="dright">
@@ -361,8 +365,8 @@ get_header();
                         <div class="dbox">
                             <div class="dleft">
                                 <div class="content">
-                                    <h4>Shoot Range</h4>
-                                    <a href="#" class="btn3">Read More<i class="fas fa-arrow-right"></i></a>
+                                    <h4><?= esc_html( $home_t( 'Shooting Range', 'სასროლი მოედანი' ) ); ?></h4>
+                                    <a href="#" class="btn3"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?><i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                             <div class="dright">
@@ -405,8 +409,8 @@ get_header();
                                             </div>
                                         </a>
                                         <div class="content">
-                                            <h3>Bullets Roll</h3>
-                                            <p>All modern weaponts can aiate our broad services akshay.</p>
+                                            <h3><?= esc_html( $home_t( 'Bullets Roll', 'ტყვიების შოუ' ) ); ?></h3>
+                                            <p><?= esc_html( $home_t( 'All modern weapon lovers can enjoy our broad services.', 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები.' ) ); ?></p>
                                         </div>
                                     </figure>
                                 </div>
@@ -421,8 +425,8 @@ get_header();
                                             </div>
                                         </a>
                                         <div class="content">
-                                            <h3>Bullets Roll</h3>
-                                            <p>All modern weaponts can aiate our broad services akshay.</p>
+                                            <h3><?= esc_html( $home_t( 'Bullets Roll', 'ტყვიების შოუ' ) ); ?></h3>
+                                            <p><?= esc_html( $home_t( 'All modern weapon lovers can enjoy our broad services.', 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები.' ) ); ?></p>
                                         </div>
                                     </figure>
                                 </div>
@@ -440,8 +444,8 @@ get_header();
                                         </div>
                                     </a>
                                     <div class="content">
-                                        <h3>Bullets Roll</h3>
-                                        <p>All modern weaponts can aiate our broad services akshay.</p>
+                                        <h3><?= esc_html( $home_t( 'Bullets Roll', 'ტყვიების შოუ' ) ); ?></h3>
+                                        <p><?= esc_html( $home_t( 'All modern weapon lovers can enjoy our broad services.', 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები.' ) ); ?></p>
                                     </div>
                                 </figure>
                             </div>
@@ -459,8 +463,8 @@ get_header();
                                             </div>
                                         </a>
                                         <div class="content">
-                                            <h3>Bullets Roll</h3>
-                                            <p>All modern weaponts can aiate our broad services akshay.</p>
+                                            <h3><?= esc_html( $home_t( 'Bullets Roll', 'ტყვიების შოუ' ) ); ?></h3>
+                                            <p><?= esc_html( $home_t( 'All modern weapon lovers can enjoy our broad services.', 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები.' ) ); ?></p>
                                         </div>
                                     </figure>
                                 </div>
@@ -475,8 +479,8 @@ get_header();
                                             </div>
                                         </a>
                                         <div class="content">
-                                            <h3>Bullets Roll</h3>
-                                            <p>All modern weaponts can aiate our broad services akshay.</p>
+                                            <h3><?= esc_html( $home_t( 'Bullets Roll', 'ტყვიების შოუ' ) ); ?></h3>
+                                            <p><?= esc_html( $home_t( 'All modern weapon lovers can enjoy our broad services.', 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები.' ) ); ?></p>
                                         </div>
                                     </figure>
                                 </div>
@@ -494,8 +498,8 @@ get_header();
                                         </div>
                                     </a>
                                     <div class="content">
-                                        <h3>Bullets Roll</h3>
-                                        <p>All modern weaponts can aiate our broad services akshay.</p>
+                                        <h3><?= esc_html( $home_t( 'Bullets Roll', 'ტყვიების შოუ' ) ); ?></h3>
+                                        <p><?= esc_html( $home_t( 'All modern weapon lovers can enjoy our broad services.', 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები.' ) ); ?></p>
                                     </div>
                                 </figure>
                             </div>
@@ -515,54 +519,54 @@ get_header();
                 <div class="training-forms">
                     <form>
                         <fieldset>
-                            <input type="text" placeholder="Full Name">
+                            <input type="text" placeholder="<?= esc_attr( $home_t( 'Full Name', 'სრული სახელი' ) ); ?>">
                         </fieldset>
                         <fieldset>
-                            <input type="email" placeholder="Email Address">
+                            <input type="email" placeholder="<?= esc_attr( $home_t( 'Email Address', 'ელფოსტის მისამართი' ) ); ?>">
                         </fieldset>
                         <fieldset>
-                            <input type="text" placeholder="Phone No.">
+                            <input type="text" placeholder="<?= esc_attr( $home_t( 'Phone No.', 'ტელეფონის ნომერი' ) ); ?>">
                         </fieldset>
                         <fieldset>
                             <select>
-                                <option>Weapon / Plans</option>
-                                <option>Weapon / Plans</option>
-                                <option>Weapon / Plans</option>
-                                <option>Weapon / Plans</option>
+                                <option><?= esc_html( $home_t( 'Weapon / Plans', 'იარაღი / გეგმები' ) ); ?></option>
+                                <option><?= esc_html( $home_t( 'Basic Training Plan', 'საბაზისო სასწავლო გეგმა' ) ); ?></option>
+                                <option><?= esc_html( $home_t( 'Advanced Training Plan', 'გაფართოებული სასწავლო გეგმა' ) ); ?></option>
+                                <option><?= esc_html( $home_t( 'Premium Shooting Plan', 'პრემიუმ სასროლო გეგმა' ) ); ?></option>
                             </select>
                         </fieldset>
                         <fieldset class="arrows">
                             <div class="row">
                                 <div class="col-md-5 col-sm-6 pd-0">
                                     <select>
-                                        <option>Gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
+                                        <option><?= esc_html( $home_t( 'Gender', 'სქესი' ) ); ?></option>
+                                        <option><?= esc_html( $home_t( 'Male', 'კაცი' ) ); ?></option>
+                                        <option><?= esc_html( $home_t( 'Female', 'ქალი' ) ); ?></option>
                                     </select>
                                 </div>
                                 <div class="col-md-7 col-sm-6 pd-r0">
-                                    <input type="number" placeholder="Age">
+                                    <input type="number" placeholder="<?= esc_attr( $home_t( 'Age', 'ასაკი' ) ); ?>">
                                 </div>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <textarea placeholder="Message"></textarea>
+                            <textarea placeholder="<?= esc_attr( $home_t( 'Message', 'შეტყობინება' ) ); ?>"></textarea>
                         </fieldset>
-                        <button type="submit" class="btn1">Send Now</button>
+                        <button type="submit" class="btn1"><?= esc_html( $home_t( 'Send Now', 'გაგზავნა' ) ); ?></button>
                     </form>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
                 <div class="training-con pd-t60">
-                    <h2>Weapon Trainings</h2>
-                    <p>With state-of-the-art indoor training facilities and full service custom shop on lion, we can accommodate most requests.</p>
+                    <h2><?= esc_html( $home_t( 'Weapon Trainings', 'იარაღის ვარჯიშები' ) ); ?></h2>
+                    <p><?= esc_html( $home_t( 'With state-of-the-art indoor training facilities and full service custom shop, we can accommodate most requests.', 'თანამედროვე ინფრასტრუქტურითა და სრულფასოვანი სერვისით, ჩვენ ვაკმაყოფილებთ თქვენს მოთხოვნებს.' ) ); ?></p>
                     <h1>P. +880 451 455</h1>
-                    <p>Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem is bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh idlit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt.</p>
+                    <p><?= esc_html( $home_t( 'Our team provides practical guidance, safe training methods, and personalized support for all experience levels.', 'ჩვენი გუნდი გთავაზობთ პრაქტიკულ გზამკვლევს, უსაფრთხო ვარჯიშის მეთოდებს და ინდივიდუალურ მხარდაჭერას ყველა დონეზე.' ) ); ?></p>
                     <ul>
-                        <li><i class="fas fa-long-arrow-alt-right"></i>Trainning x2 Hand Gun Full Pack</li>
-                        <li><i class="fas fa-long-arrow-alt-right"></i>Machine Gun CS5 4141 Full Pack </li>
-                        <li><i class="fas fa-long-arrow-alt-right"></i>Custom Shooting Range For Trainning</li>
-                        <li><i class="fas fa-long-arrow-alt-right"></i>Outfitters hunting and tactical shooting</li>
+                        <li><i class="fas fa-long-arrow-alt-right"></i><?= esc_html( $home_t( 'Handgun Training Full Pack', 'პისტოლეტის სრული სასწავლო პაკეტი' ) ); ?></li>
+                        <li><i class="fas fa-long-arrow-alt-right"></i><?= esc_html( $home_t( 'Machine Gun CS5 Full Pack', 'ავტომატის CS5 სრული პაკეტი' ) ); ?></li>
+                        <li><i class="fas fa-long-arrow-alt-right"></i><?= esc_html( $home_t( 'Custom Shooting Range Training', 'ინდივიდუალური სასროლო მოედნის ვარჯიში' ) ); ?></li>
+                        <li><i class="fas fa-long-arrow-alt-right"></i><?= esc_html( $home_t( 'Hunting and Tactical Shooting Programs', 'ნადირობისა და ტაქტიკური სროლის პროგრამები' ) ); ?></li>
                     </ul>
                 </div>
             </div>
@@ -672,12 +676,12 @@ if ( ! empty( $hp_news_posts ) ) :
                 <div class="subscribe">
                     <span class="ico"><i class="far fa-envelope"></i></span>
                     <div class="conts">
-                        <h2>Get Our Latest News</h2>
-                        <p>Subscribe our Newsletter Now !</p>
+                        <h2><?= esc_html( $home_t( 'Get Our Latest News', 'მიიღეთ უახლესი სიახლეები' ) ); ?></h2>
+                        <p><?= esc_html( $home_t( 'Subscribe to our newsletter now!', 'გამოიწერეთ ჩვენი ნიუსლეთერი ახლავე!' ) ); ?></p>
                     </div>
                     <form>
-                        <input type="email" placeholder="Email Address">
-                        <button type="submit" class="btn1">Subscribe</button>
+                        <input type="email" placeholder="<?= esc_attr( $home_t( 'Email Address', 'ელფოსტის მისამართი' ) ); ?>">
+                        <button type="submit" class="btn1"><?= esc_html( $home_t( 'Subscribe', 'გამოწერა' ) ); ?></button>
                     </form>
                 </div>
             </div>

@@ -168,8 +168,14 @@
 		formData.append('product_description', description);
 		formData.append('product_category', $('#product_category').val());
 		formData.append('product_condition', $('#product_condition').val());
-		formData.append('product_location', $('#product_location').val());
+		formData.append('mygun_location', $('#mygun_location').length ? ($('#mygun_location').val() || '') : '');
 		formData.append('product_phone', $('#product_phone').val());
+		formData.append('mygun_caliber', $('#mygun_caliber').val() || '');
+		formData.append('mygun_firearm_type', $('#mygun_firearm_type').val() || '');
+		formData.append('mygun_stock_included', $('#mygun_stock_included').length ? ($('#mygun_stock_included').val() || '') : '');
+		formData.append('mygun_body', $('#mygun_body').length ? ($('#mygun_body').val() || '') : '');
+		formData.append('mygun_length_mm', $('#mygun_length_mm').length ? ($('#mygun_length_mm').val() || '') : '');
+		formData.append('mygun_weight_g', $('#mygun_weight_g').length ? ($('#mygun_weight_g').val() || '') : '');
 		formData.append('product_image', mainImage);
 
 		// Add gallery files

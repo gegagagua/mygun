@@ -11,6 +11,7 @@
  */
 
 ?>
+<?php $footer_lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka'; ?>
 
 <!--Footer area start here-->
 <footer class="jarallax">
@@ -21,8 +22,8 @@
 					<div class="foo-about">
 						<figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo/logo.png" alt="" /></figure>
 						<div class="contents">
-							<p>All modern weaponts can apprecie our broad services akshay handge phatum feugiat gun. This is Photo shop's version of Lorem.</p>
-							<a href="#" class="btn3">read more <i class="fas fa-arrow-right"></i></a>
+							<p><?= $footer_lang === 'en' ? 'All modern weapon enthusiasts can appreciate our broad services and experienced support team.' : 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები და გამოცდილი მხარდაჭერის გუნდი.'; ?></p>
+							<a href="#" class="btn3"><?= $footer_lang === 'en' ? 'Read More' : 'დაწვრილებით'; ?> <i class="fas fa-arrow-right"></i></a>
 						</div>
 						<ul class="foo-social">
 							<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -34,7 +35,7 @@
 				<div class="col-md-4 col-sm-6">
 				</div>
 				<div class="col-md-4 col-sm-6">
-					<h2>Product Shop</h2>
+					<h2><?= $footer_lang === 'en' ? 'Product Shop' : 'პროდუქტების მაღაზია'; ?></h2>
 					<div class="products-foo">
 						<ul>
 							<li>
@@ -47,8 +48,8 @@
 								<a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm4.jpg" alt="" /></a>
 							</li>
 						</ul>
-						<p>For More Products and Gun Click Here!</p>
-						<a href="#" class="btn1">Our Shop</a>
+						<p><?= $footer_lang === 'en' ? 'For more products and offers, click here!' : 'მეტი პროდუქტისა და შეთავაზებისთვის დააჭირეთ აქ!'; ?></p>
+						<a href="#" class="btn1"><?= $footer_lang === 'en' ? 'Our Shop' : 'ჩვენი მაღაზია'; ?></a>
 					</div>
 				</div>
 			</div>
@@ -59,14 +60,14 @@
 			<div class="row">
 				<div class="col-md-6 col-sm-12">
 					<div class="copyright sm-t-center">
-						<p>Copyright © 2025 <a href="#"><span>Weapon</span></p>
+						<p><?= $footer_lang === 'en' ? 'Copyright' : 'საავტორო უფლება'; ?> © 2025 <a href="#"><span>Weapon</span></a></p>
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-12">
 					<div class="foo-links sm-t-center">
 						<ul>
-							<li><a href="#">Privacy Policy</a></li>
-							<li><a href="#">Terms & Conditions</a></li>
+							<li><a href="#"><?= $footer_lang === 'en' ? 'Privacy Policy' : 'კონფიდენციალურობის პოლიტიკა'; ?></a></li>
+							<li><a href="#"><?= $footer_lang === 'en' ? 'Terms & Conditions' : 'წესები და პირობები'; ?></a></li>
 						</ul>
 					</div>
 				</div>
@@ -116,11 +117,17 @@
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/main.js"></script>
 <!-- Auth JavaScript -->
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/auth.js"></script>
+<?php if ( is_page_template( 'templates/tpl-contact.php' ) ) : ?>
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/contact_form.js"></script>
+<?php endif; ?>
 <?php if ( is_page_template( 'templates/tpl-add-product.php' ) ) : ?>
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/add-product.js"></script>
 <?php endif; ?>
 <?php if ( is_page_template( 'templates/tpl-profile.php' ) ) : ?>
 <script src="<?php echo get_template_directory_uri(); ?>/assets/js/profile.js"></script>
+<?php endif; ?>
+<?php if ( is_singular( 'product' ) ) : ?>
+<script src="<?php echo get_template_directory_uri(); ?>/assets/js/single-product.js"></script>
 <?php endif; ?>
 
 <?php if ( ! is_user_logged_in() ) :
