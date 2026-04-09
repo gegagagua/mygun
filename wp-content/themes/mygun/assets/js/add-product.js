@@ -176,6 +176,7 @@
 		formData.append('mygun_body', $('#mygun_body').length ? ($('#mygun_body').val() || '') : '');
 		formData.append('mygun_length_mm', $('#mygun_length_mm').length ? ($('#mygun_length_mm').val() || '') : '');
 		formData.append('mygun_weight_g', $('#mygun_weight_g').length ? ($('#mygun_weight_g').val() || '') : '');
+		formData.append('mygun_manufacturer_country', $('#mygun_manufacturer_country').length ? ($('#mygun_manufacturer_country').val() || '') : '');
 		formData.append('product_image', mainImage);
 
 		// Add gallery files

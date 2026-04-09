@@ -11,9 +11,6 @@ $lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka
 $t    = function( $en, $ka ) use ( $lang ) {
 	return $lang === 'en' ? $en : $ka;
 };
-
-$shop_pages   = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'templates/tpl-shop.php', 'number' => 1 ) );
-$shop_page_url = ! empty( $shop_pages ) ? get_permalink( $shop_pages[0]->ID ) : home_url( '/shop/' );
 ?>
 
 <?php while ( have_posts() ) : the_post(); ?>
@@ -88,25 +85,6 @@ $shop_page_url = ! empty( $shop_pages ) ? get_permalink( $shop_pages[0]->ID ) : 
 	}
 	$mygun_specs_html = trim( (string) ob_get_clean() );
 	?>
-
-	<section class="breadcumb-area jarallax bg-img af">
-		<div class="breadcumb">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="content">
-							<h2><?= esc_html( $t( 'Product Details', 'პროდუქტის დეტალები' ) ); ?></h2>
-							<ul>
-								<li><a href="<?= esc_url( home_url( '/' ) ); ?>"><?= esc_html( $t( 'Home', 'მთავარი' ) ); ?></a></li>
-								<li><a href="<?= esc_url( $shop_page_url ); ?>"><?= esc_html( $t( 'Shop', 'მაღაზია' ) ); ?></a></li>
-								<li><a href="javascript:void(0)"><?php the_title(); ?></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 
 	<section class="product-single-area section">
 		<div class="container">

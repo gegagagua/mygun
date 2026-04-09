@@ -11,7 +11,10 @@
  */
 
 ?>
-<?php $footer_lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka'; ?>
+<?php
+$footer_lang     = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka';
+$footer_shop_url = mygun_get_shop_page_url();
+?>
 
 <!--Footer area start here-->
 <footer class="jarallax">
@@ -35,21 +38,21 @@
 				<div class="col-md-4 col-sm-6">
 				</div>
 				<div class="col-md-4 col-sm-6">
-					<h2><?= $footer_lang === 'en' ? 'Product Shop' : 'პროდუქტების მაღაზია'; ?></h2>
+					<h2><a href="<?= esc_url( $footer_shop_url ); ?>"><?= $footer_lang === 'en' ? 'Product Shop' : 'პროდუქტების მაღაზია'; ?></a></h2>
 					<div class="products-foo">
 						<ul>
 							<li>
-								<a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm1.jpg" alt="" /></a>
+								<a href="<?= esc_url( $footer_shop_url ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm1.jpg" alt="" /></a>
 							</li>
 							<li>
-								<a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm3.jpg" alt="" /></a>
+								<a href="<?= esc_url( $footer_shop_url ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm3.jpg" alt="" /></a>
 							</li>
 							<li>
-								<a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm4.jpg" alt="" /></a>
+								<a href="<?= esc_url( $footer_shop_url ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm4.jpg" alt="" /></a>
 							</li>
 						</ul>
 						<p><?= $footer_lang === 'en' ? 'For more products and offers, click here!' : 'მეტი პროდუქტისა და შეთავაზებისთვის დააჭირეთ აქ!'; ?></p>
-						<a href="#" class="btn1"><?= $footer_lang === 'en' ? 'Our Shop' : 'ჩვენი მაღაზია'; ?></a>
+						<a href="<?= esc_url( $footer_shop_url ); ?>" class="btn1"><?= $footer_lang === 'en' ? 'Shop' : 'მაღაზია'; ?></a>
 					</div>
 				</div>
 			</div>
@@ -231,6 +234,16 @@
 	</div>
 </div>
 <?php endif; ?>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M08KFZ8XZM"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-M08KFZ8XZM');
+</script>
 
 </body>
 

@@ -58,7 +58,7 @@ get_header();
                                         <li>
                                             <a href="<?php echo esc_url( $shop_cat_link ); ?>"<?php echo $active_shop_cat === $shop_cat->slug ? ' class="active"' : ''; ?>>
                                                 <i class="fa fa-angle-double-right"></i><?php echo esc_html( $shop_cat->name ); ?>
-                                                <span><?php echo (int) $shop_cat->count; ?></span>
+                                                <span><?php echo function_exists( 'mygun_count_products_in_product_cat' ) ? (int) mygun_count_products_in_product_cat( $shop_cat->term_id ) : (int) $shop_cat->count; ?></span>
                                             </a>
                                         </li>
                                     <?php endforeach; ?>
@@ -196,9 +196,10 @@ get_header();
                 if ( ! empty( $active_shop_cat ) ) {
                     $shop_query_args['tax_query'] = array(
                         array(
-                            'taxonomy' => 'product_cat',
-                            'field'    => 'slug',
-                            'terms'    => $active_shop_cat,
+                            'taxonomy'         => 'product_cat',
+                            'field'            => 'slug',
+                            'terms'            => $active_shop_cat,
+                            'include_children' => true,
                         ),
                     );
                 }
@@ -225,12 +226,16 @@ get_header();
                                 </ul>
                             </div>
                             <div class="showpro">
-                                <p><span><?php echo esc_html( $shop_lang === 'en' ? "Showing {$shop_start}-{$shop_end}" : "აჩვენებს {$shop_start}-{$shop_end}" ); ?></span> <?php echo esc_html( $shop_lang === 'en' ? "of {$shop_total} results" : "{$shop_total} შედეგიდან" ); ?></p>
+                                <?php if ( $shop_total < 1 ) : ?>
+                                    <p><span><?php echo esc_html( $shop_lang === 'en' ? 'No products to show.' : 'პროდუქტები არ არის.' ); ?></span></p>
+                                <?php else : ?>
+                                    <p><span><?php echo esc_html( $shop_lang === 'en' ? "Showing {$shop_start}–{$shop_end}" : "აჩვენებს {$shop_start}–{$shop_end}" ); ?></span> <?php echo esc_html( $shop_lang === 'en' ? "of {$shop_total} results" : "{$shop_total} შედეგიდან" ); ?></p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12 ">
-                        <div class="row">
+                        <div class="row mygun-shop-grid">
                             <?php
                             if ( $shop_products->have_posts() ) :
                                 while ( $shop_products->have_posts() ) :

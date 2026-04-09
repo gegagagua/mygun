@@ -239,6 +239,24 @@ $ap_locations = get_terms( array(
 							</div>
 						</div>
 
+						<?php
+						$ap_countries = function_exists( 'mygun_manufacturer_country_choices' ) ? mygun_manufacturer_country_choices() : array();
+						?>
+						<div class="ap-form-group">
+							<label for="mygun_manufacturer_country">
+								<i class="fas fa-globe"></i>
+								<?= $lang === 'en' ? 'Country of manufacture' : 'მწარმოებელი ქვეყანა'; ?>
+							</label>
+							<select class="ap-form-control" id="mygun_manufacturer_country" name="mygun_manufacturer_country">
+								<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+								<?php foreach ( $ap_countries as $cc_slug => $cc_pair ) : ?>
+									<option value="<?= esc_attr( $cc_slug ); ?>">
+										<?= esc_html( $lang === 'en' ? $cc_pair['en'] : $cc_pair['ka'] ); ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+
 						<!-- Phone -->
 						<div class="ap-form-group">
 							<label for="product_phone">

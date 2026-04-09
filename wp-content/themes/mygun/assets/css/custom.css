@@ -1597,9 +1597,10 @@ select.ap-form-control {
    Single Product Page
    ======================================== */
 
+/* Top offset: header is position:absolute (~135px tall) */
 .product-single-area {
 	background: #0d0d0d;
-	padding: 60px 0 80px;
+	padding: 175px 0 80px;
 }
 
 .product-single-media {
@@ -1800,6 +1801,10 @@ select.ap-form-control {
 }
 
 @media only screen and (max-width: 768px) {
+	.product-single-area {
+		padding-top: 155px;
+	}
+
 	.product-single-content {
 		margin-top: 20px;
 		padding: 22px;
@@ -2120,6 +2125,136 @@ select.ap-form-control {
 	opacity: 1;
 }
 
+/* Shop product grid: equal-height cards, fixed image area */
+@media only screen and (min-width: 768px) {
+	.shop-page .mygun-shop-grid {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.shop-page .mygun-shop-grid > [class*='col-'] {
+		display: flex;
+	}
+
+	/* List view: one product per row */
+	.shop-page .mygun-shop-grid:has(.products.list-item) > [class*='col-'] {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+}
+
+/* Same element has .col-sm-4 — do not set width/flex here or it overrides the column (3-per-row breaks). */
+.shop-page .mygun-shop-grid .products:not(.list-item) {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+.shop-page .mygun-shop-grid .products:not(.list-item) figure {
+	height: 240px;
+	flex-shrink: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+.shop-page .mygun-shop-grid .products:not(.list-item) figure a {
+	display: block;
+	height: 100%;
+}
+
+.shop-page .mygun-shop-grid .products:not(.list-item) figure img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.shop-page .mygun-shop-grid .products:not(.list-item) .contents {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.shop-page .mygun-shop-grid .products:not(.list-item) .contents .btn4 {
+	margin-top: auto;
+}
+
+@media only screen and (max-width: 767px) {
+	.shop-page .mygun-shop-grid .products:not(.list-item) figure {
+		height: 200px;
+	}
+}
+
+/* Shop list view: same fixed image height as grid + object-fit (no uneven rows) */
+.shop-page .mygun-shop-grid .products.list-item {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex-wrap: nowrap;
+}
+
+.shop-page .mygun-shop-grid .products.list-item figure {
+	float: none;
+	width: 30%;
+	min-width: 160px;
+	max-width: 360px;
+	flex: 0 0 30%;
+	height: 200px;
+	margin: 0;
+	overflow: hidden;
+}
+
+.shop-page .mygun-shop-grid .products.list-item figure a {
+	display: block;
+	height: 100%;
+}
+
+.shop-page .mygun-shop-grid .products.list-item figure img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.shop-page .mygun-shop-grid .products.list-item .contents {
+	float: none;
+	flex: 1 1 auto;
+	width: auto !important;
+	min-width: 0;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+	padding: 21px 30px 21px;
+}
+
+@media only screen and (min-width: 768px) {
+	.shop-page .mygun-shop-grid .products.list-item figure {
+		height: 240px;
+	}
+}
+
+@media only screen and (max-width: 575px) {
+	.shop-page .mygun-shop-grid .products.list-item {
+		flex-direction: column;
+	}
+
+	.shop-page .mygun-shop-grid .products.list-item figure {
+		width: 100%;
+		max-width: none;
+		flex: 0 0 auto;
+		height: 200px;
+	}
+
+	.shop-page .mygun-shop-grid .products.list-item .contents {
+		width: 100% !important;
+		padding: 16px 0 0;
+	}
+}
+
 /* Single product specifications */
 .product-single-specs {
 	margin: 28px 0 24px;
@@ -2176,4 +2311,164 @@ select.ap-form-control {
 		grid-template-columns: 1fr;
 		gap: 4px;
 	}
+}
+
+/* Homepage: training / booking — coming soon */
+.mygun-training-soon-banner {
+	text-align: center;
+	margin: 0 0 28px;
+	padding: 14px 22px;
+	font-family: "Audiowide", cursive;
+	font-size: 20px;
+	letter-spacing: 0.04em;
+	color: #878244;
+	border: 1px solid rgba(135, 130, 68, 0.45);
+	border-radius: 6px;
+	background: rgba(0, 0, 0, 0.4);
+}
+
+@media only screen and (max-width: 768px) {
+	.mygun-training-soon-banner {
+		font-size: 17px;
+		margin-bottom: 22px;
+		padding: 12px 16px;
+	}
+}
+
+.training-area .mygun-training-form-disabled {
+	opacity: 0.72;
+	cursor: not-allowed;
+}
+
+/* Homepage: latest products slider — equal card heights */
+.products-area .pro-sliders.mygun-home-latest-products .owl-item {
+	display: flex;
+	align-items: stretch;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .owl-item > .col-sm-12 {
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+	min-height: 100%;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products.mygun-home-product-card {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	min-height: 308px;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .mygun-home-product-thumb-link {
+	display: block;
+	flex-shrink: 0;
+	color: inherit;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products figure {
+	height: 250px;
+	margin: 0;
+	overflow: hidden;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products figure img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products .contents {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 14px 10px 18px;
+	min-height: 0;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products .contents h3 {
+	margin: 0 0 6px;
+	padding: 0 4px;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	font-family: Poppins, sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 1.35;
+	height: calc(1.35em * 2);
+	min-height: calc(1.35em * 2);
+	max-height: calc(1.35em * 2);
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	word-break: break-word;
+	hyphens: auto;
+	color: #878244;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products .contents .btn4 {
+	margin-top: auto;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products .contents h3 a,
+.products-area .pro-sliders.mygun-home-latest-products .products .contents h3 a:visited {
+	color: #878244;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.products-area .pro-sliders.mygun-home-latest-products .products .contents h3 a:hover {
+	color: #a4a060;
+}
+
+@media only screen and (max-width: 768px) {
+	.products-area .pro-sliders.mygun-home-latest-products .products figure {
+		height: 120px;
+	}
+
+	.products-area .pro-sliders.mygun-home-latest-products .products.mygun-home-product-card {
+		min-height: 278px;
+	}
+
+	.products-area .pro-sliders.mygun-home-latest-products .products .contents h3 {
+		font-size: 10px;
+		height: calc(1.35em * 2);
+		min-height: calc(1.35em * 2);
+		max-height: calc(1.35em * 2);
+	}
+}
+
+.products-area .mygun-home-no-products {
+	color: rgba(255, 255, 255, 0.75);
+	padding: 24px 16px;
+	margin: 0;
+}
+
+/* Homepage category cards: product count */
+.products-area .mygun-home-cat-count {
+	display: block;
+	margin-top: 6px;
+	font-family: "Audiowide", cursive;
+	font-size: 16px;
+	font-weight: 600;
+	color: #878244;
+}
+
+/* Footer: shop column title is a link to the shop page */
+footer .footer-top h2 a {
+	color: inherit;
+	text-decoration: none;
+}
+footer .footer-top h2 a:hover {
+	color: inherit;
+	opacity: 0.9;
 }

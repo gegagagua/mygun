@@ -157,6 +157,21 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
 <!--Products area start here-->
 <section class="products-area section bg-img jarallax">
     <div class="container">
+        <?php
+        $home_shop_url = mygun_get_shop_page_url();
+
+        $home_latest_products = new WP_Query(
+            array(
+                'post_type'           => 'product',
+                'post_status'         => 'publish',
+                'posts_per_page'      => 12,
+                'orderby'             => 'date',
+                'order'                 => 'DESC',
+                'no_found_rows'       => true,
+                'ignore_sticky_posts' => true,
+            )
+        );
+        ?>
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <div class="section-heading">
@@ -176,12 +191,6 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
                         'orderby'    => 'name',
                         'order'      => 'ASC',
                     ) );
-                    $shop_pages = get_pages( array(
-                        'meta_key'    => '_wp_page_template',
-                        'meta_value'  => 'templates/tpl-shop.php',
-                        'number'      => 1,
-                    ) );
-                    $shop_page_url = ! empty( $shop_pages ) ? get_permalink( $shop_pages[0]->ID ) : home_url( '/shop/' );
 
                     if ( ! empty( $home_product_terms ) && ! is_wp_error( $home_product_terms ) ) :
                         foreach ( $home_product_terms as $cat_index => $home_term ) :
@@ -206,14 +215,16 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
                             if ( empty( $cat_icon_url ) ) {
                                 $cat_icon_url = get_template_directory_uri() . '/assets/images/products/' . ( ( $cat_index % 4 ) + 1 ) . '.png';
                             }
-                            $cat_link       = add_query_arg( 'product_cat', $home_term->slug, $shop_page_url );
+                            $cat_link = add_query_arg( array( 'product_cat' => $home_term->slug ), $home_shop_url );
+                            $cat_cnt  = function_exists( 'mygun_count_products_in_product_cat' ) ? mygun_count_products_in_product_cat( $home_term->term_id ) : (int) $home_term->count;
                     ?>
                     <div class="col-md-3 col-sm-6 pd-0">
-                        <a href="<?php echo esc_url( $cat_link ); ?>" style="display:block;">
+                        <a href="<?php echo esc_url( $cat_link ); ?>" class="mygun-home-cat-card-link" style="display:block;">
                             <div class="<?php echo esc_attr( $cat_card_class ); ?>">
                                 <div class="contents">
                                     <figure><img src="<?php echo esc_url( $cat_icon_url ); ?>" alt="<?php echo esc_attr( $home_term->name ); ?>" /></figure>
                                     <h3><?php echo esc_html( $home_term->name ); ?></h3>
+                                    <span class="mygun-home-cat-count" aria-label="<?php echo esc_attr( $home_t( 'Products', 'პროდუქტი' ) ); ?>"><?php echo esc_html( (string) $cat_cnt ); ?></span>
                                 </div>
                             </div>
                         </a>
@@ -227,83 +238,63 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
         </div>
         <div class="row">
             <div class="col-md-12 col-sm-12 pd-0">
-                <div class="pro-sliders">
-                    <div class="col-sm-12">
-                        <div class="products">
-                            <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/1.jpg" alt="" /></figure>
-                            <div class="contents">
-                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
-                                <span>$1,499.00</span>
-                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="products">
-                            <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/2.jpg" alt="" /></figure>
-                            <div class="contents">
-                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
-                                <span>$1,499.00</span>
-                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="products">
-                            <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/3.jpg" alt="" /></figure>
-                            <div class="contents">
-                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
-                                <span>$1,499.00</span>
-                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
-                            </div>
-                        </div>
-                    </div>
+                <?php if ( $home_latest_products->have_posts() ) : ?>
+                <div class="pro-sliders mygun-home-latest-products">
+                    <?php
+                    $home_pl_def = get_template_directory_uri() . '/assets/images/products/1.jpg';
+                    while ( $home_latest_products->have_posts() ) :
+                        $home_latest_products->the_post();
+                        $hp_id    = get_the_ID();
+                        $hp_title = get_the_title();
+                        $hp_link  = get_permalink( $hp_id );
 
+                        $hp_price = get_post_meta( $hp_id, '_price', true );
+                        if ( '' === $hp_price || null === $hp_price ) {
+                            $hp_price = get_post_meta( $hp_id, '_regular_price', true );
+                        }
+                        if ( '' === $hp_price || null === $hp_price ) {
+                            $hp_price = get_post_meta( $hp_id, '_product_price', true );
+                        }
+                        $hp_price_disp = ( '' !== $hp_price && null !== $hp_price && is_numeric( $hp_price ) )
+                            ? number_format_i18n( (float) $hp_price, 0 ) . ' ₾'
+                            : $home_t( 'Price on request', 'ფასი მოთხოვნით' );
+
+                        $hp_thumb = get_the_post_thumbnail_url( $hp_id, 'product-thumb' );
+                        if ( ! $hp_thumb ) {
+                            $hp_thumb = $home_pl_def;
+                        }
+
+                        $hp_cart_url = $hp_link;
+                        if ( function_exists( 'wc_get_product' ) ) {
+                            $hp_wc = wc_get_product( $hp_id );
+                            if ( $hp_wc && $hp_wc->is_purchasable() ) {
+                                $hp_cart_url = $hp_wc->add_to_cart_url();
+                            }
+                        }
+                    ?>
                     <div class="col-sm-12">
-                        <div class="products">
-                            <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/4.jpg" alt="" /></figure>
+                        <div class="products mygun-home-product-card">
+                            <a href="<?= esc_url( $hp_link ); ?>" class="mygun-home-product-thumb-link">
+                                <figure>
+                                    <img src="<?= esc_url( $hp_thumb ); ?>" alt="<?= esc_attr( $hp_title ); ?>" />
+                                </figure>
+                            </a>
                             <div class="contents">
-                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
-                                <span>$1,499.00</span>
-                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
+                                <h3><a href="<?= esc_url( $hp_link ); ?>"><?= esc_html( $hp_title ); ?></a></h3>
+                                <span><?= esc_html( $hp_price_disp ); ?></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div class="products">
-                            <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/1.jpg" alt="" /></figure>
-                            <div class="contents">
-                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
-                                <span>$1,499.00</span>
-                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="products">
-                            <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/2.jpg" alt="" /></figure>
-                            <div class="contents">
-                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
-                                <span>$1,499.00</span>
-                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="products">
-                            <figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/3.jpg" alt="" /></figure>
-                            <div class="contents">
-                                <h3><?= esc_html( $home_t( 'MC5 Carbine', 'MC5 კარაბინი' ) ); ?></h3>
-                                <span>$1,499.00</span>
-                                <a href="#" class="btn4"><?= esc_html( $home_t( 'Add To Cart', 'კალათაში დამატება' ) ); ?></a>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endwhile; ?>
+                    <?php wp_reset_postdata(); ?>
                 </div>
+                <?php else : ?>
+                    <p class="mygun-home-no-products text-center"><?= esc_html( $home_t( 'No products listed yet.', 'პროდუქტები ჯერ არ არის.' ) ); ?></p>
+                <?php endif; ?>
             </div>
             <div class="col-md-12 col-sm-12">
                 <div class="load-btn text-center mr-t80">
-                    <a href="#" class="btn1"><?= esc_html( $home_t( 'View All', 'ყველას ნახვა' ) ); ?></a>
+                    <a href="<?= esc_url( $home_shop_url ); ?>" class="btn1"><?= esc_html( $home_t( 'View All', 'ყველას ნახვა' ) ); ?></a>
                 </div>
             </div>
         </div>
@@ -325,7 +316,7 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
                     <p><?= esc_html( $home_t( 'Our experienced team provides broad services and practical support for modern weapon enthusiasts.', 'ჩვენი გამოცდილი გუნდი თანამედროვე იარაღის მოყვარულებს სთავაზობს ფართო სერვისებს და პრაქტიკულ მხარდაჭერას.' ) ); ?></p>
                     <div class="buttons">
                         <a href="#" class="btn1"><?= esc_html( $home_t( 'Read More', 'დაწვრილებით' ) ); ?></a>
-                        <a href="#" class="btn2"><?= esc_html( $home_t( 'Our Shop', 'ჩვენი მაღაზია' ) ); ?></a>
+                        <a href="<?= esc_url( mygun_get_shop_page_url() ); ?>" class="btn2"><?= esc_html( $home_t( 'Shop', 'მაღაზია' ) ); ?></a>
                     </div>
                 </div>
             </div>
@@ -515,9 +506,15 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
 <section class="training-area section bg-img jarallax af">
     <div class="container">
         <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <p class="mygun-training-soon-banner" role="status"><?= esc_html( $home_t( 'Coming soon', 'მალე იქნება' ) ); ?></p>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="training-forms">
-                    <form>
+                    <form action="#" method="post" onsubmit="return false;">
+                        <fieldset disabled class="mygun-training-form-disabled" aria-disabled="true">
                         <fieldset>
                             <input type="text" placeholder="<?= esc_attr( $home_t( 'Full Name', 'სრული სახელი' ) ); ?>">
                         </fieldset>
@@ -553,6 +550,7 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
                             <textarea placeholder="<?= esc_attr( $home_t( 'Message', 'შეტყობინება' ) ); ?>"></textarea>
                         </fieldset>
                         <button type="submit" class="btn1"><?= esc_html( $home_t( 'Send Now', 'გაგზავნა' ) ); ?></button>
+                        </fieldset>
                     </form>
                 </div>
             </div>
@@ -560,7 +558,7 @@ $home_t    = function( $en, $ka ) use ( $home_lang ) {
                 <div class="training-con pd-t60">
                     <h2><?= esc_html( $home_t( 'Weapon Trainings', 'იარაღის ვარჯიშები' ) ); ?></h2>
                     <p><?= esc_html( $home_t( 'With state-of-the-art indoor training facilities and full service custom shop, we can accommodate most requests.', 'თანამედროვე ინფრასტრუქტურითა და სრულფასოვანი სერვისით, ჩვენ ვაკმაყოფილებთ თქვენს მოთხოვნებს.' ) ); ?></p>
-                    <h1>P. +880 451 455</h1>
+                    <h1>P. +995 555 555 555</h1>
                     <p><?= esc_html( $home_t( 'Our team provides practical guidance, safe training methods, and personalized support for all experience levels.', 'ჩვენი გუნდი გთავაზობთ პრაქტიკულ გზამკვლევს, უსაფრთხო ვარჯიშის მეთოდებს და ინდივიდუალურ მხარდაჭერას ყველა დონეზე.' ) ); ?></p>
                     <ul>
                         <li><i class="fas fa-long-arrow-alt-right"></i><?= esc_html( $home_t( 'Handgun Training Full Pack', 'პისტოლეტის სრული სასწავლო პაკეტი' ) ); ?></li>

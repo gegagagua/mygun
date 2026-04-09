@@ -115,6 +115,34 @@ function mygun_content_width() {
 add_action( 'after_setup_theme', 'mygun_content_width', 0 );
 
 /**
+ * Permalink for the page using the Shop template (templates/tpl-shop.php).
+ * Respects Polylang translation for the current language when available.
+ *
+ * @return string
+ */
+function mygun_get_shop_page_url() {
+	$pages = get_pages(
+		array(
+			'meta_key'   => '_wp_page_template',
+			'meta_value' => 'templates/tpl-shop.php',
+			'number'     => 1,
+		)
+	);
+	if ( empty( $pages ) ) {
+		return home_url( '/shop/' );
+	}
+	$page_id = (int) $pages[0]->ID;
+	if ( function_exists( 'pll_get_post' ) && function_exists( 'pll_current_language' ) ) {
+		$translated = pll_get_post( $page_id, pll_current_language() );
+		if ( $translated ) {
+			$page_id = (int) $translated;
+		}
+	}
+	$permalink = get_permalink( $page_id );
+	return $permalink ? $permalink : home_url( '/shop/' );
+}
+
+/**
  * Register widget area.
  *
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
@@ -316,6 +344,47 @@ function mygun_register_product_cpt() {
 	));
 }
 add_action( 'init', 'mygun_register_product_cpt' );
+
+/**
+ * Count published products in a product_cat term (matches shop query; includes child categories).
+ *
+ * @param int  $term_id Term ID.
+ * @param bool $include_children Whether to count posts in child terms.
+ * @return int
+ */
+function mygun_count_products_in_product_cat( $term_id, $include_children = true ) {
+	static $cache = array();
+	$term_id = (int) $term_id;
+	if ( $term_id <= 0 ) {
+		return 0;
+	}
+	$key = $term_id . ':' . ( $include_children ? '1' : '0' );
+	if ( isset( $cache[ $key ] ) ) {
+		return $cache[ $key ];
+	}
+	$q = new WP_Query(
+		array(
+			'post_type'              => 'product',
+			'post_status'            => 'publish',
+			'posts_per_page'         => 1,
+			'fields'                 => 'ids',
+			'no_found_rows'          => false,
+			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+			'tax_query'              => array(
+				array(
+					'taxonomy'         => 'product_cat',
+					'field'            => 'term_id',
+					'terms'            => $term_id,
+					'include_children' => $include_children,
+				),
+			),
+		)
+	);
+	$cache[ $key ] = (int) $q->found_posts;
+	wp_reset_postdata();
+	return $cache[ $key ];
+}
 
 /**
  * Register News Custom Post Type and Taxonomy.
@@ -560,6 +629,11 @@ function mygun_ajax_add_product() {
 	$w_g = isset( $_POST['mygun_weight_g'] ) ? sanitize_text_field( wp_unslash( $_POST['mygun_weight_g'] ) ) : '';
 	$w_g = $w_g === '' ? '' : max( 0, (int) $w_g );
 	update_post_meta( $post_id, '_mygun_weight_g', $w_g );
+
+	$mfc = isset( $_POST['mygun_manufacturer_country'] ) ? strtolower( sanitize_text_field( wp_unslash( $_POST['mygun_manufacturer_country'] ) ) ) : '';
+	if ( $mfc !== '' && function_exists( 'mygun_manufacturer_country_is_valid_slug' ) && mygun_manufacturer_country_is_valid_slug( $mfc ) ) {
+		update_post_meta( $post_id, '_mygun_manufacturer_country', $mfc );
+	}
 
 	// Handle featured image
 	if ( ! empty( $_FILES['product_image'] ) && $_FILES['product_image']['error'] === UPLOAD_ERR_OK ) {

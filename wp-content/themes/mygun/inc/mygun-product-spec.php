@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once get_template_directory() . '/inc/mygun-manufacturer-country.php';
+
 /**
  * Spec taxonomies (slug => admin label).
  *
@@ -379,6 +381,17 @@ function mygun_render_product_specifications( $post_id, $lang = 'ka' ) {
 		);
 	}
 
+	$mfc_country = get_post_meta( $post_id, '_mygun_manufacturer_country', true );
+	if ( $mfc_country !== '' && $mfc_country !== null ) {
+		$mfc_label = function_exists( 'mygun_manufacturer_country_label' ) ? mygun_manufacturer_country_label( (string) $mfc_country, $lang ) : '';
+		if ( $mfc_label !== '' ) {
+			$rows[] = array(
+				'label' => 'en' === $lang ? 'Country of manufacture' : 'მწარმოებელი ქვეყანა',
+				'value' => $mfc_label,
+			);
+		}
+	}
+
 	foreach ( mygun_product_spec_taxonomies_for_editor() as $tax => $admin_lbl ) {
 		$terms = get_the_terms( $post_id, $tax );
 		if ( empty( $terms ) || is_wp_error( $terms ) ) {
@@ -442,6 +455,7 @@ function mygun_product_spec_render_meta_box( $post ) {
 	$mag       = get_post_meta( $post->ID, '_mygun_mag_capacity', true );
 	$len       = get_post_meta( $post->ID, '_mygun_length_mm', true );
 	$weight    = get_post_meta( $post->ID, '_mygun_weight_g', true );
+	$mfc_sel   = get_post_meta( $post->ID, '_mygun_manufacturer_country', true );
 
 	echo '<p><label for="mygun_optics_sel"><strong>ოპტიკა (Optics)</strong></label></p>';
 	echo '<select id="mygun_optics_sel" name="mygun_optics" class="widefat">';
@@ -465,6 +479,16 @@ function mygun_product_spec_render_meta_box( $post ) {
 
 	echo '<p><strong>წონა (გრ) / Weight (g)</strong></p>';
 	echo '<input type="number" step="1" name="mygun_weight_g" value="' . esc_attr( $weight ) . '" class="small-text" />';
+
+	echo '<p><label for="mygun_manufacturer_country"><strong>მწარმოებელი ქვეყანა (Country of manufacture)</strong></label></p>';
+	echo '<select id="mygun_manufacturer_country" name="mygun_manufacturer_country" class="widefat">';
+	echo '<option value="">' . esc_html( '— / არ არის არჩეული / Not set' ) . '</option>';
+	if ( function_exists( 'mygun_manufacturer_country_choices' ) ) {
+		foreach ( mygun_manufacturer_country_choices() as $slug => $pair ) {
+			echo '<option value="' . esc_attr( $slug ) . '"' . selected( strtolower( (string) $mfc_sel ), $slug, false ) . '>' . esc_html( $pair['ka'] . ' / ' . $pair['en'] ) . '</option>';
+		}
+	}
+	echo '</select>';
 
 	foreach ( mygun_product_spec_taxonomies_for_editor() as $tax => $label ) {
 		$terms = get_terms( array( 'taxonomy' => $tax, 'hide_empty' => false ) );
@@ -528,6 +552,13 @@ function mygun_product_spec_save( $post_id, $post ) {
 	$w = isset( $_POST['mygun_weight_g'] ) ? sanitize_text_field( wp_unslash( $_POST['mygun_weight_g'] ) ) : '';
 	$w = $w === '' ? '' : max( 0, (int) $w );
 	update_post_meta( $post_id, '_mygun_weight_g', $w );
+
+	$mfc = isset( $_POST['mygun_manufacturer_country'] ) ? strtolower( sanitize_text_field( wp_unslash( $_POST['mygun_manufacturer_country'] ) ) ) : '';
+	if ( $mfc !== '' && function_exists( 'mygun_manufacturer_country_is_valid_slug' ) && mygun_manufacturer_country_is_valid_slug( $mfc ) ) {
+		update_post_meta( $post_id, '_mygun_manufacturer_country', $mfc );
+	} else {
+		delete_post_meta( $post_id, '_mygun_manufacturer_country' );
+	}
 
 	foreach ( array_keys( mygun_product_spec_taxonomies_for_editor() ) as $tax ) {
 		$slugs = array();
