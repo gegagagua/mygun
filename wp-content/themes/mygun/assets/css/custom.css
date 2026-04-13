@@ -1597,16 +1597,111 @@ select.ap-form-control {
    Single Product Page
    ======================================== */
 
-/* Top offset: header is position:absolute (~135px tall) */
+/* Top offset: header is position:absolute (~135px); extra when WP admin bar */
 .product-single-area {
-	background: #0d0d0d;
-	padding: 175px 0 80px;
+	background: #0a0a0a;
+	padding: 185px 0 80px;
 }
 
+body.admin-bar .product-single-area {
+	padding-top: 210px;
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar .product-single-area {
+		padding-top: 228px;
+	}
+}
+
+.product-single-wrap {
+	max-width: 1140px;
+	margin: 0 auto;
+}
+
+/* Two columns 50/50 from md; <768px stacked (Bootstrap row + col-md-6) */
+.product-single-top-row > [class*='col-'] {
+	min-width: 0;
+}
+
+/* Title + meta above gallery; with specs: two columns (gallery stack | specs) */
+.product-single-main-grid {
+	position: relative;
+	z-index: 2;
+}
+
+.product-single-main-grid--split {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	grid-template-rows: auto minmax(280px, min(52vh, 560px));
+	column-gap: 28px;
+	row-gap: 20px;
+	align-items: start;
+}
+
+.product-single-main-grid--split .product-single-head {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.product-single-main-grid--split .product-single-media-wrap {
+	grid-column: 1;
+	grid-row: 2;
+	min-width: 0;
+}
+
+.product-single-main-grid--split .product-single-specs-col {
+	grid-column: 2;
+	grid-row: 1 / -1;
+	min-width: 0;
+}
+
+@media only screen and (max-width: 991px) {
+	.product-single-main-grid--split {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto auto;
+	}
+
+	.product-single-main-grid--split .product-single-head {
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.product-single-main-grid--split .product-single-media-wrap {
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	.product-single-main-grid--split .product-single-specs-col {
+		grid-column: 1;
+		grid-row: 3;
+	}
+}
+
+.product-single-head {
+	margin: 0 0 20px;
+	padding: 16px 18px 18px;
+	background: rgba(10, 10, 10, 0.92);
+	border: 1px solid #2a2a2a;
+	border-radius: 10px;
+	position: relative;
+	z-index: 2;
+}
+
+.product-single-media-wrap {
+	position: relative;
+	z-index: 1;
+	min-width: 0;
+}
+
+/* One frame: slider + image share this box (no inner “second” frame) */
 .product-single-media {
-	background: #111;
-	border: 1px solid #222;
-	padding: 20px;
+	background: #0a0a0a;
+	border: 1px solid #2a2a2a;
+	border-radius: 10px;
+	padding: 0;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+	overflow: hidden;
+	position: relative;
 }
 
 .product-single-main-image a.product-single-lightbox {
@@ -1632,7 +1727,7 @@ select.ap-form-control {
 	height: auto;
 	object-fit: contain;
 	display: block;
-	border: 1px solid #222;
+	border: 1px solid #2a2a2a;
 }
 
 .product-single-main-image {
@@ -1645,15 +1740,22 @@ select.ap-form-control {
 
 .product-single-media-gallery .product-single-main-image,
 .product-single-media-gallery .product-single-slider .product-single-slide {
-	height: 520px;
+	min-height: 280px;
+	height: min(52vh, 560px);
+	max-height: 560px;
+}
+
+.product-single-media-gallery .owl-wrapper-outer,
+.product-single-media-gallery .owl-height {
+	overflow: hidden;
 }
 
 .product-single-slider .product-single-slide {
-	height: 520px;
 	background: #0a0a0a;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: 100%;
 }
 
 .product-single-slider .product-single-slide img {
@@ -1662,51 +1764,87 @@ select.ap-form-control {
 	width: auto;
 	height: auto;
 	object-fit: contain;
-	border: 1px solid #222;
+	display: block;
+	border: none;
+	vertical-align: middle;
 }
 
-.product-single-slider .owl-controls {
-	margin-top: 0;
+/* Slider chrome sits inside the image frame */
+.product-single-media-gallery .owl-controls {
+	margin-top: 0 !important;
+	position: static;
 }
 
-.product-single-slider .owl-buttons div {
-	background: #878244;
-	color: #fff;
-	border-radius: 0;
+.product-single-media-gallery .owl-buttons {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	padding: 0 6px;
+	pointer-events: none;
+	z-index: 3;
+}
+
+.product-single-media-gallery .owl-buttons div {
+	pointer-events: auto;
+	background: rgba(197, 160, 89, 0.92);
+	color: #0a0a0a;
+	border-radius: 4px;
 	opacity: 1;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 18px;
 }
 
-.product-single-slider .owl-buttons div:hover {
-	background: #6e6a37;
+.product-single-media-gallery .owl-buttons div:hover {
+	background: #d4b56e;
+	color: #0a0a0a;
 }
 
-.product-single-content {
-	background: #111;
-	border: 1px solid #222;
-	padding: 30px;
-}
-
-.product-single-media-specs-row {
-	margin-top: 10px;
-	margin-bottom: 6px;
-}
-
-.product-single-media-col {
-	margin-bottom: 20px;
+.product-single-media-gallery .owl-pagination {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	right: 0;
+	text-align: center;
+	pointer-events: auto;
+	z-index: 3;
 }
 
 @media only screen and (min-width: 992px) {
-	.product-single-media-col {
-		margin-bottom: 0;
+	.product-single-specs-col {
+		display: flex;
+		flex-direction: column;
 	}
 
 	.product-single-specs-col .product-single-specs {
 		margin-top: 0;
+		margin-bottom: 0;
+		flex: 1;
 	}
 }
 
 .woocommerce-Tabs-panel h2 {
 	display: none !important;
+}
+
+/* WooCommerce single product: gallery full width (core uses ~48% + float) */
+.woocommerce div.product div.images,
+.woocommerce #content div.product div.images,
+.woocommerce-page div.product div.images,
+.woocommerce-page #content div.product div.images {
+	width: 100% !important;
+	max-width: 100%;
+	float: none !important;
+	margin-right: 0;
+	margin-bottom: 1.5em;
 }
 
 .product-single-title {
@@ -1719,7 +1857,7 @@ select.ap-form-control {
 .product-single-price {
 	font-size: 28px;
 	font-family: "Audiowide", cursive;
-	color: #878244;
+	color: #c5a059;
 	margin-bottom: 10px;
 }
 
@@ -1738,7 +1876,7 @@ select.ap-form-control {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 10px 16px;
-	margin-bottom: 20px;
+	margin-bottom: 0;
 }
 
 .product-single-meta span {
@@ -1747,16 +1885,34 @@ select.ap-form-control {
 }
 
 .product-single-meta i {
-	color: #878244;
+	color: #c5a059;
 	margin-right: 6px;
 }
 
+.product-single-description-section {
+	margin-top: 36px;
+	padding: 28px 32px;
+	background: #141414;
+	border: 1px solid #2a2a2a;
+	border-radius: 10px;
+}
+
+.product-single-description-heading {
+	font-size: 20px;
+	margin: 0 0 18px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	color: #fff;
+	font-family: "Audiowide", cursive;
+	letter-spacing: 0.02em;
+}
+
 .product-single-description {
-	color: #bbb;
-	line-height: 1.8;
+	color: #c4c4c4;
+	line-height: 1.85;
 	font-size: 15px;
-	border-top: 1px solid #222;
-	padding-top: 18px;
+	padding-top: 0;
+	border-top: none;
 }
 
 .product-single-description p:last-child {
@@ -1767,7 +1923,7 @@ select.ap-form-control {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 12px;
-	margin-top: 25px;
+	margin-top: 28px;
 	margin-left: 0;
 }
 
@@ -1787,6 +1943,12 @@ select.ap-form-control {
 	display: none;
 }
 
+.product-single-related-row {
+	margin-top: 48px;
+	padding-top: 8px;
+	border-top: 1px solid #222;
+}
+
 .product-related-card {
 	margin-top: 25px;
 }
@@ -1802,12 +1964,7 @@ select.ap-form-control {
 
 @media only screen and (max-width: 768px) {
 	.product-single-area {
-		padding-top: 155px;
-	}
-
-	.product-single-content {
-		margin-top: 20px;
-		padding: 22px;
+		padding-top: 165px;
 	}
 
 	.product-single-title {
@@ -1818,11 +1975,17 @@ select.ap-form-control {
 		font-size: 22px;
 	}
 
-	.product-single-main-image,
-	.product-single-slider .product-single-slide {
-		height: 360px;
+	.product-single-media-gallery .product-single-main-image,
+	.product-single-media-gallery .product-single-slider .product-single-slide {
+		min-height: 280px;
+		height: 42vh;
+		max-height: 400px;
 	}
 
+	.product-single-description-section {
+		margin-top: 28px;
+		padding: 22px 18px;
+	}
 }
 
 
@@ -2259,9 +2422,9 @@ select.ap-form-control {
 .product-single-specs {
 	margin: 28px 0 24px;
 	padding: 22px 24px;
-	background: rgba(255, 255, 255, 0.04);
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 8px;
+	background: #1a1a1a;
+	border: 1px solid #2a2a2a;
+	border-radius: 10px;
 }
 
 .product-single-specs-title {

@@ -304,8 +304,16 @@ add_action( 'wp_ajax_mygun_register', 'mygun_ajax_register' );
 
 /**
  * Register Product Custom Post Type and Taxonomy.
+ *
+ * When WooCommerce is active it already registers the `product` post type and
+ * `product_cat` taxonomy. Re-registering here overwrites WooCommerce's args
+ * (capabilities, supports, admin UI) and can break the Products admin screen.
  */
 function mygun_register_product_cpt() {
+	if ( class_exists( 'WooCommerce' ) ) {
+		return;
+	}
+
 	register_post_type( 'product', array(
 		'labels' => array(
 			'name'               => 'Products',
@@ -841,10 +849,7 @@ add_filter( 'woocommerce_product_tabs', 'mygun_merge_woo_product_tabs', 98 );
  * Render merged WooCommerce tab content.
  */
 function mygun_render_merged_description_tab() {
-	global $post, $product;
-
-	$lang = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka';
-	$heading = $lang === 'en' ? 'Additional information' : 'დამატებითი ინფორმაცია';
+	global $post;
 
 	// Default WooCommerce description output.
 	if ( $post instanceof WP_Post ) {
@@ -852,14 +857,6 @@ function mygun_render_merged_description_tab() {
 		if ( $description ) {
 			echo $description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
-	}
-
-	// Append product attributes/extra info in the same section.
-	if ( $product && method_exists( $product, 'has_attributes' ) && $product->has_attributes() && function_exists( 'wc_display_product_attributes' ) ) {
-		echo '<div class="mygun-merged-additional-info" style="margin-top:30px;">';
-		echo '<h3 style="margin-bottom:15px;">' . esc_html( $heading ) . '</h3>';
-		wc_display_product_attributes( $product );
-		echo '</div>';
 	}
 }
 

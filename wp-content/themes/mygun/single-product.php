@@ -71,13 +71,13 @@ $t    = function( $en, $ka ) use ( $lang ) {
 			);
 		}
 	}
-	if ( empty( $gallery_slides ) ) {
-		$gallery_slides[] = array(
-			'full' => $featured_image,
-			'disp' => $featured_image,
-			'alt'  => get_the_title(),
-		);
-	}
+	// if ( empty( $gallery_slides ) ) {
+	// 	$gallery_slides[] = array(
+	// 		'full' => $featured_image,
+	// 		'disp' => $featured_image,
+	// 		'alt'  => get_the_title(),
+	// 	);
+	// }
 
 	ob_start();
 	if ( function_exists( 'mygun_render_product_specifications' ) ) {
@@ -88,77 +88,57 @@ $t    = function( $en, $ka ) use ( $lang ) {
 
 	<section class="product-single-area section">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-12 col-sm-12">
-					<div class="product-single-content">
-						<h1 class="product-single-title"><?php the_title(); ?></h1>
+			<div class="product-single-wrap">
+				<div class="row product-single-top-row g-4 align-items-start">
+					<div class="<?= $mygun_specs_html ? 'col-12 col-md-6' : 'col-12'; ?> product-single-main-col">
+						<header class="product-single-head">
+							<h1 class="product-single-title"><?php the_title(); ?></h1>
 
-						<?php if ( '' !== $product_price && null !== $product_price ) : ?>
-							<div class="product-single-price"><?= esc_html( $product_price ); ?> ₾</div>
-						<?php endif; ?>
-
-						<?php if ( $product_cats ) : ?>
-							<div class="product-single-category">
-								<strong><?= esc_html( $t( 'Category', 'კატეგორია' ) ); ?>:</strong>
-								<span><?= esc_html( $product_cats ); ?></span>
-							</div>
-						<?php endif; ?>
-
-						<div class="product-single-meta">
-							<?php if ( $product_condition ) : ?>
-								<span>
-									<i class="fas fa-check-circle"></i>
-									<?= esc_html( $product_condition === 'new' ? $t( 'New', 'ახალი' ) : $t( 'Used', 'მეორადი' ) ); ?>
-								</span>
+							<?php if ( '' !== $product_price && null !== $product_price ) : ?>
+								<div class="product-single-price"><?= esc_html( $product_price ); ?> ₾</div>
 							<?php endif; ?>
-							<?php if ( $product_location ) : ?>
-								<span><i class="fas fa-map-marker-alt"></i> <?= esc_html( $product_location ); ?></span>
-							<?php endif; ?>
-							<?php if ( $product_phone ) : ?>
-								<span><i class="fas fa-phone-alt"></i> <?= esc_html( $product_phone ); ?></span>
-							<?php endif; ?>
-						</div>
 
-						<div class="row product-single-media-specs-row">
-							<div class="<?= $mygun_specs_html ? 'col-lg-6 col-md-12' : 'col-xs-12'; ?> product-single-media-col">
-								<div class="product-single-media product-single-media-gallery">
-									<?php if ( count( $gallery_slides ) > 1 ) : ?>
-										<div class="product-single-slider owl-carousel">
-											<?php foreach ( $gallery_slides as $slide ) : ?>
-												<div class="product-single-slide">
-													<a class="product-single-lightbox" href="<?= esc_url( $slide['full'] ); ?>" title="<?= esc_attr( $slide['alt'] ); ?>">
-														<img src="<?= esc_url( $slide['disp'] ); ?>" alt="<?= esc_attr( $slide['alt'] ); ?>">
-													</a>
-												</div>
-											<?php endforeach; ?>
-										</div>
-									<?php else : ?>
-										<?php $one = $gallery_slides[0]; ?>
-										<div class="product-single-main-image">
-											<a class="product-single-lightbox" href="<?= esc_url( $one['full'] ); ?>" title="<?= esc_attr( $one['alt'] ); ?>">
-												<img src="<?= esc_url( $one['disp'] ); ?>" alt="<?= esc_attr( $one['alt'] ); ?>">
-											</a>
-										</div>
-									<?php endif; ?>
-								</div>
-							</div>
-							<?php if ( $mygun_specs_html ) : ?>
-								<div class="col-lg-6 col-md-12 product-single-specs-col">
-									<?php echo wp_kses_post( $mygun_specs_html ); ?>
+							<?php if ( $product_cats ) : ?>
+								<div class="product-single-category">
+									<strong><?= esc_html( $t( 'Category', 'კატეგორია' ) ); ?>:</strong>
+									<span><?= esc_html( $product_cats ); ?></span>
 								</div>
 							<?php endif; ?>
-						</div>
 
-						<div class="product-single-description">
-							<?php the_content(); ?>
-						</div>
+							<div class="product-single-meta">
+								<?php if ( $product_condition ) : ?>
+									<span>
+										<i class="fas fa-check-circle"></i>
+										<?= esc_html( $product_condition === 'new' ? $t( 'New', 'ახალი' ) : $t( 'Used', 'მეორადი' ) ); ?>
+									</span>
+								<?php endif; ?>
+								<?php if ( $product_location ) : ?>
+									<span><i class="fas fa-map-marker-alt"></i> <?= esc_html( $product_location ); ?></span>
+								<?php endif; ?>
+								<?php if ( $product_phone ) : ?>
+									<span><i class="fas fa-phone-alt"></i> <?= esc_html( $product_phone ); ?></span>
+								<?php endif; ?>
+							</div>
+						</header>
 
-						<div class="product-single-actions">
-							<?php if ( $product_phone ) : ?>
-								<a href="tel:<?= esc_attr( preg_replace( '/[^0-9+]/', '', $product_phone ) ); ?>" class="btn2"><?= esc_html( $t( 'Call Seller', 'დარეკვა' ) ); ?></a>
-							<?php endif; ?>
+						<div class="product-single-media-wrap">
+							<div class="product-single-description">
+								<?php the_content(); ?>
+							</div>
 						</div>
 					</div>
+
+					<?php if ( $mygun_specs_html ) : ?>
+						<div class="col-12 col-md-6 product-single-specs-col">
+							<?php echo wp_kses_post( $mygun_specs_html ); ?>
+						</div>
+					<?php endif; ?>
+				</div>
+
+				<div class="product-single-actions">
+					<?php if ( $product_phone ) : ?>
+						<a href="tel:<?= esc_attr( preg_replace( '/[^0-9+]/', '', $product_phone ) ); ?>" class="btn2"><?= esc_html( $t( 'Call Seller', 'დარეკვა' ) ); ?></a>
+					<?php endif; ?>
 				</div>
 			</div>
 
@@ -183,7 +163,7 @@ $t    = function( $en, $ka ) use ( $lang ) {
 			$related_products = new WP_Query( $related_args );
 			if ( $related_products->have_posts() ) :
 			?>
-				<div class="row">
+				<div class="row product-single-related-row">
 					<div class="col-sm-12">
 						<div class="section-heading">
 							<h2><?= esc_html( $t( 'Related Products', 'მსგავსი პროდუქტები' ) ); ?></h2>

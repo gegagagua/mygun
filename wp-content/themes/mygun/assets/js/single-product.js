@@ -3,16 +3,13 @@
 
 	$(function () {
 		var $slider = $('.product-single-slider');
-		if (
-			$slider.length &&
-			$slider.find('.product-single-slide').length > 1 &&
-			typeof $slider.owlCarousel === 'function'
-		) {
+		var slideCount = $slider.find('.product-single-slide').length;
+		if ( $slider.length && slideCount > 0 && typeof $slider.owlCarousel === 'function' ) {
 			$slider.owlCarousel({
 				autoPlay: false,
 				slideSpeed: 500,
-				pagination: false,
-				navigation: true,
+				pagination: slideCount > 1,
+				navigation: slideCount > 1,
 				singleItem: true,
 				navigationText: [
 					"<i class='fas fa-long-arrow-alt-left'></i>",
