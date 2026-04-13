@@ -13,6 +13,10 @@ get_header();
                     <?php
                     $shop_lang         = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka';
                     $active_shop_cat   = isset( $_GET['product_cat'] ) ? sanitize_title( wp_unslash( $_GET['product_cat'] ) ) : '';
+                    $shop_order_val    = isset( $_GET['shop_order'] ) ? sanitize_key( wp_unslash( $_GET['shop_order'] ) ) : 'newest';
+                    if ( ! in_array( $shop_order_val, array( 'newest', 'price_asc', 'price_desc' ), true ) ) {
+                        $shop_order_val = 'newest';
+                    }
                     $shop_base_url     = get_permalink();
                     $shop_optics_get        = isset( $_GET['mygun_optics'] ) ? sanitize_text_field( wp_unslash( $_GET['mygun_optics'] ) ) : '';
                     $shop_stock_included_get = isset( $_GET['mygun_stock_included'] ) ? sanitize_text_field( wp_unslash( $_GET['mygun_stock_included'] ) ) : '';
@@ -44,7 +48,7 @@ get_header();
                             <h3><?= $shop_lang === 'en' ? 'Categ<span>ories</span>' : 'კატეგ<span>ორიები</span>'; ?></h3>
                             <ul>
                                 <li>
-                                    <a href="<?php echo esc_url( $shop_base_url ); ?>">
+                                    <a href="<?php echo esc_url( function_exists( 'mygun_shop_all_products_url' ) ? mygun_shop_all_products_url() : $shop_base_url ); ?>">
                                         <i class="fa fa-angle-double-right"></i><?= $shop_lang === 'en' ? 'All Products' : 'ყველა პროდუქტი'; ?>
                                     </a>
                                 </li>
@@ -212,12 +216,12 @@ get_header();
                 ?>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="filter-area">
-                            <select>
-                                <option><?= $shop_lang === 'en' ? 'Sort by' : 'დალაგება'; ?></option>
-                                <option><?= $shop_lang === 'en' ? 'Newest' : 'უახლესი'; ?></option>
-                                <option><?= $shop_lang === 'en' ? 'Price: Low to High' : 'ფასი: დაბლიდან მაღლისკენ'; ?></option>
-                                <option><?= $shop_lang === 'en' ? 'Price: High to Low' : 'ფასი: მაღლიდან დაბლისკენ'; ?></option>
+                        <div class="filter-area mygun-shop-filter-bar">
+                            <label class="visually-hidden" for="mygun-shop-order"><?= $shop_lang === 'en' ? 'Sort products' : 'პროდუქტების დალაგება'; ?></label>
+                            <select id="mygun-shop-order" class="mygun-shop-order-select">
+                                <option value="newest" <?php selected( $shop_order_val, 'newest' ); ?>><?= $shop_lang === 'en' ? 'Newest' : 'უახლესი'; ?></option>
+                                <option value="price_asc" <?php selected( $shop_order_val, 'price_asc' ); ?>><?= $shop_lang === 'en' ? 'Price: Low to High' : 'ფასი: დაბლიდან მაღლისკენ'; ?></option>
+                                <option value="price_desc" <?php selected( $shop_order_val, 'price_desc' ); ?>><?= $shop_lang === 'en' ? 'Price: High to Low' : 'ფასი: მაღლიდან დაბლისკენ'; ?></option>
                             </select>
                             <div class="list-grid">
                                 <ul class="list-inline">

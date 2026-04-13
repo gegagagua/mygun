@@ -610,7 +610,41 @@ function mygun_shop_collect_filter_query_args() {
 			$out[ $tax ] = count( $slugs ) === 1 ? $slugs[0] : $slugs;
 		}
 	}
+	if ( isset( $_GET['shop_order'] ) && $_GET['shop_order'] !== '' ) {
+		$so = sanitize_key( wp_unslash( $_GET['shop_order'] ) );
+		if ( in_array( $so, array( 'newest', 'price_asc', 'price_desc' ), true ) ) {
+			$out['shop_order'] = $so;
+		}
+	}
 	return $out;
+}
+
+/**
+ * URL for "All products" in the shop sidebar: current path without any shop filters or sort.
+ *
+ * @return string
+ */
+function mygun_shop_all_products_url() {
+	$keys = array(
+		'product_cat',
+		'shop_order',
+		'paged',
+		'page',
+		'mygun_optics',
+		'mygun_stock_included',
+		'mygun_mag_min',
+		'mygun_mag_max',
+		'mygun_len_min',
+		'mygun_len_max',
+		'mygun_w_min',
+		'mygun_w_max',
+		'mygun_price_min',
+		'mygun_price_max',
+	);
+	foreach ( array_keys( mygun_product_spec_taxonomies_for_editor() ) as $tax ) {
+		$keys[] = $tax;
+	}
+	return remove_query_arg( array_unique( $keys ) );
 }
 
 /**
@@ -774,5 +808,62 @@ function mygun_shop_apply_filters_to_query( $shop_query_args ) {
 		$shop_query_args['meta_query'] = $meta_query;
 	}
 
+	$shop_order = 'newest';
+	if ( isset( $_GET['shop_order'] ) && $_GET['shop_order'] !== '' ) {
+		$so = sanitize_key( wp_unslash( $_GET['shop_order'] ) );
+		if ( in_array( $so, array( 'newest', 'price_asc', 'price_desc' ), true ) ) {
+			$shop_order = $so;
+		}
+	}
+	if ( 'price_asc' === $shop_order || 'price_desc' === $shop_order ) {
+		$shop_query_args['mygun_shop_price_order'] = 'price_asc' === $shop_order ? 'ASC' : 'DESC';
+		unset( $shop_query_args['meta_key'] );
+		$shop_query_args['orderby'] = 'date';
+		$shop_query_args['order']   = 'DESC';
+	} else {
+		unset( $shop_query_args['mygun_shop_price_order'], $shop_query_args['meta_key'] );
+		$shop_query_args['orderby'] = 'date';
+		$shop_query_args['order']   = 'DESC';
+	}
+
 	return $shop_query_args;
 }
+
+/**
+ * Sort shop products by numeric price from WooCommerce (_price / _regular_price) or theme (_product_price).
+ *
+ * @param array<string, string> $clauses Query clauses.
+ * @param WP_Query               $query  Query object.
+ * @return array<string, string>
+ */
+function mygun_shop_posts_clauses_price_order( $clauses, $query ) {
+	if ( ! $query instanceof WP_Query ) {
+		return $clauses;
+	}
+	$order = $query->get( 'mygun_shop_price_order' );
+	if ( ! $order ) {
+		return $clauses;
+	}
+	$dir = strtoupper( (string) $order ) === 'ASC' ? 'ASC' : 'DESC';
+
+	global $wpdb;
+	$alias = 'mygun_psort';
+	if ( ! empty( $clauses['join'] ) && strpos( $clauses['join'], $alias ) !== false ) {
+		return $clauses;
+	}
+
+	$coalesce_null = 'ASC' === $dir ? '999999999' : '-1';
+
+	$clauses['join'] .= " LEFT JOIN (
+		SELECT post_id, MAX( CAST( meta_value AS DECIMAL(14,4) ) ) AS sort_price
+		FROM {$wpdb->postmeta}
+		WHERE meta_key IN ( '_price', '_regular_price', '_product_price' )
+			AND meta_value != ''
+		GROUP BY post_id
+	) {$alias} ON ( {$wpdb->posts}.ID = {$alias}.post_id )";
+
+	$clauses['orderby'] = "COALESCE( {$alias}.sort_price, {$coalesce_null} ) {$dir}, {$wpdb->posts}.post_date DESC";
+
+	return $clauses;
+}
+add_filter( 'posts_clauses', 'mygun_shop_posts_clauses_price_order', 25, 2 );

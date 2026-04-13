@@ -182,6 +182,21 @@
     	$('.products').removeClass('list-item');
     	$('.products').addClass('grid-item'); 
     });
+
+	/* Shop template: apply sort as soon as the dropdown changes */
+	$(document).on('change', '#mygun-shop-order', function () {
+		var v = this.value;
+		if (!v) {
+			return;
+		}
+		var u = new URL(window.location.href);
+		u.searchParams.set('shop_order', v);
+		['paged', 'page'].forEach(function (k) {
+			u.searchParams.delete(k);
+		});
+		window.location.assign(u.toString());
+	});
+
 /*--------------------------
 10. bxslider active
 ---------------------------- */   

@@ -4519,16 +4519,21 @@ margin-top:50px;
   position: relative;
   border: 1px solid #424242;
   border-top: none;
-  padding: 40px 0;
+  padding: 24px 0;
   transition: all 0.3s;
 }
 .shop-page .products .contents h3 {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
   font-family: "Audiowide", cursive;
   color: #fff;
   margin: 0 0 10px;
 }
+
+.shop-page .products .contents h3 a {
+  color: #fff;
+}
+
 .shop-page .products .contents p {
   display: none;
 }
