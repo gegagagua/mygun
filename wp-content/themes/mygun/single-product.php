@@ -100,7 +100,7 @@ $t    = function( $en, $ka ) use ( $lang ) {
 
 							<?php if ( $product_cats ) : ?>
 								<div class="product-single-category">
-									<strong><?= esc_html( $t( 'Category', 'კატეგორია' ) ); ?>:</strong>
+									<strong><?= esc_html( mygun_t( 'Category', 'კატეგორია', 'Категория' ) ); ?>:</strong>
 									<span><?= esc_html( $product_cats ); ?></span>
 								</div>
 							<?php endif; ?>
@@ -109,7 +109,7 @@ $t    = function( $en, $ka ) use ( $lang ) {
 								<?php if ( $product_condition ) : ?>
 									<span>
 										<i class="fas fa-check-circle"></i>
-										<?= esc_html( $product_condition === 'new' ? $t( 'New', 'ახალი' ) : $t( 'Used', 'მეორადი' ) ); ?>
+										<?= esc_html( $product_condition === 'new' ? mygun_t( 'New', 'ახალი', 'Новое' ) : mygun_t( 'Used', 'მეორადი', 'Б/у' ) ); ?>
 									</span>
 								<?php endif; ?>
 								<?php if ( $product_location ) : ?>
@@ -137,7 +137,7 @@ $t    = function( $en, $ka ) use ( $lang ) {
 
 				<div class="product-single-actions">
 					<?php if ( $product_phone ) : ?>
-						<a href="tel:<?= esc_attr( preg_replace( '/[^0-9+]/', '', $product_phone ) ); ?>" class="btn2"><?= esc_html( $t( 'Call Seller', 'დარეკვა' ) ); ?></a>
+						<a href="tel:<?= esc_attr( preg_replace( '/[^0-9+]/', '', $product_phone ) ); ?>" class="btn2"><?= esc_html( mygun_t( 'Call Seller', 'დარეკვა', 'Позвонить продавцу' ) ); ?></a>
 					<?php endif; ?>
 				</div>
 			</div>
@@ -166,7 +166,7 @@ $t    = function( $en, $ka ) use ( $lang ) {
 				<div class="row product-single-related-row">
 					<div class="col-sm-12">
 						<div class="section-heading">
-							<h2><?= esc_html( $t( 'Related Products', 'მსგავსი პროდუქტები' ) ); ?></h2>
+							<h2><?= esc_html( mygun_t( 'Related Products', 'მსგავსი პროდუქტები', 'Похожие товары' ) ); ?></h2>
 						</div>
 					</div>
 					<?php while ( $related_products->have_posts() ) : $related_products->the_post(); ?>
@@ -192,8 +192,8 @@ $t    = function( $en, $ka ) use ( $lang ) {
 										$rel_price = get_post_meta( get_the_ID(), '_product_price', true );
 									}
 									?>
-									<span><?= $rel_price !== '' ? esc_html( $rel_price ) . ' ₾' : esc_html( $t( 'Price on request', 'ფასი მოთხოვნით' ) ); ?></span>
-									<a href="<?php the_permalink(); ?>" class="btn4"><?= esc_html( $t( 'View Product', 'პროდუქტის ნახვა' ) ); ?></a>
+									<span><?= $rel_price !== '' ? esc_html( $rel_price ) . ' ₾' : esc_html( mygun_t( 'Price on request', 'ფასი მოთხოვნით', 'Цена по запросу' ) ); ?></span>
+									<a href="<?php the_permalink(); ?>" class="btn4"><?= esc_html( mygun_t( 'View Product', 'პროდუქტის ნახვა', 'Смотреть товар' ) ); ?></a>
 								</div>
 							</div>
 						</div>

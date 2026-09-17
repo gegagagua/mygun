@@ -54,8 +54,9 @@
 			<div class="row">
 				<div class="col-md-2 col-sm-2 col-xs-12">
 					<div class="logo-area">
-						<a href="<?=site_url();?>">
-							<img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo/logo.png" alt="" />
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+							<?php $mygun_logo = function_exists( 'mygun_opt_img' ) ? mygun_opt_img( 'site_logo', 'full', get_template_directory_uri() . '/assets/images/logo/logo.png' ) : get_template_directory_uri() . '/assets/images/logo/logo.png'; ?>
+							<img src="<?php echo esc_url( $mygun_logo ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
 						</a>
 					</div>
 				</div>
@@ -77,16 +78,16 @@
 
 									$desktop_extra_items .= '<li class="menu-item menu-item-has-children nav-auth-item"><a href="#"><i class="fas fa-user-circle"></i> ' . esc_html( $current_user->display_name ) . '</a>';
 									$desktop_extra_items .= '<ul class="sub-menu">';
-									$desktop_extra_items .= '<li><a href="' . esc_url( $add_product_url ) . '"><i class="fas fa-plus-circle"></i> ' . ( $lang === 'en' ? 'Add Product' : 'პროდუქტის დამატება' ) . '</a></li>';
-									$desktop_extra_items .= '<li><a href="' . esc_url( $profile_url ) . '"><i class="fas fa-cog"></i> ' . ( $lang === 'en' ? 'Profile' : 'პროფილი' ) . '</a></li>';
+									$desktop_extra_items .= '<li><a href="' . esc_url( $add_product_url ) . '"><i class="fas fa-plus-circle"></i> ' . mygun_t( 'Add Product', 'პროდუქტის დამატება', 'Добавить товар' ) . '</a></li>';
+									$desktop_extra_items .= '<li><a href="' . esc_url( $profile_url ) . '"><i class="fas fa-cog"></i> ' . mygun_t( 'Profile', 'პროფილი', 'Профиль' ) . '</a></li>';
 									if ( current_user_can( 'manage_options' ) ) {
-										$desktop_extra_items .= '<li><a href="' . esc_url( admin_url() ) . '"><i class="fas fa-tachometer-alt"></i> ' . ( $lang === 'en' ? 'Admin Panel' : 'ადმინ პანელი' ) . '</a></li>';
+										$desktop_extra_items .= '<li><a href="' . esc_url( admin_url() ) . '"><i class="fas fa-tachometer-alt"></i> ' . mygun_t( 'Admin Panel', 'ადმინ პანელი', 'Админ-панель' ) . '</a></li>';
 									}
-									$desktop_extra_items .= '<li><a href="' . esc_url( wp_logout_url( home_url() ) ) . '"><i class="fas fa-sign-out-alt"></i> ' . ( $lang === 'en' ? 'Logout' : 'გასვლა' ) . '</a></li>';
+									$desktop_extra_items .= '<li><a href="' . esc_url( wp_logout_url( home_url() ) ) . '"><i class="fas fa-sign-out-alt"></i> ' . mygun_t( 'Logout', 'გასვლა', 'Выход' ) . '</a></li>';
 									$desktop_extra_items .= '</ul></li>';
 								} else {
-									$desktop_extra_items .= '<li class="menu-item nav-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-sign-in-alt"></i> ' . ( $lang === 'en' ? 'Login' : 'შესვლა' ) . '</a></li>';
-									$desktop_extra_items .= '<li class="menu-item nav-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus"></i> ' . ( $lang === 'en' ? 'Register' : 'რეგისტრაცია' ) . '</a></li>';
+									$desktop_extra_items .= '<li class="menu-item nav-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-sign-in-alt"></i> ' . mygun_t( 'Login', 'შესვლა', 'Вход' ) . '</a></li>';
+									$desktop_extra_items .= '<li class="menu-item nav-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus"></i> ' . mygun_t( 'Register', 'რეგისტრაცია', 'Регистрация' ) . '</a></li>';
 								}
 
 								// Language switcher as menu item with dropdown
@@ -148,15 +149,15 @@
 						$profile_page_m = get_pages( array( 'meta_key' => '_wp_page_template', 'meta_value' => 'templates/tpl-profile.php', 'number' => 1 ) );
 						$profile_url_m  = ! empty( $profile_page_m ) ? get_permalink( $profile_page_m[0]->ID ) : admin_url( 'profile.php' );
 
-						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( $add_product_url_m ) . '"><i class="fas fa-plus-circle"></i> ' . ( $lang === 'en' ? 'Add Product' : 'პროდუქტის დამატება' ) . '</a></li>';
-						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( $profile_url_m ) . '"><i class="fas fa-cog"></i> ' . ( $lang === 'en' ? 'Profile' : 'პროფილი' ) . '</a></li>';
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( $add_product_url_m ) . '"><i class="fas fa-plus-circle"></i> ' . mygun_t( 'Add Product', 'პროდუქტის დამატება', 'Добавить товар' ) . '</a></li>';
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( $profile_url_m ) . '"><i class="fas fa-cog"></i> ' . mygun_t( 'Profile', 'პროფილი', 'Профиль' ) . '</a></li>';
 						if ( current_user_can( 'manage_options' ) ) {
-							$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( admin_url() ) . '"><i class="fas fa-tachometer-alt"></i> ' . ( $lang === 'en' ? 'Admin Panel' : 'ადმინ პანელი' ) . '</a></li>';
+							$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( admin_url() ) . '"><i class="fas fa-tachometer-alt"></i> ' . mygun_t( 'Admin Panel', 'ადმინ პანელი', 'Админ-панель' ) . '</a></li>';
 						}
-						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( wp_logout_url( home_url() ) ) . '"><i class="fas fa-sign-out-alt"></i> ' . ( $lang === 'en' ? 'Logout' : 'გასვლა' ) . '</a></li>';
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="' . esc_url( wp_logout_url( home_url() ) ) . '"><i class="fas fa-sign-out-alt"></i> ' . mygun_t( 'Logout', 'გასვლა', 'Выход' ) . '</a></li>';
 					} else {
-						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-sign-in-alt"></i> ' . ( $lang === 'en' ? 'Login' : 'შესვლა' ) . '</a></li>';
-						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus"></i> ' . ( $lang === 'en' ? 'Register' : 'რეგისტრაცია' ) . '</a></li>';
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fas fa-sign-in-alt"></i> ' . mygun_t( 'Login', 'შესვლა', 'Вход' ) . '</a></li>';
+						$mobile_auth_items .= '<li class="mobile-auth-item"><a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"><i class="fas fa-user-plus"></i> ' . mygun_t( 'Register', 'რეგისტრაცია', 'Регистрация' ) . '</a></li>';
 					}
 
 					// Add language switcher for mobile

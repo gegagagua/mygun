@@ -248,7 +248,7 @@ function mygun_manufacturer_country_label( $slug, $lang = 'ka' ) {
 	if ( ! isset( $choices[ $slug ] ) ) {
 		return '';
 	}
-	$key = 'en' === $lang ? 'en' : 'ka';
+	$key = 'ka' === $lang ? 'ka' : 'en';
 	return $choices[ $slug ][ $key ];
 }
 

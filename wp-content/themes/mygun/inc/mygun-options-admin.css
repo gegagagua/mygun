@@ -1,0 +1,39 @@
+/* MyGun Content admin screen */
+.mygun-options-wrap h1 .dashicons { font-size: 28px; width: 28px; height: 28px; vertical-align: middle; margin-right: 6px; }
+.mygun-options-layout { display: flex; gap: 20px; align-items: flex-start; margin-top: 16px; }
+.mygun-options-tabs {
+	flex: 0 0 250px; background: #fff; border: 1px solid #dcdcde; border-radius: 8px;
+	overflow: hidden; position: sticky; top: 46px;
+}
+.mygun-options-tabs a {
+	display: flex; align-items: center; gap: 8px; padding: 12px 16px; text-decoration: none;
+	color: #1d2327; border-bottom: 1px solid #f0f0f1; font-weight: 500;
+}
+.mygun-options-tabs a:hover { background: #f6f7f7; }
+.mygun-options-tabs a.active { background: #2271b1; color: #fff; }
+.mygun-options-tabs a.active .dashicons { color: #fff; }
+.mygun-options-tabs a .dashicons { color: #787c82; }
+
+.mygun-options-form {
+	flex: 1 1 auto; background: #fff; border: 1px solid #dcdcde; border-radius: 8px; padding: 20px 24px;
+	max-width: 900px;
+}
+.mygun-options-form > h2 { margin-top: 0; }
+.mygun-field { padding: 14px 0; border-bottom: 1px dashed #e4e4e7; display: flex; gap: 20px; align-items: flex-start; }
+.mygun-field-label { flex: 0 0 200px; font-weight: 600; color: #1d2327; padding-top: 4px; }
+.mygun-field-control { flex: 1 1 auto; }
+.mygun-field-sep {
+	margin: 24px 0 4px; padding: 6px 12px; background: #1d2327; color: #c8a24a;
+	border-radius: 6px; font-size: 13px; letter-spacing: .5px; text-transform: uppercase;
+}
+.mygun-i18n-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+.mygun-lang-badge {
+	flex: 0 0 34px; text-align: center; font-size: 11px; font-weight: 700; color: #fff;
+	background: #787c82; border-radius: 4px; padding: 5px 0; margin-top: 2px;
+}
+.mygun-lang-badge.lang-ka { background: #b8433a; }
+.mygun-lang-badge.lang-en { background: #2d6cdf; }
+.mygun-lang-badge.lang-ru { background: #4a8a4a; }
+.mygun-image-preview { margin-bottom: 8px; }
+.mygun-image-preview img { max-width: 200px; height: auto; border: 1px solid #dcdcde; border-radius: 6px; display: block; }
+.mygun-check input { margin-right: 6px; }
