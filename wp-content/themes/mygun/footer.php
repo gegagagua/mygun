@@ -12,8 +12,35 @@
 
 ?>
 <?php
-$footer_lang     = function_exists( 'pll_current_language' ) ? pll_current_language() : 'ka';
 $footer_shop_url = mygun_get_shop_page_url();
+$footer_logo     = mygun_opt_img( 'site_logo_light', 'full', mygun_opt_img( 'site_logo', 'full', get_template_directory_uri() . '/assets/images/logo/logo.png' ) );
+
+// Social links (only rendered when a URL is set in MyGun Content → General).
+$footer_socials = array(
+	'social_facebook'  => 'fab fa-facebook-f',
+	'social_youtube'   => 'fab fa-youtube',
+	'social_instagram' => 'fab fa-instagram',
+	'social_tiktok'    => 'fab fa-tiktok',
+	'social_linkedin'  => 'fab fa-linkedin-in',
+);
+
+// Latest products with a thumbnail for the footer shop teaser.
+$footer_products = get_posts( array(
+	'post_type'      => 'product',
+	'post_status'    => 'publish',
+	'numberposts'    => 3,
+	'meta_key'       => '_thumbnail_id',
+	'orderby'        => 'date',
+	'order'          => 'DESC',
+) );
+
+$footer_copy = mygun_opt( 'footer_copyright', mygun_t( 'Copyright', 'საავტორო უფლება', 'Все права защищены' ) . ' © %year% MyGun' );
+$footer_copy = str_replace( '%year%', gmdate( 'Y' ), $footer_copy );
+
+$footer_bottom_links = array(
+	array( 'text' => mygun_opt( 'footer_link1_text', mygun_t( 'Privacy Policy', 'კონფიდენციალურობის პოლიტიკა', 'Политика конфиденциальности' ) ), 'url' => mygun_opt_raw( 'footer_link1_url', '#' ) ),
+	array( 'text' => mygun_opt( 'footer_link2_text', mygun_t( 'Terms & Conditions', 'წესები და პირობები', 'Условия использования' ) ), 'url' => mygun_opt_raw( 'footer_link2_url', '#' ) ),
+);
 ?>
 
 <!--Footer area start here-->
@@ -21,38 +48,45 @@ $footer_shop_url = mygun_get_shop_page_url();
 	<div class="footer-top section">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4 col-sm-6">
+				<div class="col-md-5 col-sm-6">
 					<div class="foo-about">
-						<figure><img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo/logo.png" alt="" /></figure>
+						<figure><img src="<?php echo esc_url( $footer_logo ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" /></figure>
 						<div class="contents">
-							<p><?= $footer_lang === 'en' ? 'All modern weapon enthusiasts can appreciate our broad services and experienced support team.' : 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები და გამოცდილი მხარდაჭერის გუნდი.'; ?></p>
-							<a href="#" class="btn3"><?= $footer_lang === 'en' ? 'Read More' : 'დაწვრილებით'; ?> <i class="fas fa-arrow-right"></i></a>
+							<p><?php echo esc_html( mygun_opt( 'footer_about', mygun_t( 'All modern weapon enthusiasts can appreciate our broad services and experienced support team.', 'თანამედროვე იარაღის მოყვარულებისთვის გვაქვს ფართო სერვისები და გამოცდილი მხარდაჭერის გუნდი.', 'Все ценители современного оружия оценят наш широкий сервис и опытную команду поддержки.' ) ) ); ?></p>
+							<a href="<?php echo esc_url( $footer_shop_url ); ?>" class="btn3"><?php echo esc_html( mygun_t( 'Read More', 'დაწვრილებით', 'Подробнее' ) ); ?> <i class="fas fa-arrow-right"></i></a>
 						</div>
 						<ul class="foo-social">
-							<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-							<li><a href="#"><i class="fab fa-youtube"></i></a></li>
-							<li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+							<?php
+							foreach ( $footer_socials as $opt_key => $icon ) :
+								$url = mygun_opt_raw( $opt_key, '' );
+								if ( ! $url ) {
+									continue;
+								}
+								?>
+								<li><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener"><i class="<?php echo esc_attr( $icon ); ?>"></i></a></li>
+							<?php endforeach; ?>
 						</ul>
 					</div>
 				</div>
-				<div class="col-md-4 col-sm-6">
+				<div class="col-md-3 col-sm-6">
 				</div>
 				<div class="col-md-4 col-sm-6">
-					<h2><a href="<?= esc_url( $footer_shop_url ); ?>"><?= $footer_lang === 'en' ? 'Product Shop' : 'პროდუქტების მაღაზია'; ?></a></h2>
+					<h2><a href="<?php echo esc_url( $footer_shop_url ); ?>"><?php echo esc_html( mygun_opt( 'footer_shop_heading', mygun_t( 'Product Shop', 'პროდუქტების მაღაზია', 'Магазин' ) ) ); ?></a></h2>
 					<div class="products-foo">
+						<?php if ( ! empty( $footer_products ) ) : ?>
 						<ul>
-							<li>
-								<a href="<?= esc_url( $footer_shop_url ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm1.jpg" alt="" /></a>
-							</li>
-							<li>
-								<a href="<?= esc_url( $footer_shop_url ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm3.jpg" alt="" /></a>
-							</li>
-							<li>
-								<a href="<?= esc_url( $footer_shop_url ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/products/sm4.jpg" alt="" /></a>
-							</li>
+							<?php foreach ( $footer_products as $fp ) :
+								$fp_thumb = get_the_post_thumbnail_url( $fp->ID, 'thumbnail' );
+								if ( ! $fp_thumb ) { continue; }
+								?>
+								<li>
+									<a href="<?php echo esc_url( get_permalink( $fp->ID ) ); ?>"><img src="<?php echo esc_url( $fp_thumb ); ?>" alt="<?php echo esc_attr( get_the_title( $fp->ID ) ); ?>" /></a>
+								</li>
+							<?php endforeach; ?>
 						</ul>
-						<p><?= $footer_lang === 'en' ? 'For more products and offers, click here!' : 'მეტი პროდუქტისა და შეთავაზებისთვის დააჭირეთ აქ!'; ?></p>
-						<a href="<?= esc_url( $footer_shop_url ); ?>" class="btn1"><?= $footer_lang === 'en' ? 'Shop' : 'მაღაზია'; ?></a>
+						<?php endif; ?>
+						<p><?php echo esc_html( mygun_opt( 'footer_shop_text', mygun_t( 'For more products and offers, click here!', 'მეტი პროდუქტისა და შეთავაზებისთვის დააჭირეთ აქ!', 'Больше товаров и предложений — нажмите здесь!' ) ) ); ?></p>
+						<a href="<?php echo esc_url( $footer_shop_url ); ?>" class="btn1"><?php echo esc_html( mygun_t( 'Shop', 'მაღაზია', 'Магазин' ) ); ?></a>
 					</div>
 				</div>
 			</div>
@@ -63,14 +97,15 @@ $footer_shop_url = mygun_get_shop_page_url();
 			<div class="row">
 				<div class="col-md-6 col-sm-12">
 					<div class="copyright sm-t-center">
-						<p><?= $footer_lang === 'en' ? 'Copyright' : 'საავტორო უფლება'; ?> © 2025 <a href="#"><span>Weapon</span></a></p>
+						<p><?php echo esc_html( $footer_copy ); ?></p>
 					</div>
 				</div>
 				<div class="col-md-6 col-sm-12">
 					<div class="foo-links sm-t-center">
 						<ul>
-							<li><a href="#"><?= $footer_lang === 'en' ? 'Privacy Policy' : 'კონფიდენციალურობის პოლიტიკა'; ?></a></li>
-							<li><a href="#"><?= $footer_lang === 'en' ? 'Terms & Conditions' : 'წესები და პირობები'; ?></a></li>
+							<?php foreach ( $footer_bottom_links as $fl ) : ?>
+								<li><a href="<?php echo esc_url( $fl['url'] ? $fl['url'] : '#' ); ?>"><?php echo esc_html( $fl['text'] ); ?></a></li>
+							<?php endforeach; ?>
 						</ul>
 					</div>
 				</div>
@@ -141,7 +176,7 @@ $footer_shop_url = mygun_get_shop_page_url();
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="loginModalLabel"><i class="fas fa-sign-in-alt"></i> <?= $lang === 'en' ? 'Authorization' : 'ავტორიზაცია'; ?></h4>
+				<h4 class="modal-title" id="loginModalLabel"><i class="fas fa-sign-in-alt"></i> <?= mygun_t( 'Authorization', 'ავტორიზაცია', 'Авторизация' ); ?></h4>
 				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -149,13 +184,13 @@ $footer_shop_url = mygun_get_shop_page_url();
 				<form id="loginForm" novalidate>
 					<?php wp_nonce_field( 'mygun_login_nonce', 'login_nonce' ); ?>
 					<div class="form-group">
-						<label for="login_username"><i class="fas fa-user"></i> <?= $lang === 'en' ? 'Username or Email' : 'მომხმარებლის სახელი ან ელფოსტა'; ?></label>
-						<input type="text" class="form-control" id="login_username" name="login_username" required placeholder="<?= $lang === 'en' ? 'Enter username or email' : 'შეიყვანეთ სახელი ან ელფოსტა'; ?>">
+						<label for="login_username"><i class="fas fa-user"></i> <?= mygun_t( 'Username or Email', 'მომხმარებლის სახელი ან ელფოსტა', 'Имя пользователя или Email' ); ?></label>
+						<input type="text" class="form-control" id="login_username" name="login_username" required placeholder="<?= mygun_t( 'Enter username or email', 'შეიყვანეთ სახელი ან ელფოსტა', 'Введите имя или email' ); ?>">
 					</div>
 					<div class="form-group">
-						<label for="login_password"><i class="fas fa-lock"></i> <?= $lang === 'en' ? 'Password' : 'პაროლი'; ?></label>
+						<label for="login_password"><i class="fas fa-lock"></i> <?= mygun_t( 'Password', 'პაროლი', 'Пароль' ); ?></label>
 						<div class="password-field">
-							<input type="password" class="form-control" id="login_password" name="login_password" required placeholder="<?= $lang === 'en' ? 'Enter password' : 'შეიყვანეთ პაროლი'; ?>">
+							<input type="password" class="form-control" id="login_password" name="login_password" required placeholder="<?= mygun_t( 'Enter password', 'შეიყვანეთ პაროლი', 'Введите пароль' ); ?>">
 							<button type="button" class="toggle-password" data-target="#login_password">
 								<i class="fas fa-eye"></i>
 							</button>
@@ -165,17 +200,17 @@ $footer_shop_url = mygun_get_shop_page_url();
 						<label class="custom-checkbox">
 							<input type="checkbox" name="remember_me" value="1">
 							<span class="checkmark"></span>
-							<?= $lang === 'en' ? 'Remember me' : 'დამიმახსოვრე'; ?>
+							<?= mygun_t( 'Remember me', 'დამიმახსოვრე', 'Запомнить меня' ); ?>
 						</label>
 					</div>
 					<button type="submit" class="auth-submit-btn" id="loginSubmit">
-						<span class="btn-text"><?= $lang === 'en' ? 'Login' : 'შესვლა'; ?></span>
+						<span class="btn-text"><?= mygun_t( 'Login', 'შესვლა', 'Вход' ); ?></span>
 						<span class="btn-loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
 					</button>
 				</form>
 				<div class="auth-footer">
-					<p><?= $lang === 'en' ? "Don't have an account?" : 'არ გაქვთ ანგარიში?'; ?> <a href="#" class="switch-modal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal"><?= $lang === 'en' ? 'Register' : 'რეგისტრაცია'; ?></a></p>
-					<p><a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" class="forgot-password-link"><?= $lang === 'en' ? 'Forgot password?' : 'დაგავიწყდათ პაროლი?'; ?></a></p>
+					<p><?= mygun_t( "Don't have an account?", 'არ გაქვთ ანგარიში?', 'Нет аккаунта?' ); ?> <a href="#" class="switch-modal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal"><?= mygun_t( 'Register', 'რეგისტრაცია', 'Регистрация' ); ?></a></p>
+					<p><a href="<?php echo esc_url( wp_lostpassword_url() ); ?>" class="forgot-password-link"><?= mygun_t( 'Forgot password?', 'დაგავიწყდათ პაროლი?', 'Забыли пароль?' ); ?></a></p>
 				</div>
 			</div>
 		</div>
@@ -187,7 +222,7 @@ $footer_shop_url = mygun_get_shop_page_url();
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="registerModalLabel"><i class="fas fa-user-plus"></i> <?= $lang === 'en' ? 'Registration' : 'რეგისტრაცია'; ?></h4>
+				<h4 class="modal-title" id="registerModalLabel"><i class="fas fa-user-plus"></i> <?= mygun_t( 'Registration', 'რეგისტრაცია', 'Регистрация' ); ?></h4>
 				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -195,17 +230,17 @@ $footer_shop_url = mygun_get_shop_page_url();
 				<form id="registerForm" novalidate>
 					<?php wp_nonce_field( 'mygun_register_nonce', 'register_nonce' ); ?>
 					<div class="form-group">
-						<label for="reg_username"><i class="fas fa-user"></i> <?= $lang === 'en' ? 'Username' : 'მომხმარებლის სახელი'; ?></label>
-						<input type="text" class="form-control" id="reg_username" name="reg_username" required placeholder="<?= $lang === 'en' ? 'Enter username' : 'შეიყვანეთ სახელი'; ?>" minlength="3">
+						<label for="reg_username"><i class="fas fa-user"></i> <?= mygun_t( 'Username', 'მომხმარებლის სახელი', 'Имя пользователя' ); ?></label>
+						<input type="text" class="form-control" id="reg_username" name="reg_username" required placeholder="<?= mygun_t( 'Enter username', 'შეიყვანეთ სახელი', 'Введите имя' ); ?>" minlength="3">
 					</div>
 					<div class="form-group">
-						<label for="reg_email"><i class="fas fa-envelope"></i> <?= $lang === 'en' ? 'Email' : 'ელფოსტა'; ?></label>
-						<input type="email" class="form-control" id="reg_email" name="reg_email" required placeholder="<?= $lang === 'en' ? 'Enter email' : 'შეიყვანეთ ელფოსტა'; ?>">
+						<label for="reg_email"><i class="fas fa-envelope"></i> <?= mygun_t( 'Email', 'ელფოსტა', 'Email' ); ?></label>
+						<input type="email" class="form-control" id="reg_email" name="reg_email" required placeholder="<?= mygun_t( 'Enter email', 'შეიყვანეთ ელფოსტა', 'Введите email' ); ?>">
 					</div>
 					<div class="form-group">
-						<label for="reg_password"><i class="fas fa-lock"></i> <?= $lang === 'en' ? 'Password' : 'პაროლი'; ?></label>
+						<label for="reg_password"><i class="fas fa-lock"></i> <?= mygun_t( 'Password', 'პაროლი', 'Пароль' ); ?></label>
 						<div class="password-field">
-							<input type="password" class="form-control" id="reg_password" name="reg_password" required placeholder="<?= $lang === 'en' ? 'Enter password' : 'შეიყვანეთ პაროლი'; ?>" minlength="6">
+							<input type="password" class="form-control" id="reg_password" name="reg_password" required placeholder="<?= mygun_t( 'Enter password', 'შეიყვანეთ პაროლი', 'Введите пароль' ); ?>" minlength="6">
 							<button type="button" class="toggle-password" data-target="#reg_password">
 								<i class="fas fa-eye"></i>
 							</button>
@@ -213,21 +248,21 @@ $footer_shop_url = mygun_get_shop_page_url();
 						<div class="password-strength" id="passwordStrength"></div>
 					</div>
 					<div class="form-group">
-						<label for="reg_password_confirm"><i class="fas fa-lock"></i> <?= $lang === 'en' ? 'Confirm Password' : 'გაიმეორეთ პაროლი'; ?></label>
+						<label for="reg_password_confirm"><i class="fas fa-lock"></i> <?= mygun_t( 'Confirm Password', 'გაიმეორეთ პაროლი', 'Повторите пароль' ); ?></label>
 						<div class="password-field">
-							<input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" required placeholder="<?= $lang === 'en' ? 'Confirm password' : 'გაიმეორეთ პაროლი'; ?>">
+							<input type="password" class="form-control" id="reg_password_confirm" name="reg_password_confirm" required placeholder="<?= mygun_t( 'Confirm password', 'გაიმეორეთ პაროლი', 'Повторите пароль' ); ?>">
 							<button type="button" class="toggle-password" data-target="#reg_password_confirm">
 								<i class="fas fa-eye"></i>
 							</button>
 						</div>
 					</div>
 					<button type="submit" class="auth-submit-btn" id="registerSubmit">
-						<span class="btn-text"><?= $lang === 'en' ? 'Register' : 'რეგისტრაცია'; ?></span>
+						<span class="btn-text"><?= mygun_t( 'Register', 'რეგისტრაცია', 'Регистрация' ); ?></span>
 						<span class="btn-loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i></span>
 					</button>
 				</form>
 				<div class="auth-footer">
-					<p><?= $lang === 'en' ? 'Already have an account?' : 'უკვე გაქვთ ანგარიში?'; ?> <a href="#" class="switch-modal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal"><?= $lang === 'en' ? 'Login' : 'შესვლა'; ?></a></p>
+					<p><?= mygun_t( 'Already have an account?', 'უკვე გაქვთ ანგარიში?', 'Уже есть аккаунт?' ); ?> <a href="#" class="switch-modal" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal"><?= mygun_t( 'Login', 'შესვლა', 'Вход' ); ?></a></p>
 				</div>
 			</div>
 		</div>

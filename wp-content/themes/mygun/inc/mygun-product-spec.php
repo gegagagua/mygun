@@ -282,7 +282,7 @@ function mygun_product_spec_term_label( $term, $lang = 'ka' ) {
 	$name = $term->name;
 	if ( strpos( $name, ' / ' ) !== false ) {
 		$parts = explode( ' / ', $name, 2 );
-		return $lang === 'en' ? trim( $parts[1] ) : trim( $parts[0] );
+		return $lang === 'ka' ? trim( $parts[0] ) : trim( $parts[1] );
 	}
 	return $name;
 }
@@ -294,17 +294,17 @@ function mygun_product_spec_term_label( $term, $lang = 'ka' ) {
  */
 function mygun_product_spec_public_tax_labels() {
 	return array(
-		'mygun_charging'      => array( 'ka' => 'დატენვის მექანიზმი', 'en' => 'Charging mechanism' ),
-		'mygun_caliber'       => array( 'ka' => 'კალიბრი', 'en' => 'Caliber' ),
-		'mygun_firearm_type'  => array( 'ka' => 'ცეცხლსასროლი იარაღის სახეობა', 'en' => 'Firearm type' ),
-		'mygun_stock'         => array( 'ka' => 'კონდახი', 'en' => 'Stock' ),
-		'mygun_double_barrel' => array( 'ka' => 'ორლულიანი', 'en' => 'Double-barrel' ),
-		'mygun_location'      => array( 'ka' => 'მდებარეობა', 'en' => 'Location' ),
-		'mygun_delivery'      => array( 'ka' => 'მიწოდების ფორმა', 'en' => 'Delivery' ),
-		'mygun_installment'   => array( 'ka' => 'განვადებით', 'en' => 'Installment' ),
-		'mygun_item_state'    => array( 'ka' => 'ნივთის მდგომარეობა', 'en' => 'Condition' ),
-		'mygun_seller'        => array( 'ka' => 'გამყიდველის ტიპი', 'en' => 'Seller type' ),
-		'mygun_body'          => array( 'ka' => 'კორპუსი', 'en' => 'Body' ),
+		'mygun_charging'      => array( 'ka' => 'დატენვის მექანიზმი', 'en' => 'Charging mechanism', 'ru' => 'Механизм заряжания' ),
+		'mygun_caliber'       => array( 'ka' => 'კალიბრი', 'en' => 'Caliber', 'ru' => 'Калибр' ),
+		'mygun_firearm_type'  => array( 'ka' => 'ცეცხლსასროლი იარაღის სახეობა', 'en' => 'Firearm type', 'ru' => 'Тип оружия' ),
+		'mygun_stock'         => array( 'ka' => 'კონდახი', 'en' => 'Stock', 'ru' => 'Приклад' ),
+		'mygun_double_barrel' => array( 'ka' => 'ორლულიანი', 'en' => 'Double-barrel', 'ru' => 'Двуствольное' ),
+		'mygun_location'      => array( 'ka' => 'მდებარეობა', 'en' => 'Location', 'ru' => 'Местоположение' ),
+		'mygun_delivery'      => array( 'ka' => 'მიწოდების ფორმა', 'en' => 'Delivery', 'ru' => 'Доставка' ),
+		'mygun_installment'   => array( 'ka' => 'განვადებით', 'en' => 'Installment', 'ru' => 'Рассрочка' ),
+		'mygun_item_state'    => array( 'ka' => 'ნივთის მდგომარეობა', 'en' => 'Condition', 'ru' => 'Состояние' ),
+		'mygun_seller'        => array( 'ka' => 'გამყიდველის ტიპი', 'en' => 'Seller type', 'ru' => 'Тип продавца' ),
+		'mygun_body'          => array( 'ka' => 'კორპუსი', 'en' => 'Body', 'ru' => 'Корпус' ),
 	);
 }
 
@@ -339,28 +339,28 @@ function mygun_render_product_specifications( $post_id, $lang = 'ka' ) {
 
 	$rows   = array();
 	$labels = mygun_product_spec_public_tax_labels();
-	$lk     = $lang === 'en' ? 'en' : 'ka';
+	$lk     = in_array( $lang, array( 'ka', 'en', 'ru' ), true ) ? $lang : 'ka';
 
 	$optics = get_post_meta( $post_id, '_mygun_optics', true );
 	if ( 'yes' === $optics || 'no' === $optics ) {
 		$rows[] = array(
-			'label' => 'en' === $lang ? 'Optics' : 'ოპტიკა',
-			'value' => 'yes' === $optics ? ( 'en' === $lang ? 'Yes' : 'დიახ' ) : ( 'en' === $lang ? 'No' : 'არა' ),
+			'label' => mygun_t( 'Optics', 'ოპტიკა', 'Оптика' ),
+			'value' => 'yes' === $optics ? ( mygun_t( 'Yes', 'დიახ', 'Да' ) ) : ( mygun_t( 'No', 'არა', 'Нет' ) ),
 		);
 	}
 
 	$stock_inc = get_post_meta( $post_id, '_mygun_stock_included', true );
 	if ( 'yes' === $stock_inc || 'no' === $stock_inc ) {
 		$rows[] = array(
-			'label' => 'en' === $lang ? 'Stock' : 'კონდახი',
-			'value' => 'yes' === $stock_inc ? ( 'en' === $lang ? 'Yes' : 'დიახ' ) : ( 'en' === $lang ? 'No' : 'არა' ),
+			'label' => mygun_t( 'Stock', 'კონდახი', 'Приклад' ),
+			'value' => 'yes' === $stock_inc ? ( mygun_t( 'Yes', 'დიახ', 'Да' ) ) : ( mygun_t( 'No', 'არა', 'Нет' ) ),
 		);
 	}
 
 	$mag = get_post_meta( $post_id, '_mygun_mag_capacity', true );
 	if ( $mag !== '' && $mag !== null && is_numeric( $mag ) ) {
 		$rows[] = array(
-			'label' => 'en' === $lang ? 'Magazine capacity' : 'მჭიდის ტევადობა',
+			'label' => mygun_t( 'Magazine capacity', 'მჭიდის ტევადობა', 'Ёмкость магазина' ),
 			'value' => (string) (int) $mag,
 		);
 	}
@@ -368,7 +368,7 @@ function mygun_render_product_specifications( $post_id, $lang = 'ka' ) {
 	$len = get_post_meta( $post_id, '_mygun_length_mm', true );
 	if ( $len !== '' && $len !== null && is_numeric( $len ) ) {
 		$rows[] = array(
-			'label' => 'en' === $lang ? 'Length (mm)' : 'სიგრძე',
+			'label' => mygun_t( 'Length (mm)', 'სიგრძე', 'Длина (мм)' ),
 			'value' => (string) (int) $len,
 		);
 	}
@@ -376,7 +376,7 @@ function mygun_render_product_specifications( $post_id, $lang = 'ka' ) {
 	$weight = get_post_meta( $post_id, '_mygun_weight_g', true );
 	if ( $weight !== '' && $weight !== null && is_numeric( $weight ) ) {
 		$rows[] = array(
-			'label' => 'en' === $lang ? 'Weight (g)' : 'წონა',
+			'label' => mygun_t( 'Weight (g)', 'წონა', 'Вес (г)' ),
 			'value' => (string) (int) $weight,
 		);
 	}
@@ -386,7 +386,7 @@ function mygun_render_product_specifications( $post_id, $lang = 'ka' ) {
 		$mfc_label = function_exists( 'mygun_manufacturer_country_label' ) ? mygun_manufacturer_country_label( (string) $mfc_country, $lang ) : '';
 		if ( $mfc_label !== '' ) {
 			$rows[] = array(
-				'label' => 'en' === $lang ? 'Country of manufacture' : 'მწარმოებელი ქვეყანა',
+				'label' => mygun_t( 'Country of manufacture', 'მწარმოებელი ქვეყანა', 'Страна производства' ),
 				'value' => $mfc_label,
 			);
 		}
@@ -405,7 +405,7 @@ function mygun_render_product_specifications( $post_id, $lang = 'ka' ) {
 		if ( empty( $parts ) ) {
 			continue;
 		}
-		$lab = isset( $labels[ $tax ] ) ? $labels[ $tax ][ $lk ] : $admin_lbl;
+		$lab = isset( $labels[ $tax ][ $lk ] ) ? $labels[ $tax ][ $lk ] : ( isset( $labels[ $tax ]['en'] ) ? $labels[ $tax ]['en'] : $admin_lbl );
 		$rows[] = array(
 			'label' => $lab,
 			'value' => implode( ', ', $parts ),
@@ -416,7 +416,7 @@ function mygun_render_product_specifications( $post_id, $lang = 'ka' ) {
 		return;
 	}
 
-	$heading = 'en' === $lang ? 'Specifications' : 'მახასიათებლები';
+	$heading = mygun_t( 'Specifications', 'მახასიათებლები', 'Характеристики' );
 	echo '<div class="product-single-specs">';
 	echo '<h2 class="product-single-specs-title">' . esc_html( $heading ) . '</h2>';
 	echo '<dl class="product-single-specs-list">';

@@ -33,9 +33,9 @@ if ( in_array( get_post_type(), array( 'news', 'post' ), true ) ) :
 		<div class="container">
 			<div class="news-single-hero-content">
 				<div class="news-single-breadcrumb">
-					<a href="<?= esc_url( home_url() ); ?>"><?= $lang === 'en' ? 'Home' : 'მთავარი'; ?></a>
+					<a href="<?= esc_url( home_url() ); ?>"><?= mygun_t( 'Home', 'მთავარი', 'Главная' ); ?></a>
 					<span>/</span>
-					<a href="<?= esc_url( $news_page_url ); ?>"><?= $lang === 'en' ? 'News' : 'სიახლეები'; ?></a>
+					<a href="<?= esc_url( $news_page_url ); ?>"><?= mygun_t( 'News', 'სიახლეები', 'Новости' ); ?></a>
 					<span>/</span>
 					<span class="current"><?php the_title(); ?></span>
 				</div>
@@ -66,7 +66,7 @@ if ( in_array( get_post_type(), array( 'news', 'post' ), true ) ) :
 
 						<!-- Share -->
 						<div class="news-single-share">
-							<span class="share-label"><?= $lang === 'en' ? 'Share:' : 'გაზიარება:'; ?></span>
+							<span class="share-label"><?= mygun_t( 'Share:', 'გაზიარება:', 'Поделиться:' ); ?></span>
 							<a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode( get_permalink() ); ?>" target="_blank" rel="noopener" class="share-btn share-fb"><i class="fab fa-facebook-f"></i></a>
 							<a href="https://twitter.com/intent/tweet?url=<?= urlencode( get_permalink() ); ?>&text=<?= urlencode( get_the_title() ); ?>" target="_blank" rel="noopener" class="share-btn share-tw"><i class="fab fa-twitter"></i></a>
 							<a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= urlencode( get_permalink() ); ?>" target="_blank" rel="noopener" class="share-btn share-li"><i class="fab fa-linkedin-in"></i></a>
@@ -81,7 +81,7 @@ if ( in_array( get_post_type(), array( 'news', 'post' ), true ) ) :
 							<div class="news-nav-item news-nav-prev">
 								<?php if ( $prev_post ) : ?>
 									<a href="<?= get_permalink( $prev_post->ID ); ?>">
-										<span class="news-nav-label"><i class="fas fa-arrow-left"></i> <?= $lang === 'en' ? 'Previous' : 'წინა'; ?></span>
+										<span class="news-nav-label"><i class="fas fa-arrow-left"></i> <?= mygun_t( 'Previous', 'წინა', 'Назад' ); ?></span>
 										<span class="news-nav-title"><?= esc_html( $prev_post->post_title ); ?></span>
 									</a>
 								<?php endif; ?>
@@ -89,7 +89,7 @@ if ( in_array( get_post_type(), array( 'news', 'post' ), true ) ) :
 							<div class="news-nav-item news-nav-next">
 								<?php if ( $next_post ) : ?>
 									<a href="<?= get_permalink( $next_post->ID ); ?>">
-										<span class="news-nav-label"><?= $lang === 'en' ? 'Next' : 'შემდეგი'; ?> <i class="fas fa-arrow-right"></i></span>
+										<span class="news-nav-label"><?= mygun_t( 'Next', 'შემდეგი', 'Вперёд' ); ?> <i class="fas fa-arrow-right"></i></span>
 										<span class="news-nav-title"><?= esc_html( $next_post->post_title ); ?></span>
 									</a>
 								<?php endif; ?>
@@ -119,7 +119,7 @@ if ( in_array( get_post_type(), array( 'news', 'post' ), true ) ) :
 					if ( $related->have_posts() ) :
 					?>
 						<div class="news-related">
-							<h3 class="news-related-title"><?= $lang === 'en' ? 'Related News' : 'მსგავსი სიახლეები'; ?></h3>
+							<h3 class="news-related-title"><?= mygun_t( 'Related News', 'მსგავსი სიახლეები', 'Похожие новости' ); ?></h3>
 							<div class="row">
 								<?php while ( $related->have_posts() ) : $related->the_post(); ?>
 									<div class="col-md-4">

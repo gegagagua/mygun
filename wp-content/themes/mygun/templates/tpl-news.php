@@ -22,8 +22,8 @@ $news_query = new WP_Query( array(
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 text-center">
-				<h2 class="page-title-heading"><?= $lang === 'en' ? 'News' : 'სიახლეები'; ?></h2>
-				<p class="page-title-sub"><?= $lang === 'en' ? 'Latest news and updates' : 'უახლესი სიახლეები და განახლებები'; ?></p>
+				<h2 class="page-title-heading"><?= mygun_t( 'News', 'სიახლეები', 'Новости' ); ?></h2>
+				<p class="page-title-sub"><?= mygun_t( 'Latest news and updates', 'უახლესი სიახლეები და განახლებები', 'Последние новости и обновления' ); ?></p>
 			</div>
 		</div>
 	</div>
@@ -67,7 +67,7 @@ $news_query = new WP_Query( array(
 								</h3>
 								<p class="news-card-excerpt"><?= wp_trim_words( get_the_excerpt(), 18, '...' ); ?></p>
 								<a href="<?php the_permalink(); ?>" class="news-card-link">
-									<?= $lang === 'en' ? 'Read More' : 'სრულად'; ?> <i class="fas fa-arrow-right"></i>
+									<?= mygun_t( 'Read More', 'სრულად', 'Подробнее' ); ?> <i class="fas fa-arrow-right"></i>
 								</a>
 							</div>
 						</article>
@@ -93,7 +93,7 @@ $news_query = new WP_Query( array(
 		<?php else : ?>
 			<div class="no-news-msg">
 				<i class="fas fa-newspaper"></i>
-				<p><?= $lang === 'en' ? 'No news articles found.' : 'სიახლეები ვერ მოიძებნა.'; ?></p>
+				<p><?= mygun_t( 'No news articles found.', 'სიახლეები ვერ მოიძებნა.', 'Новостей не найдено.' ); ?></p>
 			</div>
 		<?php endif; ?>
 

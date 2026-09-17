@@ -29,8 +29,8 @@ $ap_locations = get_terms( array(
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 text-center">
-				<h2 class="page-title-heading"><?= $lang === 'en' ? 'Add Product' : 'პროდუქტის დამატება'; ?></h2>
-				<p class="page-title-sub"><?= $lang === 'en' ? 'Fill in the details below to list your product' : 'შეავსეთ ქვემოთ მოცემული ველები პროდუქტის დასამატებლად'; ?></p>
+				<h2 class="page-title-heading"><?= mygun_t( 'Add Product', 'პროდუქტის დამატება', 'Добавить товар' ); ?></h2>
+				<p class="page-title-sub"><?= mygun_t( 'Fill in the details below to list your product', 'შეავსეთ ქვემოთ მოცემული ველები პროდუქტის დასამატებლად', 'Заполните поля ниже, чтобы разместить товар' ); ?></p>
 			</div>
 		</div>
 	</div>
@@ -52,10 +52,10 @@ $ap_locations = get_terms( array(
 						<div class="ap-form-group">
 							<label for="product_title">
 								<i class="fas fa-tag"></i>
-								<?= $lang === 'en' ? 'Product Name' : 'პროდუქტის სახელი'; ?> <span class="required">*</span>
+								<?= mygun_t( 'Product Name', 'პროდუქტის სახელი', 'Название товара' ); ?> <span class="required">*</span>
 							</label>
 							<input type="text" class="ap-form-control" id="product_title" name="product_title" required
-								placeholder="<?= $lang === 'en' ? 'Enter product name' : 'შეიყვანეთ პროდუქტის სახელი'; ?>">
+								placeholder="<?= mygun_t( 'Enter product name', 'შეიყვანეთ პროდუქტის სახელი', 'Введите название товара' ); ?>">
 						</div>
 
 						<!-- Two columns: Price + Condition -->
@@ -64,22 +64,22 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="product_price">
 										<i class="fas fa-dollar-sign"></i>
-										<?= $lang === 'en' ? 'Price' : 'ფასი'; ?> (₾) <span class="required">*</span>
+										<?= mygun_t( 'Price', 'ფასი', 'Цена' ); ?> (₾) <span class="required">*</span>
 									</label>
 									<input type="number" class="ap-form-control" id="product_price" name="product_price" required
 										min="0" step="0.01"
-										placeholder="<?= $lang === 'en' ? 'Enter price' : 'შეიყვანეთ ფასი'; ?>">
+										placeholder="<?= mygun_t( 'Enter price', 'შეიყვანეთ ფასი', 'Введите цену' ); ?>">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="ap-form-group">
 									<label for="product_condition">
 										<i class="fas fa-check-circle"></i>
-										<?= $lang === 'en' ? 'Condition' : 'მდგომარეობა'; ?>
+										<?= mygun_t( 'Condition', 'მდგომარეობა', 'Состояние' ); ?>
 									</label>
 									<select class="ap-form-control" id="product_condition" name="product_condition">
-										<option value="new"><?= $lang === 'en' ? 'New' : 'ახალი'; ?></option>
-										<option value="used"><?= $lang === 'en' ? 'Used' : 'მეორადი'; ?></option>
+										<option value="new"><?= mygun_t( 'New', 'ახალი', 'Новое' ); ?></option>
+										<option value="used"><?= mygun_t( 'Used', 'მეორადი', 'Б/у' ); ?></option>
 									</select>
 								</div>
 							</div>
@@ -91,10 +91,10 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="product_category">
 										<i class="fas fa-folder"></i>
-										<?= $lang === 'en' ? 'Category' : 'კატეგორია'; ?>
+										<?= mygun_t( 'Category', 'კატეგორია', 'Категория' ); ?>
 									</label>
 									<select class="ap-form-control" id="product_category" name="product_category">
-										<option value="0"><?= $lang === 'en' ? '-- Select Category --' : '-- აირჩიეთ კატეგორია --'; ?></option>
+										<option value="0"><?= mygun_t( '-- Select Category --', '-- აირჩიეთ კატეგორია --', '-- Выберите категорию --' ); ?></option>
 										<?php if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) : ?>
 											<?php foreach ( $categories as $cat ) : ?>
 												<option value="<?= esc_attr( $cat->term_id ); ?>"><?= esc_html( $cat->name ); ?></option>
@@ -107,10 +107,10 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="mygun_location">
 										<i class="fas fa-map-marker-alt"></i>
-										<?= $lang === 'en' ? 'Location' : 'მდებარეობა'; ?>
+										<?= mygun_t( 'Location', 'მდებარეობა', 'Местоположение' ); ?>
 									</label>
 									<select class="ap-form-control" id="mygun_location" name="mygun_location">
-										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<option value=""><?= mygun_t( '— Not set —', '— არ არის არჩეული —', '— Не указано —' ); ?></option>
 										<?php if ( ! empty( $ap_locations ) && ! is_wp_error( $ap_locations ) ) : ?>
 											<?php foreach ( $ap_locations as $ap_loc ) : ?>
 												<option value="<?= esc_attr( $ap_loc->slug ); ?>">
@@ -148,10 +148,10 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="mygun_caliber">
 										<i class="fas fa-bullseye"></i>
-										<?= $lang === 'en' ? 'Caliber' : 'კალიბრი'; ?>
+										<?= mygun_t( 'Caliber', 'კალიბრი', 'Калибр' ); ?>
 									</label>
 									<select class="ap-form-control" id="mygun_caliber" name="mygun_caliber">
-										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<option value=""><?= mygun_t( '— Not set —', '— არ არის არჩეული —', '— Не указано —' ); ?></option>
 										<?php if ( ! empty( $ap_calibers ) && ! is_wp_error( $ap_calibers ) ) : ?>
 											<?php foreach ( $ap_calibers as $ap_term ) : ?>
 												<option value="<?= esc_attr( $ap_term->slug ); ?>">
@@ -166,10 +166,10 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="mygun_firearm_type">
 										<i class="fas fa-crosshairs"></i>
-										<?= $lang === 'en' ? 'Firearm type' : 'ცეცხლსასროლი იარაღის სახეობა'; ?>
+										<?= mygun_t( 'Firearm type', 'ცეცხლსასროლი იარაღის სახეობა', 'Тип оружия' ); ?>
 									</label>
 									<select class="ap-form-control" id="mygun_firearm_type" name="mygun_firearm_type">
-										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<option value=""><?= mygun_t( '— Not set —', '— არ არის არჩეული —', '— Не указано —' ); ?></option>
 										<?php if ( ! empty( $ap_firearm_types ) && ! is_wp_error( $ap_firearm_types ) ) : ?>
 											<?php foreach ( $ap_firearm_types as $ap_term ) : ?>
 												<option value="<?= esc_attr( $ap_term->slug ); ?>">
@@ -187,12 +187,12 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="mygun_stock_included">
 										<i class="fas fa-grip-lines-vertical"></i>
-										<?= $lang === 'en' ? 'Stock (buttstock)' : 'კონდახი'; ?>
+										<?= mygun_t( 'Stock (buttstock)', 'კონდახი', 'Приклад' ); ?>
 									</label>
 									<select class="ap-form-control" id="mygun_stock_included" name="mygun_stock_included">
-										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
-										<option value="yes"><?= $lang === 'en' ? 'Yes' : 'დიახ'; ?></option>
-										<option value="no"><?= $lang === 'en' ? 'No' : 'არა'; ?></option>
+										<option value=""><?= mygun_t( '— Not set —', '— არ არის არჩეული —', '— Не указано —' ); ?></option>
+										<option value="yes"><?= mygun_t( 'Yes', 'დიახ', 'Да' ); ?></option>
+										<option value="no"><?= mygun_t( 'No', 'არა', 'Нет' ); ?></option>
 									</select>
 								</div>
 							</div>
@@ -200,10 +200,10 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="mygun_body">
 										<i class="fas fa-cube"></i>
-										<?= $lang === 'en' ? 'Body' : 'კორპუსი'; ?>
+										<?= mygun_t( 'Body', 'კორპუსი', 'Корпус' ); ?>
 									</label>
 									<select class="ap-form-control" id="mygun_body" name="mygun_body">
-										<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+										<option value=""><?= mygun_t( '— Not set —', '— არ არის არჩეული —', '— Не указано —' ); ?></option>
 										<?php if ( ! empty( $ap_bodies ) && ! is_wp_error( $ap_bodies ) ) : ?>
 											<?php foreach ( $ap_bodies as $ap_term ) : ?>
 												<option value="<?= esc_attr( $ap_term->slug ); ?>">
@@ -221,20 +221,20 @@ $ap_locations = get_terms( array(
 								<div class="ap-form-group">
 									<label for="mygun_length_mm">
 										<i class="fas fa-ruler-horizontal"></i>
-										<?= $lang === 'en' ? 'Length (mm)' : 'სიგრძე (მმ)'; ?>
+										<?= mygun_t( 'Length (mm)', 'სიგრძე (მმ)', 'Длина (мм)' ); ?>
 									</label>
 									<input type="number" class="ap-form-control" id="mygun_length_mm" name="mygun_length_mm" min="0" step="1"
-										placeholder="<?= $lang === 'en' ? 'Optional' : 'არასავალდებულო'; ?>">
+										placeholder="<?= mygun_t( 'Optional', 'არასავალდებულო', 'Необязательно' ); ?>">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="ap-form-group">
 									<label for="mygun_weight_g">
 										<i class="fas fa-weight-hanging"></i>
-										<?= $lang === 'en' ? 'Weight (g)' : 'წონა (გრ)'; ?>
+										<?= mygun_t( 'Weight (g)', 'წონა (გრ)', 'Вес (г)' ); ?>
 									</label>
 									<input type="number" class="ap-form-control" id="mygun_weight_g" name="mygun_weight_g" min="0" step="1"
-										placeholder="<?= $lang === 'en' ? 'Optional' : 'არასავალდებულო'; ?>">
+										placeholder="<?= mygun_t( 'Optional', 'არასავალდებულო', 'Необязательно' ); ?>">
 								</div>
 							</div>
 						</div>
@@ -245,13 +245,13 @@ $ap_locations = get_terms( array(
 						<div class="ap-form-group">
 							<label for="mygun_manufacturer_country">
 								<i class="fas fa-globe"></i>
-								<?= $lang === 'en' ? 'Country of manufacture' : 'მწარმოებელი ქვეყანა'; ?>
+								<?= mygun_t( 'Country of manufacture', 'მწარმოებელი ქვეყანა', 'Страна производства' ); ?>
 							</label>
 							<select class="ap-form-control" id="mygun_manufacturer_country" name="mygun_manufacturer_country">
-								<option value=""><?= $lang === 'en' ? '— Not set —' : '— არ არის არჩეული —'; ?></option>
+								<option value=""><?= mygun_t( '— Not set —', '— არ არის არჩეული —', '— Не указано —' ); ?></option>
 								<?php foreach ( $ap_countries as $cc_slug => $cc_pair ) : ?>
 									<option value="<?= esc_attr( $cc_slug ); ?>">
-										<?= esc_html( $lang === 'en' ? $cc_pair['en'] : $cc_pair['ka'] ); ?>
+										<?= esc_html( $lang === 'ka' ? $cc_pair['ka'] : $cc_pair['en'] ); ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
@@ -261,34 +261,34 @@ $ap_locations = get_terms( array(
 						<div class="ap-form-group">
 							<label for="product_phone">
 								<i class="fas fa-phone"></i>
-								<?= $lang === 'en' ? 'Phone Number' : 'ტელეფონის ნომერი'; ?>
+								<?= mygun_t( 'Phone Number', 'ტელეფონის ნომერი', 'Номер телефона' ); ?>
 							</label>
 							<input type="tel" class="ap-form-control" id="product_phone" name="product_phone"
-								placeholder="<?= $lang === 'en' ? 'Enter phone number' : 'შეიყვანეთ ტელეფონის ნომერი'; ?>">
+								placeholder="<?= mygun_t( 'Enter phone number', 'შეიყვანეთ ტელეფონის ნომერი', 'Введите номер телефона' ); ?>">
 						</div>
 
 						<!-- Description -->
 						<div class="ap-form-group">
 							<label for="product_description">
 								<i class="fas fa-align-left"></i>
-								<?= $lang === 'en' ? 'Description' : 'აღწერა'; ?> <span class="required">*</span>
+								<?= mygun_t( 'Description', 'აღწერა', 'Описание' ); ?> <span class="required">*</span>
 							</label>
 							<textarea class="ap-form-control" id="product_description" name="product_description" rows="6" required
-								placeholder="<?= $lang === 'en' ? 'Describe your product in detail...' : 'აღწერეთ პროდუქტი დეტალურად...'; ?>"></textarea>
+								placeholder="<?= mygun_t( 'Describe your product in detail...', 'აღწერეთ პროდუქტი დეტალურად...', 'Опишите товар подробно...' ); ?>"></textarea>
 						</div>
 
 						<!-- Main Image -->
 						<div class="ap-form-group">
 							<label>
 								<i class="fas fa-camera"></i>
-								<?= $lang === 'en' ? 'Main Image' : 'მთავარი სურათი'; ?> <span class="required">*</span>
+								<?= mygun_t( 'Main Image', 'მთავარი სურათი', 'Главное изображение' ); ?> <span class="required">*</span>
 							</label>
 							<div class="ap-file-upload" id="mainImageUpload">
 								<input type="file" id="product_image" name="product_image" accept="image/*" class="ap-file-input">
 								<div class="ap-file-placeholder" id="mainImagePlaceholder">
 									<i class="fas fa-cloud-upload-alt"></i>
-									<p><?= $lang === 'en' ? 'Click or drag to upload main image' : 'დააკლიკეთ ან ჩააგდეთ მთავარი სურათი'; ?></p>
-									<span><?= $lang === 'en' ? 'JPG, PNG, WEBP (max 5MB)' : 'JPG, PNG, WEBP (მაქს. 5MB)'; ?></span>
+									<p><?= mygun_t( 'Click or drag to upload main image', 'დააკლიკეთ ან ჩააგდეთ მთავარი სურათი', 'Нажмите или перетащите главное изображение' ); ?></p>
+									<span><?= mygun_t( 'JPG, PNG, WEBP (max 5MB)', 'JPG, PNG, WEBP (მაქს. 5MB)', 'JPG, PNG, WEBP (макс. 5MB)' ); ?></span>
 								</div>
 								<div class="ap-file-preview" id="mainImagePreview" style="display:none;">
 									<img src="" alt="" id="mainImagePreviewImg">
@@ -301,15 +301,15 @@ $ap_locations = get_terms( array(
 						<div class="ap-form-group">
 							<label>
 								<i class="fas fa-images"></i>
-								<?= $lang === 'en' ? 'Gallery Images' : 'გალერეის სურათები'; ?>
-								<small>(<?= $lang === 'en' ? 'up to 5 images' : 'მაქს. 5 სურათი'; ?>)</small>
+								<?= mygun_t( 'Gallery Images', 'გალერეის სურათები', 'Изображения галереи' ); ?>
+								<small>(<?= mygun_t( 'up to 5 images', 'მაქს. 5 სურათი', 'до 5 изображений' ); ?>)</small>
 							</label>
 							<div class="ap-file-upload ap-gallery-upload" id="galleryUpload">
 								<input type="file" id="product_gallery" name="product_gallery[]" accept="image/*" multiple class="ap-file-input" data-max="5">
 								<div class="ap-file-placeholder" id="galleryPlaceholder">
 									<i class="fas fa-cloud-upload-alt"></i>
-									<p><?= $lang === 'en' ? 'Click or drag to upload gallery images' : 'დააკლიკეთ ან ჩააგდეთ გალერეის სურათები'; ?></p>
-									<span><?= $lang === 'en' ? 'JPG, PNG, WEBP (max 5MB each)' : 'JPG, PNG, WEBP (თითო მაქს. 5MB)'; ?></span>
+									<p><?= mygun_t( 'Click or drag to upload gallery images', 'დააკლიკეთ ან ჩააგდეთ გალერეის სურათები', 'Нажмите или перетащите изображения галереи' ); ?></p>
+									<span><?= mygun_t( 'JPG, PNG, WEBP (max 5MB each)', 'JPG, PNG, WEBP (თითო მაქს. 5MB)', 'JPG, PNG, WEBP (каждое макс. 5MB)' ); ?></span>
 								</div>
 								<div class="ap-gallery-preview" id="galleryPreview"></div>
 							</div>
@@ -317,8 +317,8 @@ $ap_locations = get_terms( array(
 
 						<!-- Submit -->
 						<button type="submit" class="ap-submit-btn" id="addProductSubmit">
-							<span class="btn-text"><i class="fas fa-plus-circle"></i> <?= $lang === 'en' ? 'Add Product' : 'პროდუქტის დამატება'; ?></span>
-							<span class="btn-loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i> <?= $lang === 'en' ? 'Adding...' : 'ემატება...'; ?></span>
+							<span class="btn-text"><i class="fas fa-plus-circle"></i> <?= mygun_t( 'Add Product', 'პროდუქტის დამატება', 'Добавить товар' ); ?></span>
+							<span class="btn-loader" style="display:none;"><i class="fas fa-spinner fa-spin"></i> <?= mygun_t( 'Adding...', 'ემატება...', 'Добавление...' ); ?></span>
 						</button>
 
 					</form>

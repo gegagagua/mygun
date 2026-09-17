@@ -45,11 +45,11 @@ get_header();
                         <?php endif; ?>
 
                         <div class="wighet categories">
-                            <h3><?= $shop_lang === 'en' ? 'Categ<span>ories</span>' : 'კატეგ<span>ორიები</span>'; ?></h3>
+                            <h3><?= mygun_t( 'Categ<span>ories</span>', 'კატეგ<span>ორიები</span>', 'Катег<span>ории</span>' ); ?></h3>
                             <ul>
                                 <li>
                                     <a href="<?php echo esc_url( function_exists( 'mygun_shop_all_products_url' ) ? mygun_shop_all_products_url() : $shop_base_url ); ?>">
-                                        <i class="fa fa-angle-double-right"></i><?= $shop_lang === 'en' ? 'All Products' : 'ყველა პროდუქტი'; ?>
+                                        <i class="fa fa-angle-double-right"></i><?= mygun_t( 'All Products', 'ყველა პროდუქტი', 'Все товары' ); ?>
                                     </a>
                                 </li>
                                 <?php if ( ! empty( $shop_categories ) && ! is_wp_error( $shop_categories ) ) : ?>
@@ -71,20 +71,20 @@ get_header();
                         </div>
 
                         <div class="wighet filter mygun-filter-optics">
-                            <label class="mygun-filter-select-label" for="mygun_shop_optics"><?= $shop_lang === 'en' ? 'Optics' : 'ოპტიკა'; ?></label>
+                            <label class="mygun-filter-select-label" for="mygun_shop_optics"><?= mygun_t( 'Optics', 'ოპტიკა', 'Оптика' ); ?></label>
                             <select id="mygun_shop_optics" name="mygun_optics" class="mygun-filter-select widefat">
-                                <option value="" <?php selected( $shop_optics_get, '' ); ?>><?= $shop_lang === 'en' ? 'All' : 'ყველა'; ?></option>
-                                <option value="yes" <?php selected( $shop_optics_get, 'yes' ); ?>><?= $shop_lang === 'en' ? 'Yes' : 'დიახ'; ?></option>
-                                <option value="no" <?php selected( $shop_optics_get, 'no' ); ?>><?= $shop_lang === 'en' ? 'No' : 'არა'; ?></option>
+                                <option value="" <?php selected( $shop_optics_get, '' ); ?>><?= mygun_t( 'All', 'ყველა', 'Все' ); ?></option>
+                                <option value="yes" <?php selected( $shop_optics_get, 'yes' ); ?>><?= mygun_t( 'Yes', 'დიახ', 'Да' ); ?></option>
+                                <option value="no" <?php selected( $shop_optics_get, 'no' ); ?>><?= mygun_t( 'No', 'არა', 'Нет' ); ?></option>
                             </select>
                         </div>
 
                         <div class="wighet filter mygun-filter-stock-included">
-                            <label class="mygun-filter-select-label" for="mygun_shop_stock_included"><?= $shop_lang === 'en' ? 'Stock' : 'კონდახი'; ?></label>
+                            <label class="mygun-filter-select-label" for="mygun_shop_stock_included"><?= mygun_t( 'Stock', 'კონდახი', 'Приклад' ); ?></label>
                             <select id="mygun_shop_stock_included" name="mygun_stock_included" class="mygun-filter-select widefat">
-                                <option value="" <?php selected( $shop_stock_included_get, '' ); ?>><?= $shop_lang === 'en' ? 'All' : 'ყველა'; ?></option>
-                                <option value="yes" <?php selected( $shop_stock_included_get, 'yes' ); ?>><?= $shop_lang === 'en' ? 'Yes' : 'დიახ'; ?></option>
-                                <option value="no" <?php selected( $shop_stock_included_get, 'no' ); ?>><?= $shop_lang === 'en' ? 'No' : 'არა'; ?></option>
+                                <option value="" <?php selected( $shop_stock_included_get, '' ); ?>><?= mygun_t( 'All', 'ყველა', 'Все' ); ?></option>
+                                <option value="yes" <?php selected( $shop_stock_included_get, 'yes' ); ?>><?= mygun_t( 'Yes', 'დიახ', 'Да' ); ?></option>
+                                <option value="no" <?php selected( $shop_stock_included_get, 'no' ); ?>><?= mygun_t( 'No', 'არა', 'Нет' ); ?></option>
                             </select>
                         </div>
 
@@ -99,12 +99,12 @@ get_header();
                             }
                             $sel_slugs = function_exists( 'mygun_product_spec_tax_slugs_from_request' ) ? mygun_product_spec_tax_slugs_from_request( $tax ) : array();
                             $sel_one   = ! empty( $sel_slugs ) ? $sel_slugs[0] : '';
-                            $lab       = $mygun_tax_labels[ $tax ][ $shop_lang === 'en' ? 'en' : 'ka' ];
+                            $lab       = ( isset( $mygun_tax_labels[ $tax ][ $shop_lang ] ) ? $mygun_tax_labels[ $tax ][ $shop_lang ] : $mygun_tax_labels[ $tax ]['en'] );
                             ?>
                             <div class="wighet mygun-filter-select-wrap">
                                 <label class="mygun-filter-select-label" for="mygun_shop_<?php echo esc_attr( $tax ); ?>"><?php echo esc_html( $lab ); ?></label>
                                 <select id="mygun_shop_<?php echo esc_attr( $tax ); ?>" name="<?php echo esc_attr( $tax ); ?>" class="mygun-filter-select widefat">
-                                    <option value=""><?php echo esc_html( $shop_lang === 'en' ? 'All' : 'ყველა' ); ?></option>
+                                    <option value=""><?php echo esc_html( mygun_t( 'All', 'ყველა', 'Все' ) ); ?></option>
                                     <?php foreach ( $terms as $term ) : ?>
                                         <?php
                                         $tl = function_exists( 'mygun_product_spec_term_label' ) ? mygun_product_spec_term_label( $term, $shop_lang ) : $term->name;
@@ -116,24 +116,24 @@ get_header();
                         <?php endforeach; ?>
 
                         <details class="mygun-filter-block wighet">
-                            <summary><?= $shop_lang === 'en' ? 'Magazine capacity' : 'მჭიდის ტევადობა'; ?></summary>
+                            <summary><?= mygun_t( 'Magazine capacity', 'მჭიდის ტევადობა', 'Ёмкость магазина' ); ?></summary>
                             <div class="mygun-range-row">
-                                <input type="number" name="mygun_mag_min" min="0" step="1" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'From' : 'დან' ); ?>" value="<?php echo isset( $_GET['mygun_mag_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_mag_min'] ) ) ) : ''; ?>" />
-                                <input type="number" name="mygun_mag_max" min="0" step="1" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'To' : 'მდე' ); ?>" value="<?php echo isset( $_GET['mygun_mag_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_mag_max'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_mag_min" min="0" step="1" placeholder="<?php echo esc_attr( mygun_t( 'From', 'დან', 'От' ) ); ?>" value="<?php echo isset( $_GET['mygun_mag_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_mag_min'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_mag_max" min="0" step="1" placeholder="<?php echo esc_attr( mygun_t( 'To', 'მდე', 'До' ) ); ?>" value="<?php echo isset( $_GET['mygun_mag_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_mag_max'] ) ) ) : ''; ?>" />
                             </div>
                         </details>
                         <details class="mygun-filter-block wighet">
-                            <summary><?= $shop_lang === 'en' ? 'Length (mm)' : 'სიგრძე'; ?></summary>
+                            <summary><?= mygun_t( 'Length (mm)', 'სიგრძე', 'Длина (мм)' ); ?></summary>
                             <div class="mygun-range-row">
-                                <input type="number" name="mygun_len_min" min="0" step="1" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'From' : 'დან' ); ?>" value="<?php echo isset( $_GET['mygun_len_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_len_min'] ) ) ) : ''; ?>" />
-                                <input type="number" name="mygun_len_max" min="0" step="1" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'To' : 'მდე' ); ?>" value="<?php echo isset( $_GET['mygun_len_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_len_max'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_len_min" min="0" step="1" placeholder="<?php echo esc_attr( mygun_t( 'From', 'დან', 'От' ) ); ?>" value="<?php echo isset( $_GET['mygun_len_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_len_min'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_len_max" min="0" step="1" placeholder="<?php echo esc_attr( mygun_t( 'To', 'მდე', 'До' ) ); ?>" value="<?php echo isset( $_GET['mygun_len_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_len_max'] ) ) ) : ''; ?>" />
                             </div>
                         </details>
                         <details class="mygun-filter-block wighet">
-                            <summary><?= $shop_lang === 'en' ? 'Weight (g)' : 'წონა'; ?></summary>
+                            <summary><?= mygun_t( 'Weight (g)', 'წონა', 'Вес (г)' ); ?></summary>
                             <div class="mygun-range-row">
-                                <input type="number" name="mygun_w_min" min="0" step="1" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'From' : 'დან' ); ?>" value="<?php echo isset( $_GET['mygun_w_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_w_min'] ) ) ) : ''; ?>" />
-                                <input type="number" name="mygun_w_max" min="0" step="1" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'To' : 'მდე' ); ?>" value="<?php echo isset( $_GET['mygun_w_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_w_max'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_w_min" min="0" step="1" placeholder="<?php echo esc_attr( mygun_t( 'From', 'დან', 'От' ) ); ?>" value="<?php echo isset( $_GET['mygun_w_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_w_min'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_w_max" min="0" step="1" placeholder="<?php echo esc_attr( mygun_t( 'To', 'მდე', 'До' ) ); ?>" value="<?php echo isset( $_GET['mygun_w_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_w_max'] ) ) ) : ''; ?>" />
                             </div>
                         </details>
 
@@ -144,12 +144,12 @@ get_header();
                             if ( ! is_wp_error( $body_terms ) && ! empty( $body_terms ) ) :
                                 $body_sel_slugs = function_exists( 'mygun_product_spec_tax_slugs_from_request' ) ? mygun_product_spec_tax_slugs_from_request( $body_tax ) : array();
                                 $body_sel_one    = ! empty( $body_sel_slugs ) ? $body_sel_slugs[0] : '';
-                                $body_lab        = $mygun_tax_labels[ $body_tax ][ $shop_lang === 'en' ? 'en' : 'ka' ];
+                                $body_lab        = ( isset( $mygun_tax_labels[ $body_tax ][ $shop_lang ] ) ? $mygun_tax_labels[ $body_tax ][ $shop_lang ] : $mygun_tax_labels[ $body_tax ]['en'] );
                                 ?>
                             <div class="wighet mygun-filter-select-wrap mygun-filter-body-wrap">
                                 <label class="mygun-filter-select-label" for="mygun_shop_body"><?php echo esc_html( $body_lab ); ?></label>
                                 <select id="mygun_shop_body" name="<?php echo esc_attr( $body_tax ); ?>" class="mygun-filter-select widefat">
-                                    <option value=""><?php echo esc_html( $shop_lang === 'en' ? 'All' : 'ყველა' ); ?></option>
+                                    <option value=""><?php echo esc_html( mygun_t( 'All', 'ყველა', 'Все' ) ); ?></option>
                                     <?php foreach ( $body_terms as $body_term ) : ?>
                                         <?php
                                         $btl = function_exists( 'mygun_product_spec_term_label' ) ? mygun_product_spec_term_label( $body_term, $shop_lang ) : $body_term->name;
@@ -164,22 +164,22 @@ get_header();
                         ?>
 
                         <div class="wighet filter mygun-filter-price">
-                            <h3><?= $shop_lang === 'en' ? 'Filter by <span>price</span>' : 'ფილტრი <span>ფასით</span>'; ?></h3>
+                            <h3><?= mygun_t( 'Filter by <span>price</span>', 'ფილტრი <span>ფასით</span>', 'Фильтр по <span>цене</span>' ); ?></h3>
                             <div class="mygun-range-row">
-                                <input type="number" name="mygun_price_min" min="0" step="0.01" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'Min ₾' : 'მინ. ₾' ); ?>" value="<?php echo isset( $_GET['mygun_price_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_price_min'] ) ) ) : ''; ?>" />
-                                <input type="number" name="mygun_price_max" min="0" step="0.01" placeholder="<?php echo esc_attr( $shop_lang === 'en' ? 'Max ₾' : 'მაქს. ₾' ); ?>" value="<?php echo isset( $_GET['mygun_price_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_price_max'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_price_min" min="0" step="0.01" placeholder="<?php echo esc_attr( mygun_t( 'Min ₾', 'მინ. ₾', 'Мин ₾' ) ); ?>" value="<?php echo isset( $_GET['mygun_price_min'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_price_min'] ) ) ) : ''; ?>" />
+                                <input type="number" name="mygun_price_max" min="0" step="0.01" placeholder="<?php echo esc_attr( mygun_t( 'Max ₾', 'მაქს. ₾', 'Макс ₾' ) ); ?>" value="<?php echo isset( $_GET['mygun_price_max'] ) ? esc_attr( sanitize_text_field( wp_unslash( $_GET['mygun_price_max'] ) ) ) : ''; ?>" />
                             </div>
                         </div>
 
                         <div class="wighet filter mygun-filter-submit-wrap">
-                            <button type="submit" class="btn1"><?= $shop_lang === 'en' ? 'FILTER' : 'გაფილტვრა'; ?></button>
+                            <button type="submit" class="btn1"><?= mygun_t( 'FILTER', 'გაფილტვრა', 'ФИЛЬТР' ); ?></button>
                             <?php
                             $clear_url = $shop_base_url;
                             if ( $active_shop_cat !== '' ) {
                                 $clear_url = add_query_arg( 'product_cat', $active_shop_cat, $clear_url );
                             }
                             ?>
-                            <a class="mygun-filter-clear" href="<?php echo esc_url( $clear_url ); ?>"><?= $shop_lang === 'en' ? 'Clear filters' : 'გასუფთავება'; ?></a>
+                            <a class="mygun-filter-clear" href="<?php echo esc_url( $clear_url ); ?>"><?= mygun_t( 'Clear filters', 'გასუფთავება', 'Сбросить фильтры' ); ?></a>
                         </div>
                     </form>
                 </div>
@@ -217,11 +217,11 @@ get_header();
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="filter-area mygun-shop-filter-bar">
-                            <label class="visually-hidden" for="mygun-shop-order"><?= $shop_lang === 'en' ? 'Sort products' : 'პროდუქტების დალაგება'; ?></label>
+                            <label class="visually-hidden" for="mygun-shop-order"><?= mygun_t( 'Sort products', 'პროდუქტების დალაგება', 'Сортировать товары' ); ?></label>
                             <select id="mygun-shop-order" class="mygun-shop-order-select">
-                                <option value="newest" <?php selected( $shop_order_val, 'newest' ); ?>><?= $shop_lang === 'en' ? 'Newest' : 'უახლესი'; ?></option>
-                                <option value="price_asc" <?php selected( $shop_order_val, 'price_asc' ); ?>><?= $shop_lang === 'en' ? 'Price: Low to High' : 'ფასი: დაბლიდან მაღლისკენ'; ?></option>
-                                <option value="price_desc" <?php selected( $shop_order_val, 'price_desc' ); ?>><?= $shop_lang === 'en' ? 'Price: High to Low' : 'ფასი: მაღლიდან დაბლისკენ'; ?></option>
+                                <option value="newest" <?php selected( $shop_order_val, 'newest' ); ?>><?= mygun_t( 'Newest', 'უახლესი', 'Новые' ); ?></option>
+                                <option value="price_asc" <?php selected( $shop_order_val, 'price_asc' ); ?>><?= mygun_t( 'Price: Low to High', 'ფასი: დაბლიდან მაღლისკენ', 'Цена: по возрастанию' ); ?></option>
+                                <option value="price_desc" <?php selected( $shop_order_val, 'price_desc' ); ?>><?= mygun_t( 'Price: High to Low', 'ფასი: მაღლიდან დაბლისკენ', 'Цена: по убыванию' ); ?></option>
                             </select>
                             <div class="list-grid">
                                 <ul class="list-inline">
@@ -231,9 +231,9 @@ get_header();
                             </div>
                             <div class="showpro">
                                 <?php if ( $shop_total < 1 ) : ?>
-                                    <p><span><?php echo esc_html( $shop_lang === 'en' ? 'No products to show.' : 'პროდუქტები არ არის.' ); ?></span></p>
+                                    <p><span><?php echo esc_html( mygun_t( 'No products to show.', 'პროდუქტები არ არის.', 'Нет товаров для показа.' ) ); ?></span></p>
                                 <?php else : ?>
-                                    <p><span><?php echo esc_html( $shop_lang === 'en' ? "Showing {$shop_start}–{$shop_end}" : "აჩვენებს {$shop_start}–{$shop_end}" ); ?></span> <?php echo esc_html( $shop_lang === 'en' ? "of {$shop_total} results" : "{$shop_total} შედეგიდან" ); ?></p>
+                                    <p><span><?php echo esc_html( mygun_t( "Showing {$shop_start}–{$shop_end}", "აჩვენებს {$shop_start}–{$shop_end}", "Показано {$shop_start}–{$shop_end}" ) ); ?></span> <?php echo esc_html( mygun_t( "of {$shop_total} results", "{$shop_total} შედეგიდან", "из {$shop_total}" ) ); ?></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -271,11 +271,11 @@ get_header();
                                                 if ( $shop_product_price !== '' && $shop_product_price !== false ) {
                                                     echo esc_html( $shop_product_price ) . ' ₾';
                                                 } else {
-                                                    echo $shop_lang === 'en' ? 'Price on request' : 'ფასი მოთხოვნით';
+                                                    echo mygun_t( 'Price on request', 'ფასი მოთხოვნით', 'Цена по запросу' );
                                                 }
                                                 ?>
                                             </span>
-                                            <a href="<?php the_permalink(); ?>" class="btn4"><?= $shop_lang === 'en' ? 'View Product' : 'პროდუქტის ნახვა'; ?></a>
+                                            <a href="<?php the_permalink(); ?>" class="btn4"><?= mygun_t( 'View Product', 'პროდუქტის ნახვა', 'Смотреть товар' ); ?></a>
                                         </div>
                                     </div>
                                     <?php
@@ -285,7 +285,7 @@ get_header();
                                 ?>
                                 <div class="col-sm-12">
                                     <p class="text-center" style="padding: 20px 0; color:#aaa;">
-                                        <?= $shop_lang === 'en' ? 'No products found.' : 'პროდუქტები ვერ მოიძებნა.'; ?>
+                                        <?= mygun_t( 'No products found.', 'პროდუქტები ვერ მოიძებნა.', 'Товары не найдены.' ); ?>
                                     </p>
                                 </div>
                             <?php endif; ?>
@@ -301,8 +301,8 @@ get_header();
                                     'current'   => $shop_paged,
                                     'total'     => (int) $shop_products->max_num_pages,
                                     'type'      => 'array',
-                                    'prev_text' => '<span>' . ( $shop_lang === 'en' ? 'Previous' : 'წინა' ) . '</span>',
-                                    'next_text' => '<span>' . ( $shop_lang === 'en' ? 'Next' : 'შემდეგი' ) . '</span>',
+                                    'prev_text' => '<span>' . ( mygun_t( 'Previous', 'წინა', 'Назад' ) ) . '</span>',
+                                    'next_text' => '<span>' . ( mygun_t( 'Next', 'შემდეგი', 'Вперёд' ) ) . '</span>',
                                     'add_args'  => $shop_pagination_add_args,
                                 ) );
                                 if ( ! empty( $shop_pagination_links ) ) :
